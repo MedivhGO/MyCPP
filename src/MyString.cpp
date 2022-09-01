@@ -164,7 +164,3 @@ int MyString::operator()(const MyString& substr) const {
     }
     return -1;
 }
-
-
-
-
