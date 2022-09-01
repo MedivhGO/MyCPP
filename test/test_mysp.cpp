@@ -12,7 +12,6 @@ TEST(MySharedPtrTest, init) {
     EXPECT_EQ(*(*ptr2), 120);
     MySharedPtr<int> ptr;
     EXPECT_EQ(ptr, nullptr);
-
 }
 
 TEST(MySharedPtrTest, weak_ptr) {
