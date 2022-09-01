@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libMyCppImplement.so -o libMyCppImplement.so CMakeFiles/MyCppImplement.dir/MyString.cpp.o  -lpthread 

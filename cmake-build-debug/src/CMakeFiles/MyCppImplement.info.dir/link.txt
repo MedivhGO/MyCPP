@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/MyCppImplement.info.dir/main.cpp.o  -o MyCppImplement.info  -Wl,-rpath,/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src: libMyCppImplement.so -lpthread 
