@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="MyCppImplement"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\test\;CMake Files\googletest-master\;CMake Files\googletest-master\googletest\;CMake Files\googletest-master\googletest\cmake\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MyCppImplement.info">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/MyCppImplement.info" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 MyCppImplement.info"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MyCppImplement.info/fast">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/MyCppImplement.info" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 MyCppImplement.info/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MyCppImplement">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/libMyCppImplement.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 MyCppImplement"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MyCppImplement/fast">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/libMyCppImplement.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/include"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 MyCppImplement/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MyCppImplement.test">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/MyCppImplement.test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DTEST_DIR=&quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/test/test&quot;"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/include"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/include"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 MyCppImplement.test"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MyCppImplement.test/fast">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/MyCppImplement.test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DTEST_DIR=&quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/test/test&quot;"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/include"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/include"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 MyCppImplement.test/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="gtest_main">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/lib/libgtest_maind.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/include"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 gtest_main"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="gtest_main/fast">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/lib/libgtest_maind.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/include"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 gtest_main/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="gtest">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/lib/libgtestd.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/include"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 gtest"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="gtest/fast">
+				<Option output="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/lib/libgtestd.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/include"/>
+					<Add directory="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest"/>
+					<Add directory="/usr/include/c++/10"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/10"/>
+					<Add directory="/usr/include/c++/10/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/10/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 gtest/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/googletest-master/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/src/gtest-all.cc">
+			<Option target="gtest"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/src/gtest_main.cc">
+			<Option target="gtest_main"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/include/MyString.h">
+			<Option target="MyCppImplement"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/src/MyString.cpp">
+			<Option target="MyCppImplement"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/src/main.cpp">
+			<Option target="MyCppImplement.info"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/test/AllTests.cpp">
+			<Option target="MyCppImplement.test"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/test/test_mysharedptr.cpp">
+			<Option target="MyCppImplement.test"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/test/tests.cpp">
+			<Option target="MyCppImplement.test"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\googletest-master\googletest\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lijin/CLionProjects/MyCppImplement/googletest-master/googletest/cmake/internal_utils.cmake">
+			<Option virtualFolder="CMake Files\googletest-master\googletest\cmake\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/MyCppImplement.test.dir/AllTests.cpp.o CMakeFiles/MyCppImplement.test.dir/tests.cpp.o CMakeFiles/MyCppImplement.test.dir/test_mysharedptr.cpp.o  -o MyCppImplement.test  -Wl,-rpath,/mnt/c/Users/lijin/CLionProjects/MyCppImplement/cmake-build-debug/src: ../src/libMyCppImplement.so ../lib/libgtestd.a -lpthread -lpthread 
