@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.10.2)
-project (Ex08)
+project (MyCppImplement)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -g")
@@ -11,3 +11,5 @@ set(include_dest "include/")
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(googletest-master/googletest)
+include_directories(googletest-master/googletest/include)
