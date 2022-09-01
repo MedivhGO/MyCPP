@@ -9,8 +9,6 @@
 
 
 - **operator+**
-- **operator-**
-- **operator\***
 - **operator=**
 - **operator=**
 - **operator==**
@@ -23,7 +21,7 @@
 - **operator[]**
 - **operator()**
 - **operator>>**
-- **operator>>**
+- **operator<<**
 
 ```cpp
 #include "MyString.h"
