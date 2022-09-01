@@ -1,16 +1,8 @@
-#include <iostream>
-#include "MySharedPtr.h"
-
 #include <gtest/gtest.h>
 
-class PtrFixture : public :: testing::Test{
+#include "MySharedPtr.h"
 
-
-
-};
-using namespace std;
-TEST_F(PtrFixture, init)
-{
+TEST(MySharedPtrTest, init) {
     auto ptr1 = new MySharedPtr<int>(new int(120));
     auto ptr2 = new MySharedPtr<int>(*ptr1);
     EXPECT_EQ(ptr1->use_count(), 2);
@@ -23,17 +15,16 @@ TEST_F(PtrFixture, init)
 
 }
 
-TEST_F(PtrFixture, weak_ptr)
-{
-    MySharedPtr<string> ptr1(new string("hello"));
+TEST(MySharedPtrTest, weak_ptr) {
+    MySharedPtr<std::string> ptr1(new std::string("hello"));
     EXPECT_EQ(ptr1.unique(), true);
-    MyWeakPtr<string> ptr2(ptr1);
-    MySharedPtr<string> ptr3 = ptr2.lock();
+    MyWeakPtr<std::string> ptr2(ptr1);
+    MySharedPtr<std::string> ptr3 = ptr2.lock();
     EXPECT_EQ(ptr3.use_count(), 2);
     EXPECT_EQ(ptr1, ptr3);
     ptr3->push_back('1');
     EXPECT_EQ(*ptr1, "hello1");
-    MySharedPtr<string> ptr4;
+    MySharedPtr<std::string> ptr4;
     EXPECT_EQ(!ptr4, true);
     ptr4 = ptr3;
     EXPECT_EQ(ptr3.use_count(), 3);
