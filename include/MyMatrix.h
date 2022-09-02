@@ -62,6 +62,7 @@ public:
         return C;
     }
 
+    // 模板类的友元函数需要在类内部实现 或者 不成为友元, 在类外部直接定义
     friend MyMatrix<T> operator-(const MyMatrix<T> &A, const MyMatrix<T> &B) {
         MyMatrix<T> C(A.getRow(), A.getCol());
         for (unsigned i = 0; i < C.getRow(); i++) {
