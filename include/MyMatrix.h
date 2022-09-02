@@ -50,7 +50,7 @@ private:
     void setDim(unsigned row, unsigned col);
 
 private:
-    vector<vector<T>> elem;
+    vector<vector<T>> m_elem;
 };
 
 #endif //MYCPPIMPLEMENT_MYMATRIX_H

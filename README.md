@@ -4,6 +4,5 @@
 
 1. 实现MyString(std::string)
 2. 实现MySharedPtr(std::shared_ptr\<T\>)
-3. 实现noncopyable
-4. 实现mutex
-5. 实现matrix, 以及使用strassen实现矩阵乘法
+3. 实现MutexLock(std::mutex, noncopyable)
+4. 实现MyMatrix, 以及使用strassen实现矩阵乘法
