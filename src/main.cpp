@@ -4,11 +4,9 @@
 
 #include <iostream>
 
-#include "MyMatrix.h"
-
 using namespace std;
+
 int main()
 {
-    MyMatrix<int> m;
     cout << "Hello World" << endl;
 }
