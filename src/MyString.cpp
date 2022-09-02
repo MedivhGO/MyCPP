@@ -41,7 +41,7 @@ MyString::MyString(MyString &&other) {
     }
     // 拷贝指针
     s_data = other.s_data;
-    // 参数针置空
+    // 参数指针置空
     other.s_data = nullptr;
 }
 
@@ -53,7 +53,7 @@ MyString& MyString::operator=(const MyString& other) {
     int len = strlen(other.s_data); // 求右侧串长
     s_data = new char[len+1]; // 给左侧申请新的空间
     strcpy(s_data, other.s_data); // 赋值
-    return *this;//返回
+    return *this; // 返回
 }
 
 MyString& MyString::operator=(MyString &&other) {
@@ -123,8 +123,8 @@ bool operator<=(const MyString& lhs, const MyString& rhs) {
 // member operator function
 const MyString& MyString::operator!() {
     int len = length();
-    for(int i=0;i<len;i++){
-        if(s_data[i]>='a'&& s_data[i] <= 'z' ){
+    for(int i=0;i<len;i++) {
+        if(s_data[i]>='a'&& s_data[i] <= 'z' ) {
             s_data[i]-=32; // +32转换为大写
         }
     }
