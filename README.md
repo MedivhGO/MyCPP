@@ -6,3 +6,13 @@
 2. 实现MySharedPtr(std::shared_ptr\<T\>)
 3. 实现MutexLock(std::mutex, noncopyable)
 4. 实现MyMatrix, 以及使用strassen实现矩阵乘法
+
+
+
+## References
+See also:
+
+- https://github.com/rangelak/Strassen-Matrix-Multiplication
+- https://github.com/aronszanto/strassen
+- https://github.com/danek0100/Cpp-Ex08-Implementation-of-MyString-class
+- https://github.com/shakhovm/MySharedPtr

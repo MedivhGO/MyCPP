@@ -2,8 +2,13 @@
 // Created by Lee on 2022/9/2.
 //
 #include <gtest/gtest.h>
+#include <chrono>
 
 #include "MyMatrix.h"
+
+using std::chrono::high_resolution_clock;
+using std::chrono::microseconds;
+using std::chrono::duration_cast;
 
 TEST(MyMatrixTest, init) {
     MyMatrix<int> m(5, 5);
@@ -22,6 +27,16 @@ TEST(MyMatrixTest, equal) {
     MyMatrix<int> n(5, 8);
     EXPECT_EQ(false, m == n);
     EXPECT_EQ(true, m != n);
+}
+
+TEST(MyMatrixTest, add) {
+    MyMatrix<int> m(5, 5);
+    MyMatrix<int> n(5, 5);
+    MyMatrix<int> res(5,5);
+    res.randomFillMatrix(1,1);
+    m.randomFillMatrix(0,0);
+    n.randomFillMatrix(1,1);
+    EXPECT_EQ(res, m+n);
 }
 
 TEST(MyMatrixTest, multi) {
@@ -112,15 +127,44 @@ TEST(MyMatrixTest, multi_14) {
     EXPECT_EQ(O, M * N);
 }
 
-TEST(MyMatrixTest, multi_profile) {
-    MyMatrix<int> m(7, 7);
+TEST(MyMatrixTest, multi_strassen) {
+    MyMatrix<int> n(120, 120);
+    n.randomFillMatrix(-10, 10);
+    MyMatrix<int> m(120, 120);
     m.randomFillMatrix(-10, 10);
-    MyMatrix<int> n(7, 7);
+    MyMatrix<int> c(120, 120);
+    MyMatrix<int> d(120, 120);
+
+    high_resolution_clock::time_point start1 = high_resolution_clock::now();
+    d = m * n;
+    high_resolution_clock::time_point end1 = high_resolution_clock::now();
+    auto duration1 = duration_cast<microseconds>(end1 - start1).count();
+    std::cout << "This took: "<< duration1 << " microseconds.\n";
+
+    high_resolution_clock::time_point start2 = high_resolution_clock::now();
+    strassen(m,n,c, 120);
+    high_resolution_clock::time_point end2 = high_resolution_clock::now();
+    auto duration2 = duration_cast<microseconds>(end2 - start2).count();
+    std::cout<< "This took: " << duration2 << " microseconds.\n";
+    EXPECT_EQ(c, d);
+}
+
+TEST(MyMatrixTest, multi_profile_naive) {
+    MyMatrix<int> m(100, 100);
+    m.randomFillMatrix(-10, 10);
+    MyMatrix<int> n(100, 100);
     n.randomFillMatrix(1, 1);
-    n.showMatrix();
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 30; ++i) {
         n = n * m;
-        m.randomFillMatrix(-10, 10);
     }
-    n.showMatrix();
+}
+
+TEST(MyMatrixTest, multi_profile_strassen) {
+    MyMatrix<int> m(100, 100);
+    m.randomFillMatrix(-10, 10);
+    MyMatrix<int> n(100, 100);
+    n.randomFillMatrix(1, 1);
+    for (int i = 0; i < 30; ++i) {
+        strassen(n, m, n, 100);
+    }
 }

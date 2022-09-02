@@ -24,9 +24,9 @@ public:
 
     MyMatrix(vector<T> &r);
 
-    MyMatrix(const std::initializer_list<T>& il);
+    MyMatrix(const std::initializer_list<T> &il);
 
-    MyMatrix(const std::initializer_list<std::initializer_list<T>>& il);
+    MyMatrix(const std::initializer_list<std::initializer_list<T>> &il);
 
     ~MyMatrix();
 
@@ -49,6 +49,8 @@ public:
     void showDiagonal();
 
     bool isSquare() const;
+
+    void setDim(unsigned row, unsigned col);
 
     friend MyMatrix<T> operator+(const MyMatrix<T> &A, const MyMatrix<T> &B) {
         MyMatrix<T> C(A.getRow(), A.getCol());
@@ -122,9 +124,6 @@ public:
     }
 
 private:
-    void setDim(unsigned row, unsigned col);
-
-private:
     vector<vector<T>> m_elem;
     int m_dimension;
 };
@@ -155,13 +154,13 @@ MyMatrix<T>::MyMatrix(vector<T> &r) {
 }
 
 template<typename T>
-MyMatrix<T>::MyMatrix(const std::initializer_list<T>& il) {
+MyMatrix<T>::MyMatrix(const std::initializer_list<T> &il) {
     setDim(il.size(), 1);
     m_elem[0] = il;
 }
 
 template<typename T>
-MyMatrix<T>::MyMatrix(const std::initializer_list<std::initializer_list<T>>& il) {
+MyMatrix<T>::MyMatrix(const std::initializer_list<std::initializer_list<T>> &il) {
     std::vector<std::initializer_list<T> > setVec = il;
     for (typename std::vector<std::initializer_list<T> >::iterator i = setVec.begin(); i != setVec.end(); i++) {
         m_elem.push_back(std::vector<T>(*i));
@@ -227,11 +226,11 @@ MyMatrix<T> MyMatrix<T>::getColMyMatrix(unsigned c) const {
 template<typename T>
 void MyMatrix<T>::randomFillMatrix(int low, int high) {
     std::random_device r;
-    std::mt19937 mtgen(r());
+    std::mt19937 mt_gen(r());
     std::uniform_int_distribution<> dist(low, high);
     for (int i = 0; i < getRow(); ++i) {
         for (int j = 0; j < getCol(); ++j) {
-            m_elem[i][j] = dist(mtgen);
+            m_elem[i][j] = dist(mt_gen);
         }
     }
 }
@@ -261,6 +260,137 @@ void MyMatrix<T>::showDiagonal() {
 template<typename T>
 bool MyMatrix<T>::isSquare() const {
     return getRow() == getCol();
+}
+
+// Strassen Algorithm Function
+// Only support A, B are square matrix which has same dimension
+
+int crossover = 86;
+
+template<typename T>
+inline void add(MyMatrix<T> &A, MyMatrix<T> &B, MyMatrix<T> &C, int d) {
+    for (int i = 0; i < d; i++) {
+        for (int j = 0; j < d; j++) {
+            C[i][j] = A[i][j] + B[i][j];
+        }
+    }
+}
+
+template<typename T>
+inline void subtract(MyMatrix<T> &A, MyMatrix<T> &B, MyMatrix<T> &C, int d) {
+    for (int i = 0; i < d; i++) {
+        for (int j = 0; j < d; j++) {
+            C[i][j] = A[i][j] - B[i][j];
+        }
+    }
+}
+
+template<typename T>
+inline void split(MyMatrix<T> &A, MyMatrix<T> &B, int row, int col, int d) {
+    for (int i1 = 0, i2 = row; i1 < d; i1++, i2++) {
+        for (int j1 = 0, j2 = col; j1 < d; j1++, j2++) {
+            B[i1][j1] = A[i2][j2];
+        }
+    }
+}
+
+template<typename T>
+inline void join(MyMatrix<T> &A, MyMatrix<T> &B, int row, int col, int d) {
+    for (int i1 = 0, i2 = row; i1 < d; i1++, i2++) {
+        for (int j1 = 0, j2 = col; j1 < d; j1++, j2++) {
+            B[i2][j2] = A[i1][j1];
+        }
+    }
+}
+
+template<typename T>
+inline void strassen(MyMatrix<T> &A, MyMatrix<T> &B, MyMatrix<T> &C, int d) {
+    if (d % 2 != 0) {
+        d++;
+        A.setDim(d, d);
+        B.setDim(d, d);
+        C.setDim(d, d);
+    }
+
+    if (d <= crossover) {
+        C = A * B;
+        return;
+    }
+
+    int new_d = d / 2;
+
+    MyMatrix<T> A11(new_d, new_d);
+    MyMatrix<T> A12(new_d, new_d);
+    MyMatrix<T> A21(new_d, new_d);
+    MyMatrix<T> A22(new_d, new_d);
+    MyMatrix<T> B11(new_d, new_d);
+    MyMatrix<T> B12(new_d, new_d);
+    MyMatrix<T> B21(new_d, new_d);
+    MyMatrix<T> B22(new_d, new_d);
+    MyMatrix<T> C11(new_d, new_d);
+    MyMatrix<T> C12(new_d, new_d);
+    MyMatrix<T> C21(new_d, new_d);
+    MyMatrix<T> C22(new_d, new_d);
+
+    split(A, A11, 0, 0, new_d);
+    split(A, A12, 0, new_d, new_d);
+    split(A, A21, new_d, 0, new_d);
+    split(A, A22, new_d, new_d, new_d);
+    split(B, B11, 0, 0, new_d);
+    split(B, B12, 0, new_d, new_d);
+    split(B, B21, new_d, 0, new_d);
+    split(B, B22, new_d, new_d, new_d);
+
+    MyMatrix<T> result1(new_d, new_d);
+    MyMatrix<T> result2(new_d, new_d);
+
+    add(A11, A22, result1, new_d);
+    add(B11, B22, result2, new_d);
+    MyMatrix<T> M1(new_d, new_d);
+    strassen(result1, result2, M1, new_d);
+
+    add(A21, A22, result1, new_d);
+    MyMatrix<T> M2(new_d, new_d);
+    strassen(result1, B11, M2, new_d);
+
+    subtract(B12, B22, result2, new_d);
+    MyMatrix<T> M3(new_d, new_d);
+    strassen(A11, result2, M3, new_d);
+
+    subtract(B21, B11, result2, new_d);
+    MyMatrix<T> M4(new_d, new_d);
+    strassen(A22, result2, M4, new_d);
+
+    add(A11, A12, result1, new_d);
+    MyMatrix<T> M5(new_d, new_d);
+    strassen(result1, B22, M5, new_d);
+
+    subtract(A21, A11, result1, new_d);
+    add(B11, B12, result2, new_d);
+    MyMatrix<T> M6(new_d, new_d);
+    strassen(result1, result2, M6, new_d);
+
+    subtract(A12, A22, result1, new_d);
+    add(B21, B22, result2, new_d);
+    MyMatrix<T> M7(new_d, new_d);
+    strassen(result1, result2, M7, new_d);
+
+    add(M1, M4, result1, new_d);
+    add(result1, M7, result2, new_d);
+    subtract(result2, M5, C11, new_d);
+
+    add(M3, M5, C12, new_d);
+
+    add(M2, M4, C21, new_d);
+
+    subtract(M1, M2, result1, new_d);
+    add(M3, M6, result2, new_d);
+    add(result1, result2, C22, new_d);
+
+    join(C11, C, 0, 0, new_d);
+    join(C12, C, 0, new_d, new_d);
+    join(C21, C, new_d, 0, new_d);
+    join(C22, C, new_d, new_d, new_d);
 }
 
 #endif //MYCPPIMPLEMENT_MYMATRIX_H
