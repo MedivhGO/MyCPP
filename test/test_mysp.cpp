@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "MySharedPtr_1.h"
-#include "MyUniquePtr.h"
 
 
 TEST(MySmartPtrTest, DISABLED_shared_ptr) {
