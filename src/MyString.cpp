@@ -119,6 +119,12 @@ bool operator<=(const MyString& lhs, const MyString& rhs) {
     return (strcmp(lhs.get(), rhs.get()) <= 0);
 }
 
+void swap(MyString& lhs, MyString& rhs) {
+    char* t = lhs.s_data;
+    lhs.s_data = rhs.s_data;
+    rhs.s_data = t;
+}
+
 // member operator function
 const MyString& MyString::operator!() {
     int len = length();

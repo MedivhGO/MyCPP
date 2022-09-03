@@ -27,10 +27,13 @@ public:
     friend bool operator>=(const MyString& lhs, const MyString& rhs);
     friend bool operator<=(const MyString& lhs, const MyString& rhs);
 
+    friend void swap(MyString& lhs, MyString& rhs);
+
     const MyString& operator!();
     char& operator[](int idx);
     const char& operator[](int idx) const;
     int operator()(const MyString& substr) const;
+
 
 private:
     char* s_data;

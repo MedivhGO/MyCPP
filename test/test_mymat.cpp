@@ -5,10 +5,7 @@
 #include <chrono>
 
 #include "MyMatrix.h"
-
-using std::chrono::high_resolution_clock;
-using std::chrono::microseconds;
-using std::chrono::duration_cast;
+#include "MyProfile.h"
 
 TEST(MyMatrixTest, init) {
     MyMatrix<int> m(5, 5);
@@ -135,17 +132,12 @@ TEST(MyMatrixTest, multi_strassen) {
     MyMatrix<int> c(120, 120);
     MyMatrix<int> d(120, 120);
 
-    high_resolution_clock::time_point start1 = high_resolution_clock::now();
-    d = m * n;
-    high_resolution_clock::time_point end1 = high_resolution_clock::now();
-    auto duration1 = duration_cast<microseconds>(end1 - start1).count();
-    std::cout << "This took: "<< duration1 << " microseconds.\n";
-
-    high_resolution_clock::time_point start2 = high_resolution_clock::now();
-    strassen(m,n,c, 120);
-    high_resolution_clock::time_point end2 = high_resolution_clock::now();
-    auto duration2 = duration_cast<microseconds>(end2 - start2).count();
-    std::cout<< "This took: " << duration2 << " microseconds.\n";
+    std::cout<< "This took: " <<
+        duration_cast<microseconds>(measure([&](){d = m * n;})).count()
+        << " microseconds.\n";
+    std::cout<< "This took: " <<
+        duration_cast<microseconds>(measure(strassen<int>, m, n,c, 120)).count()
+        << " microseconds.\n";
     EXPECT_EQ(c, d);
 }
 

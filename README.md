@@ -6,6 +6,7 @@
 - 实现MySharedPtr
 - 实现MutexLock
 - 实现MyMatrix(strassen实现矩阵乘法)
+- 实现Singleton
 
 ## References
 See also:

@@ -2,6 +2,7 @@
 #include <string>
 
 #include "MyString.h"
+#include "MySingleton.h"
 
 TEST(MyStringTest, test1) {
   MyString a;
@@ -126,4 +127,12 @@ TEST(MyStringTest, test17) {
 TEST(MyStringTest, test18) {
   MyString a("454545");
   EXPECT_EQ(-1, a("33"));
+}
+
+TEST(MyStringTest, test21) {
+    MyString a("123");
+    MyString b("4567");
+    swap(a,b);
+    EXPECT_EQ("4567", a);
+    EXPECT_EQ("123", b);
 }
