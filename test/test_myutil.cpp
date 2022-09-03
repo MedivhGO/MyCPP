@@ -41,18 +41,18 @@ TEST(MyUtil, test_singleton) {
     MyString& a = Singleton<MyString>::getInstance();
     MyString& b = Singleton<MyString>::getInstance();
     EXPECT_EQ(&a, &b);
-    MyString* p = SingleDemo<MyString>::getInstance();
-    MyString* pp = SingleDemo<MyString>::getInstance();
+    std::shared_ptr<MyString> p = SingleDemo<MyString>::getInstance();
+    std::shared_ptr<MyString> pp = SingleDemo<MyString>::getInstance();
     EXPECT_EQ(p, pp);
 }
 
 TEST(MyUtil, test_thread) {
-    MyString* str_p = SingleDemo<MyString>::getInstance();
-    auto test_call = [](MyString* str_p, uint64_t thread_itr = 0) {
-        MyString* t = SingleDemo<MyString>::getInstance();
+    std::shared_ptr<MyString> str_p = SingleDemo<MyString>::getInstance();
+    auto test_call = [](std::shared_ptr<MyString> str_p, uint64_t thread_itr = 0) {
+        std::shared_ptr<MyString> t = SingleDemo<MyString>::getInstance();
         EXPECT_EQ(str_p, t);
     };
-    LaunchParallelTest(1000, test_call,str_p);
+    LaunchParallelTest(100, test_call,str_p);
 }
 
 

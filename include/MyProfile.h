@@ -24,5 +24,4 @@ Seconds measure(Function&& toTime, Args&&... a) {
     return (stop - start);
 }
 
-
 #endif //MYCPPIMPLEMENT_MYPROFILE_H

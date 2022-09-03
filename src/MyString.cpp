@@ -78,6 +78,7 @@ const char *MyString::get() const {
 
 MyString::~MyString() {
     delete[] s_data;
+    s_data = nullptr;
 }
 
 // friend operator functions
