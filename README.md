@@ -9,6 +9,8 @@
 - 实现MutexLock
 - 实现MyMatrix(strassen实现矩阵乘法)
 - 实现Singleton
+- 实现MyMalloc
+- 实现MyBST(binary search tree)
 
 ## References
 See also:

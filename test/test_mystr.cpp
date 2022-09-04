@@ -3,6 +3,7 @@
 
 #include "MyString.h"
 #include "MySingleton.h"
+#include "MyProfile.h"
 
 TEST(MyStringTest, test1) {
   MyString a;
@@ -18,20 +19,6 @@ TEST(MyStringTest, test3) {
   MyString a("123");
   MyString b(a);
   EXPECT_STREQ("123", b.get());
-}
-
-TEST(MyStringTest, test19) {
-    MyString a("raw");
-    MyString b(std::move(a));
-    EXPECT_EQ(a.get(), nullptr);
-    EXPECT_STREQ("raw", b.get());
-}
-
-TEST(MyStringTest, test20) {
-    MyString a("raw");
-    MyString b = std::move(a);
-    EXPECT_EQ(a.get(), nullptr);
-    EXPECT_STREQ("raw", b.get());
 }
 
 TEST(MyStringTest, test4) {
@@ -57,7 +44,9 @@ TEST(MyStringTest, test6) {
 
 TEST(MyStringTest, test7) {
   MyString a("123456789");
-  std::cout << a;
+  std::stringstream ss;
+  ss << a;
+  EXPECT_EQ(ss.str(), a.get());
 }
 
 TEST(MyStringTest, test8) {
@@ -129,10 +118,50 @@ TEST(MyStringTest, test18) {
   EXPECT_EQ(-1, a("33"));
 }
 
+TEST(MyStringTest, test19) {
+    MyString a("raw");
+    MyString b(std::move(a));
+    EXPECT_EQ(a.get(), nullptr);
+    EXPECT_STREQ("raw", b.get());
+}
+
+TEST(MyStringTest, test20) {
+    MyString a("raw");
+    MyString b = std::move(a);
+    EXPECT_EQ(a.get(), nullptr);
+    EXPECT_STREQ("raw", b.get());
+}
+
 TEST(MyStringTest, test21) {
     MyString a("123");
     MyString b("4567");
     swap(a,b);
-    EXPECT_EQ("4567", a);
-    EXPECT_EQ("123", b);
+    EXPECT_STREQ("4567", a.get());
+    EXPECT_STREQ("123", b.get());
+}
+
+TEST(MyStringTest, test22) {
+    MyString a;
+    std::string b;
+    for (int i = 0; i < 1000; ++i) {
+        a += "1";
+        b += "1";
+    }
+    EXPECT_STREQ(a.get(), b.c_str());
+}
+
+TEST(MyStringTest, test23) {
+    auto std_add = []() {
+        std::string b;
+        for (int i = 0; i < 1000; ++i) {
+            b += "1";
+        }
+    };
+    auto my_add = []() {
+        MyString a;
+        for (int i = 0; i < 1000; ++i) {
+            a += "1";
+        }
+    };
+    EXPECT_GT(measure(my_add).count(), measure(std_add).count());
 }

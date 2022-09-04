@@ -13,14 +13,14 @@ MyString::MyString(const char* str) { // 空实参初始化的时候需要将s_d
         s_data = new char[1];
         *s_data = '\0';
     } else {
-        int len = strlen(str);
+        size_t len = strlen(str);
         s_data = new char[len+1];
         strcpy(s_data,str);
     }
 }
 
 MyString::MyString(const std::string& str) {
-    int len = str.length();
+    size_t len = str.length();
     s_data = new char[len+1];
     strcpy(s_data, str.c_str());
 }
@@ -29,12 +29,12 @@ MyString::MyString(const MyString& other) { // 拷贝构造函数
     if (this == &other) {
         return;
     }
-    int len = strlen(other.s_data);
+    size_t len = strlen(other.s_data);
     s_data = new char[len+1];
     strcpy(s_data, other.s_data);
 }
 
-MyString::MyString(MyString &&other) {
+MyString::MyString(MyString &&other) noexcept {
     if (this == &other) {
         return;
     }
@@ -49,13 +49,13 @@ MyString& MyString::operator=(const MyString& other) {
         return *this; // 防止自赋值
     }
     delete[] s_data; // 删除原来string s_data的内存空间
-    int len = strlen(other.s_data); // 求右侧串长
+    size_t len = strlen(other.s_data); // 求右侧串长
     s_data = new char[len+1]; // 给左侧申请新的空间
     strcpy(s_data, other.s_data); // 赋值
     return *this; // 返回
 }
 
-MyString& MyString::operator=(MyString &&other) {
+MyString& MyString::operator=(MyString &&other) noexcept {
     if (this == &other) {
         return *this;
     }
@@ -68,7 +68,7 @@ MyString& MyString::operator=(MyString &&other) {
     return *this;
 }
 
-int MyString::length() const{
+size_t MyString::length() const{
     return strlen(s_data);
 }
 
@@ -83,9 +83,9 @@ MyString::~MyString() {
 
 // friend operator functions
 MyString operator+ (const MyString& lhs, const MyString& rhs) {
-    int len1 = lhs.length();
-    int len2 = rhs.length();
-    int total_len = len1 + len2;
+    size_t len1 = lhs.length();
+    size_t len2 = rhs.length();
+    size_t total_len = len1 + len2;
     char tmp[total_len+1];
     char* next = strcpy(tmp, lhs.get());
     strcat(next, rhs.get());
@@ -128,7 +128,7 @@ void swap(MyString& lhs, MyString& rhs) {
 
 // member operator function
 const MyString& MyString::operator!() {
-    int len = length();
+    size_t len = length();
     for(int i=0;i<len;i++) {
         if(s_data[i]>='a'&& s_data[i] <= 'z' ) {
             s_data[i]-=32; // +32转换为大写
@@ -149,11 +149,11 @@ int MyString::operator()(const MyString& substr) const {
     // KMP
     const MyString& ss = *this;
     const MyString& pp = substr;
-    int n = ss.length(), m = pp.length();
+    size_t n = ss.length(), m = pp.length();
     if(m == 0) return 0;
     //设置哨兵
-    MyString s = " " + ss;
-    MyString p = " " + pp;
+    MyString s = MyString(" ") + ss;
+    MyString p = MyString(" ") + pp;
     vector<int> next(m + 1);
     //预处理next数组
     for(int i = 2, j = 0; i <= m; i++) {
@@ -168,4 +168,21 @@ int MyString::operator()(const MyString& substr) const {
         if(j == m) { return i - m; }
     }
     return -1;
+}
+
+int MyString::operator()(const char* substr) const {
+    return MyString::operator()(MyString(substr));
+}
+
+MyString& MyString::operator+=(const char* rhs) {
+    size_t len = strlen(rhs);
+    size_t old_len = strlen(s_data);
+    char* new_data = new char[len+old_len+1];
+    char* next = strcpy(new_data, s_data);
+    strcat(next, rhs);
+    // 销毁原有数据
+    delete[] s_data;
+    // 拷贝指针
+    s_data = new_data;
+    return *this;
 }
