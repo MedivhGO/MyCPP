@@ -132,12 +132,13 @@ TEST(MyMatrixTest, multi_strassen) {
     MyMatrix<int> c(120, 120);
     MyMatrix<int> d(120, 120);
 
-    std::cout<< "This took: " <<
-        duration_cast<microseconds>(measure([&](){d = m * n;})).count()
-        << " microseconds.\n";
-    std::cout<< "This took: " <<
-        duration_cast<microseconds>(measure(strassen<int>, m, n,c, 120)).count()
-        << " microseconds.\n";
+//    std::cout<< "This took: " <<
+//        duration_cast<microseconds>(measure([&](){d = m * n;})).count()
+//        << " microseconds.\n";
+//    std::cout<< "This took: " <<
+//        duration_cast<microseconds>(measure(strassen<int>, m, n,c, 120)).count()
+//        << " microseconds.\n";
+    EXPECT_LT(measure(strassen<int>, m, n,c, 120).count(), measure([&](){d = m * n;}).count());
     EXPECT_EQ(c, d);
 }
 
