@@ -11,6 +11,7 @@
 - 实现Singleton
 - 实现MyMalloc
 - 实现MyBST(binary search tree)
+- 实现MyError
 
 ## References
 See also:
@@ -19,3 +20,4 @@ See also:
 - https://github.com/aronszanto/strassen
 - https://github.com/danek0100/Cpp-Ex08-Implementation-of-MyString-class
 - https://github.com/shakhovm/MySharedPtr
+- https://github.com/DanesH-Abdollahi/DanesH-Abdollahi-AP_1400_HW4

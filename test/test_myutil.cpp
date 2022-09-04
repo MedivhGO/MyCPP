@@ -12,6 +12,7 @@
 #include "MySingleton.h"
 #include "MyString.h"
 #include "MyThread.h"
+#include "MyError.h"
 
 using std::cout;
 using std::endl;
@@ -99,6 +100,10 @@ TEST(MyUtil, test_mutex) {
 
     EXPECT_GT(failure_time_without_lock, 0);
     EXPECT_EQ(failure_time_with_lock, 0);
+}
+
+TEST(MyUtil, test_error) {
+    EXPECT_THROW(throw UnixError(), std::exception);
 }
 
 
