@@ -1,274 +1,220 @@
 //
-// Created by Lee on 2022/9/1.
+// Created by Lee on 2022/9/3.
 //
 
 #ifndef MYCPPIMPLEMENT_MYSHAREDPTR_H
 #define MYCPPIMPLEMENT_MYSHAREDPTR_H
 
-#include <iostream>
+class MyRefCount {
+public:
+    MyRefCount(const MyRefCount &) = delete;
 
-template <typename T>
+    MyRefCount &operator=(const MyRefCount &) = delete;
+
+    ~MyRefCount();
+
+public:
+    void Incref();
+
+    void Incwref();
+
+    void Decref();
+
+    void Decwref();
+
+    long UseCount();
+
+protected:
+    MyRefCount() = default;
+
+private:
+    long m_use = 1;
+    long m_weak = 1;
+};
+
+MyRefCount::~MyRefCount() {
+
+}
+
+void MyRefCount::Incref() {
+
+}
+
+void MyRefCount::Incwref() {
+
+}
+
+void MyRefCount::Decref() {
+
+}
+
+void MyRefCount::Decwref() {
+
+}
+
+long MyRefCount::UseCount() {
+    return 0;
+}
+
+template<typename T>
+class MyBaseSmartPtr {
+public:
+    MyBaseSmartPtr(const MyBaseSmartPtr<T> &) = delete;
+
+    MyBaseSmartPtr<T> operator=(const MyBaseSmartPtr<T> &) = delete;
+
+    long use_count() {
+        return m_refcount ? m_refcount->UseCount() : 0;
+    }
+
+protected:
+    const T *get() const {
+        return m_ptr;
+    }
+
+    MyBaseSmartPtr() = default;
+
+    ~MyBaseSmartPtr() = default;
+
+    void Incref() {
+        if (m_refcount) {
+            m_refcount->Incref();
+        }
+    }
+
+    void Decref() {
+        if (m_refcount) {
+            m_refcount->Decref();
+        }
+    }
+
+    void Incwref() {
+        if (m_refcount) {
+            m_refcount->Incwref();
+        }
+    }
+
+    void Decwref() {
+        if (m_refcount) {
+            m_refcount->Decwref();
+        }
+    }
+
+private:
+    T *m_ptr = nullptr;
+    MyRefCount *m_refcount = nullptr;
+};
+
+template<typename T>
 class MyWeakPtr;
 
-template <typename T>
-class MySharedPtr;
-
-
-template <typename T>
-class MySharedPtr {
-    T* element;
-
-    //the number of uses
-    size_t* ptr_number;
-    friend class MyWeakPtr<T>;
+template<typename T>
+class MySharedPtr final : public MyBaseSmartPtr<T> {
 public:
-    constexpr MySharedPtr(): element(nullptr), ptr_number(new size_t(0)){}
+    MySharedPtr();
 
-    explicit MySharedPtr(T* ptr): element(ptr), ptr_number(new size_t(1)){}
+    explicit MySharedPtr(T *);
 
-    MySharedPtr(const MySharedPtr<T>& ptr);
+    MySharedPtr(const MySharedPtr<T> &sp);
 
-    MySharedPtr(MySharedPtr&& ptr);
+    MySharedPtr(MySharedPtr<T> &&sp) noexcept;
 
-    explicit MySharedPtr( const MyWeakPtr<T>& ptr );
+    MySharedPtr &operator=(const MySharedPtr<T> &sp);
 
-    MySharedPtr(const MySharedPtr<T>& ptr, T* new_ptr);
+    MySharedPtr &operator=(MySharedPtr<T> &&sp) noexcept;
 
     ~MySharedPtr();
 
-    MySharedPtr<T>& operator=(const MySharedPtr& ptr);
+public:
+    const T *get() const {
+        return MyBaseSmartPtr<T>::get();
+    }
 
-    MySharedPtr<T>& operator=(MySharedPtr&& ptr);
+    const T &operator*() const {
+        return *MyBaseSmartPtr<T>::get();
+    }
 
-    //get pointer to element
-    inline T* get() const {return element;}
+    const T *operator->() const {
+        return MyBaseSmartPtr<T>::get();
+    }
 
-    //get element itself
-    inline T& operator*() const {return *element;}
+    void reset();
 
-    //give access to fields of element
-    inline T* operator->() const {return element;}
+    void reset(T *);
 
-    //swap two shared pointers
-    void swap(MySharedPtr<T>& ptr);
+    explicit operator bool();
 
-    //return the number of uses
-    inline size_t use_count() {return *ptr_number;}
+    friend class MyWeakPtr<T>;
 
-    //check if pointer has 1 use
-    inline bool unique() {return *ptr_number == 1;}
+    friend bool operator==(const MySharedPtr<T>& lhs, const MySharedPtr<T>& rhs) {
+        return lhs.get() == rhs.get();
+    }
 
-    //convert element to bool
-    explicit operator bool() {return element != nullptr;}
+    friend bool operator!=(const MySharedPtr<T>& lhs, const MySharedPtr<T>& rhs) {
+        return !(lhs == rhs);
+    }
+
+    friend bool operator==(const MySharedPtr<T>& lhs, const T* rhs) {
+        return lhs.get() == rhs;
+    }
+
+    friend bool operator!=(const MySharedPtr<T>& lhs, const T* rhs) {
+        return !(lhs == rhs);
+    }
 };
 
-template <typename T>
-class MyWeakPtr {
-    T* element;
 
-    //number of uses
-    size_t* ptr_number;
-    friend class MySharedPtr<T>;
+// MyWeakPtr Implement
+
+template<typename T>
+class MyWeakPtr final : public MyBaseSmartPtr<T> {
 public:
-    constexpr MyWeakPtr(): element(nullptr), ptr_number(new size_t(0)){}
+    MyWeakPtr();
 
-    MyWeakPtr(const MySharedPtr<T>& ptr);
+    [[maybe_unused]] explicit MyWeakPtr(T *);
 
-    MyWeakPtr(const MyWeakPtr& ptr);
+    MyWeakPtr(MySharedPtr<T>& );
 
     ~MyWeakPtr();
 
-    MyWeakPtr<T>& operator=(const MySharedPtr<T>& ptr);
 
-    MySharedPtr<T>& operator=(const MyWeakPtr& ptr);
+    const T *get() const {
+        return MyBaseSmartPtr<T>::get();
+    }
 
-    //swap two weak pointers
-    void swap(MyWeakPtr<T>& ptr);
+    MySharedPtr<T> lock();
 
-    //check of number of uses equals 0
-    inline bool expired() const { return *ptr_number == 0; }
-
-    //return number of uses
-    inline size_t use_count() const {return *ptr_number;}
-
-    //check if number of uses equals 1
-    inline bool unique() const {return *ptr_number == 1;}
-
-    //create shared pointer with this element
-    inline MySharedPtr<T> lock() const { return expired() ? MySharedPtr<T>() : MySharedPtr<T>(*this); }
 };
 
-
-
-//Shared_Ptr
-template <typename T>
-MySharedPtr<T>::MySharedPtr(const MySharedPtr<T> &ptr)
-{
-    element = ptr.element;
-
-    //if use number doesn't equal 0 increase it to 1
-    if(*ptr.ptr_number != 0)
-        ++(*ptr.ptr_number);
-    ptr_number = ptr.ptr_number;
-}
-
-template <typename T>
-MySharedPtr<T>::MySharedPtr(MySharedPtr&& ptr)
-{
-    element = std::move(ptr.element);
-
-    //if use number doesn't equal 0 increase it to 1
-    if(*ptr.ptr_number != 0)
-        ++(*ptr.ptr_number);
-    ptr_number = std::move(ptr.ptr_number);
-}
-
-template <typename T>
-MySharedPtr<T>::MySharedPtr(const MyWeakPtr<T>& ptr)
-{
-    element = ptr.element;
-
-    //if use number doesn't equal 0 increase it to 1
-    if(ptr.ptr_number != 0)
-        ++(*ptr.ptr_number);
-    ptr_number = std::move(ptr.ptr_number);
-}
-
-template <typename T>
-MySharedPtr<T>::MySharedPtr(const MySharedPtr<T> &ptr, T* new_ptr)
-{
-    element = new_ptr;
-
-    //if use number doesn't equal 0 increase it to 1
-    if(ptr.ptr_number != 0)
-        ++(*ptr.ptr_number);
-    ptr_number = ptr.ptr_number;
-}
-
-template <typename T>
-MySharedPtr<T>& MySharedPtr<T>::operator=(const MySharedPtr& ptr)
-{
-    MySharedPtr<T>(ptr).swap(*this);
-    return *this;
-}
-
-template <typename T>
-MySharedPtr<T>& MySharedPtr<T>::operator=(MySharedPtr&& ptr)
-{
-    MySharedPtr<T>(std::move(ptr)).swap(*this);
-    return *this;
-}
-
-template <typename T>
-MySharedPtr<T>::~MySharedPtr()
-{
-    //if use number greater than 1 decrease by 1 and delete content otherwise
-    if(--(*ptr_number) <= 0)
-    {
-        delete element;
-        delete ptr_number;
-    }
-
-}
-
-
-template <typename T>
-void MySharedPtr<T>::swap(MySharedPtr<T> &ptr)
-{
-    std::swap(element, ptr.element);
-    std::swap(ptr_number, ptr.ptr_number);
-}
-
+template<typename T>
+MySharedPtr<T>::operator bool() { return MyBaseSmartPtr<T>::get() != nullptr; }
 
 template<typename T>
-inline bool operator==(const MySharedPtr<T>& ptr1, const MySharedPtr<T>& ptr2)
-{
-    //compare two pointers that shared pointers contain
-    return ptr1.get() == ptr2.get();
+void MySharedPtr<T>::reset() {
+
 }
 
 template<typename T>
-inline bool operator!=(const MySharedPtr<T>& ptr1, const MySharedPtr<T>& ptr2)
-{
-    //compare two pointers that shared pointers contain
-    return !(ptr1 == ptr2);
+void MySharedPtr<T>::reset(T *) {
+
 }
 
 template<typename T>
-inline bool operator==(std::nullptr_t null_ptr, const MySharedPtr<T>& ptr)
-{
-    //true if pointer is nullptr
-    return null_ptr == ptr.get();
+[[maybe_unused]] MyWeakPtr<T>::MyWeakPtr(T *) {
+
 }
 
 template<typename T>
-inline bool operator==(const MySharedPtr<T>& ptr, std::nullptr_t null_ptr)
-{
-    //true if pointer is nullptr
-    return null_ptr == ptr.get();
+MySharedPtr<T> MyWeakPtr<T>::lock() {
+    return MySharedPtr<T>();
 }
 
-template<typename T>
-inline bool operator!=(const MySharedPtr<T>& ptr, std::nullptr_t null_ptr)
-{
-    //true if pointer is not nullptr
-    return !(null_ptr == ptr);
+// my_make_unique
+template<typename T, typename ...Args>
+MySharedPtr<T> my_make_shared(Args &&...args) {
+    return MySharedPtr<T>(new T(std::forward<Args>(args)...)); // std::forward current not be replaced by mine
 }
 
-template<typename T>
-inline bool operator!=(std::nullptr_t null_ptr, const MySharedPtr<T>& ptr)
-{
-    //true if pointer is not nullptr
-    return !(null_ptr == ptr);
-}
+// #include "MySharedPtr.hpp" // 可以将实现放到这个hpp文件夹下, 需要重新配置cmakelist, 暂不使用
 
-//Weak_ptr
-
-template <typename T>
-MyWeakPtr<T>::MyWeakPtr(const MySharedPtr<T>& ptr)
-{
-    element = ptr.element;
-    ptr_number = ptr.ptr_number;
-}
-
-template <typename T>
-MyWeakPtr<T>::MyWeakPtr(const MyWeakPtr& ptr)
-{
-    element = ptr.element;
-    ptr_number = ptr.ptr_number;
-}
-
-template <typename T>
-MyWeakPtr<T>::~MyWeakPtr()
-{
-    //if use number greater than 1 decrease by 1 and delete content otherwise
-    if(--(*ptr_number) <= 0)
-    {
-        delete element;
-        delete ptr_number;
-    }
-}
-
-template <typename T>
-MyWeakPtr<T>& MyWeakPtr<T>::operator=(const MySharedPtr<T>& ptr)
-{
-    MyWeakPtr<T>(ptr).swap(*this);
-    return *this;
-}
-
-
-template <typename T>
-MySharedPtr<T>& MyWeakPtr<T>::operator=(const MyWeakPtr& ptr)
-{
-    MySharedPtr<T>(ptr).swap(*this);
-    return *this;
-}
-
-
-template <typename T>
-void MyWeakPtr<T>::swap(MyWeakPtr<T>& ptr)
-{
-    std::swap(ptr.element, element);
-    std::swap(ptr.ptr_number, ptr_number);
-}
 #endif //MYCPPIMPLEMENT_MYSHAREDPTR_H
