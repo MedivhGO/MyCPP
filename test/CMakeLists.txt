@@ -13,3 +13,13 @@ target_compile_definitions(${PROJECT_NAME}.test
 
 install(TARGETS ${PROJECT_NAME}.test
         DESTINATION "${tool_dest}")
+
+## make single test
+add_executable(test_myutil.test
+        AllTests.cpp
+        test_myutil.cpp
+        )
+
+target_link_libraries(test_myutil.test
+        ${PROJECT_NAME} gtest pthread)
+
