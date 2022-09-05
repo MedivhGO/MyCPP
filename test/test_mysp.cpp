@@ -2,6 +2,7 @@
 
 #include "MySharedPtr.h"
 #include "MyUniquePtr.h"
+#include "MyString.h"
 
 TEST(MySmartPtrTest, TEST1) {
     MyUniquePtr<int> ptr1{new int{10}};
@@ -242,4 +243,15 @@ TEST(MySmartPtrTest, TEST25) {
     EXPECT_EQ(!ptr4, true);
     ptr4 = ptr3;
     EXPECT_EQ(ptr3.use_count(), 3);
+}
+
+TEST(MySmartPtrTest, TEST26) {
+    MySharedPtr<int> isp{my_make_shared<int>(10)};
+    EXPECT_TRUE(isp.unique());
+    MySharedPtr<MyString> my_strsp{my_make_shared<MyString>("123")};
+    EXPECT_STREQ(my_strsp->get(), "123");
+    MyWeakPtr<int> wptr(isp);
+    EXPECT_EQ(wptr.use_count(), 1);
+    MyWeakPtr<int> wptr1 = isp;
+    EXPECT_EQ(wptr1.expired(), false);
 }

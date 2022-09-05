@@ -22,6 +22,7 @@ class MyWeakPtr;
 class MyRefCountBase {
 private:
     virtual void Destroy() noexcept = 0;
+
     virtual void Delete_this() noexcept = 0;
 
     long m_use = 1;  // atomic_counter_t
@@ -31,8 +32,9 @@ protected:
     constexpr MyRefCountBase() noexcept = default;
 
 public:
-    MyRefCountBase(const MyRefCountBase&) = delete;
-    MyRefCountBase& operator=(const MyRefCountBase&) = delete;
+    MyRefCountBase(const MyRefCountBase &) = delete;
+
+    MyRefCountBase &operator=(const MyRefCountBase &) = delete;
 
     virtual ~MyRefCountBase() noexcept = default;
 
@@ -69,18 +71,21 @@ public:
 template<typename T>
 class MyRefCount : public MyRefCountBase {
 public:
-    explicit MyRefCount(T* ptr) : MyRefCountBase(), m_ptr(ptr) {
+    explicit MyRefCount(T *ptr) : MyRefCountBase(), m_ptr(ptr) {
 
     }
+
 private:
     void Destroy() noexcept override {
         delete m_ptr;
     }
+
     void Delete_this() noexcept override {
         delete this;
     }
+
 private:
-    T* m_ptr;
+    T *m_ptr;
 };
 
 // MyBaseSmartPtr Implement
@@ -157,10 +162,10 @@ protected:
 
     void Decref() {
         if (m_refcount) {
-           if (m_refcount->Decref()) {
-               m_refcount = nullptr;
-               m_ptr = nullptr;
-           }
+            if (m_refcount->Decref()) {
+                m_refcount = nullptr;
+                m_ptr = nullptr;
+            }
         }
     }
 
@@ -332,11 +337,9 @@ class MyWeakPtr final : public MyBaseSmartPtr<T> {
 public:
     MyWeakPtr();
 
-    explicit MyWeakPtr(T *);
-
     MyWeakPtr(const MyWeakPtr<T> &x);
 
-    explicit MyWeakPtr(MySharedPtr<T> &);
+    MyWeakPtr(const MySharedPtr<T> &x) noexcept;
 
     MyWeakPtr &operator=(const MyWeakPtr<T> &x) noexcept;
 
@@ -366,20 +369,14 @@ template<typename T>
 MyWeakPtr<T>::MyWeakPtr() = default;
 
 template<typename T>
-MyWeakPtr<T>::MyWeakPtr(T *ptr) {
-    MyBaseSmartPtr<T>::Raw_Construct(ptr);
-}
-
-template<typename T>
 MyWeakPtr<T>::MyWeakPtr(const MyWeakPtr<T> &x) {
-    MyBaseSmartPtr<T>::Construct_From_Weak(x);
+    this->Construct_From_Weak(x);
 }
 
 template<typename T>
-MyWeakPtr<T>::MyWeakPtr(MySharedPtr<T> &x) {
-    MyBaseSmartPtr<T>::Weakly_Construct_From(x);
+MyWeakPtr<T>::MyWeakPtr(const MySharedPtr<T> &x) noexcept {
+    this->Weakly_Construct_From(x);
 }
-
 
 template<typename T>
 MyWeakPtr<T> &MyWeakPtr<T>::operator=(const MyWeakPtr<T> &x) noexcept {
@@ -396,7 +393,6 @@ template<typename T>
 MyWeakPtr<T>::~MyWeakPtr() {
     this->Decwref();
 }
-
 
 template<typename T>
 bool MyWeakPtr<T>::expired() const noexcept {
