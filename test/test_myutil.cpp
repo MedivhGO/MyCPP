@@ -103,6 +103,18 @@ TEST(MyUtil, test_mutex) {
 }
 
 TEST(MyUtil, test_error) {
+    try {
+        throw UnixError();
+    } catch (const UnixError& e) {
+        EXPECT_STRNE(e.what(), "");
+    }
+
+    try {
+        throw MyLogicalError("len must > 0");
+    } catch (const MyLogicalError& e) {
+        EXPECT_STREQ("MyLogicalError : len must > 0", e.what());
+    }
+
     EXPECT_THROW(throw UnixError(), std::exception);
 }
 

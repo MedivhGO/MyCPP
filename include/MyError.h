@@ -22,4 +22,16 @@ public:
     UnixError() : MyError(strerror(errno)) {}
 };
 
+class MyLogicalError : public std::logic_error {
+public:
+    MyLogicalError(const std::string &msg) : logic_error(msg) {
+        _msg = "MyLogicalError : " + msg;
+    }
+    const char* what() const noexcept override { return _msg.c_str(); }
+private:
+    std::string _msg;
+};
+
+
+
 #endif //MYCPPIMPLEMENT_ERROR_H
