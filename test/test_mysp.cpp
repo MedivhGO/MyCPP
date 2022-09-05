@@ -237,7 +237,7 @@ TEST(MySmartPtrTest, TEST25) {
     MySharedPtr<std::string> ptr3 = ptr2.lock();
     EXPECT_EQ(ptr3.use_count(), 2);
     EXPECT_EQ(ptr1, ptr3);
-    EXPECT_EQ(*ptr1, "hello1");
+    EXPECT_EQ(*ptr1, "hello");
     MySharedPtr<std::string> ptr4;
     EXPECT_EQ(!ptr4, true);
     ptr4 = ptr3;

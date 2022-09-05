@@ -15,11 +15,11 @@ install(TARGETS ${PROJECT_NAME}.test
         DESTINATION "${tool_dest}")
 
 ## make single test
-add_executable(test_myutil.test
+add_executable(test_mysp.test
         AllTests.cpp
-        test_myutil.cpp
+        test_mysp.cpp
         )
 
-target_link_libraries(test_myutil.test
+target_link_libraries(test_mysp.test
         ${PROJECT_NAME} gtest pthread)
 
