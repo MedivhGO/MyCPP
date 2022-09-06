@@ -12,6 +12,7 @@
 - 实现MyMalloc
 - 实现MyBST(binary search tree)
 - 实现MyError
+- 实现MyHashMap
 
 ## References
 See also:

@@ -2,7 +2,6 @@
 // Created by Lee on 2022/9/2.
 //
 #include <gtest/gtest.h>
-#include <chrono>
 
 #include "MyMatrix.h"
 #include "MyProfile.h"

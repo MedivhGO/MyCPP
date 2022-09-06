@@ -35,8 +35,7 @@ public:
     }
 
 private:
-    static void *OomMalloc(size_t n) // 调用自定义的句柄处理函数释放并分配内存
-    {
+    static void *OomMalloc(size_t n) {  // 调用自定义的句柄处理函数释放并分配内存
         ALLOC_FUN handler;
         void *ret;
         while (1) {
@@ -53,8 +52,7 @@ private:
         }
     }
 
-    static void *OomRealloc(void *p, size_t new_size)
-    {
+    static void *OomRealloc(void *p, size_t new_size) {
         ALLOC_FUN handler;
         void *ret;
         while (1) {
@@ -73,7 +71,6 @@ private:
 
     static void (*SetMallocHandler(void(*f)()))(); // 设置操作系统分配内存失败时的句柄处理函数
     static ALLOC_FUN MallocAllocHandler;
-
 };
 
 template<int inst>
