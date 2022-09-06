@@ -23,7 +23,7 @@ class MyRefCountBase {
 private:
     virtual void Destroy() noexcept = 0;
 
-    virtual void Delete_this() noexcept = 0;
+    virtual void Delete_This() noexcept = 0;
 
     long m_use = 1;  // atomic_counter_t
     long m_weak = 1; // atomic_counter_t
@@ -57,7 +57,7 @@ public:
 
     bool Decwref() noexcept {
         if ((--m_weak) == 0) {
-            Delete_this();
+            Delete_This();
             return true;
         }
         return false;
@@ -80,7 +80,7 @@ private:
         delete m_ptr;
     }
 
-    void Delete_this() noexcept override {
+    void Delete_This() noexcept override {
         delete this;
     }
 

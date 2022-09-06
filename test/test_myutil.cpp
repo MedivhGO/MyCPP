@@ -13,6 +13,8 @@
 #include "MyString.h"
 #include "MyThread.h"
 #include "MyError.h"
+#include "MyLog.h"
+#include "MyCache.h"
 
 using std::cout;
 using std::endl;
@@ -51,7 +53,8 @@ TEST(MyUtil, test_singleton) {
 
 TEST(MyUtil, test_thread) {
     std::shared_ptr<MyString> str_p = SingleDemo<MyString>::getInstance();
-    auto test_call = [](std::shared_ptr<MyString> str_p, uint64_t thread_itr = 0) {
+    auto test_call =
+            [](const std::shared_ptr<MyString>& str_p, uint64_t thread_itr = 0) {
         std::shared_ptr<MyString> t = SingleDemo<MyString>::getInstance();
         EXPECT_EQ(str_p, t);
     };
@@ -60,8 +63,8 @@ TEST(MyUtil, test_thread) {
 
 TEST(MyUtil, test_mutex) {
     MutexLock m;
-    const int atomic_str_length = 10;
-    const int test_cycle = 100;
+    const int atomic_str_length = 100;
+    const int test_cycle = 50;
     int failure_time_without_lock = 0;
     int failure_time_with_lock = 0;
     for (int tc = 0; tc < test_cycle; ++tc) {
@@ -116,6 +119,25 @@ TEST(MyUtil, test_error) {
     }
 
     EXPECT_THROW(throw UnixError(), std::exception);
+}
+
+TEST(MyUtil, test_log) {
+    enableLogging();
+    LOG_DEBUG("DEBUG MESSAGE");
+    LOG_ERROR("ERROR MESSAGE");
+    LOG_INFO("INFO MESSAGE");
+    LOG_WARN("WARN MESSAGE");
+    disableLogging();
+}
+
+TEST(MyUtil, test_cache) {
+    Cache<int> int_cache;
+    auto fill_data = [&](uint64_t thread_itr = 0) {
+        std::shared_ptr<const int> id_ptr = int_cache.fastLoadT(std::this_thread::get_id());
+        LOG_DEBUG(std::to_string(*id_ptr).c_str());
+    };
+    LaunchParallelTest(20, fill_data);
+    EXPECT_EQ(int_cache.getCacheSize(), 20);
 }
 
 

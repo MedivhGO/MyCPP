@@ -21,3 +21,4 @@ See also:
 - https://github.com/danek0100/Cpp-Ex08-Implementation-of-MyString-class
 - https://github.com/shakhovm/MySharedPtr
 - https://github.com/DanesH-Abdollahi/DanesH-Abdollahi-AP_1400_HW4
+- https://github.com/heysulo/MyMalloc
