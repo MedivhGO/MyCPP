@@ -24,11 +24,11 @@ public:
 
     ~MyUniquePtr();
 
-    const T *get() const;
+    T *get() const;
 
-    const T &operator*() const;
+    T& operator*() const;
 
-    T *operator->();
+    T *operator->() const;
 
     T *release();
 
@@ -69,12 +69,12 @@ MyUniquePtr<T> &MyUniquePtr<T>::operator=(MyUniquePtr<T> &&rhs) noexcept {
 }
 
 template<typename T>
-const T &MyUniquePtr<T>::operator*() const {
+T &MyUniquePtr<T>::operator*() const {
     return *m_ptr;
 }
 
 template<typename T>
-const T *MyUniquePtr<T>::get() const {
+T *MyUniquePtr<T>::get() const {
     return m_ptr;
 }
 
@@ -86,7 +86,7 @@ T *MyUniquePtr<T>::release() {
 }
 
 template<typename T>
-T *MyUniquePtr<T>::operator->() {
+T *MyUniquePtr<T>::operator->() const{
     return m_ptr;
 }
 
