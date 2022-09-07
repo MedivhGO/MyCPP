@@ -1,9 +1,13 @@
+set(CMAKE_CXX_STANDARD 20)
+
 add_executable(${PROJECT_NAME}.test
         AllTests.cpp
         test_mystr.cpp
         test_mysp.cpp
         test_mymat.cpp
-        test_myutil.cpp)
+        test_myutil.cpp
+        test_myds.cpp
+        test_cppfeature.cpp)
 
 target_link_libraries(${PROJECT_NAME}.test
         ${PROJECT_NAME} gtest pthread)

@@ -64,7 +64,7 @@ TEST(MyUtil, test_thread) {
 TEST(MyUtil, test_mutex) {
     MutexLock m;
     const int atomic_str_length = 100;
-    const int test_cycle = 50;
+    const int test_cycle = 100;
     int failure_time_without_lock = 0;
     int failure_time_with_lock = 0;
     for (int tc = 0; tc < test_cycle; ++tc) {
