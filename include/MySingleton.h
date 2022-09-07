@@ -84,6 +84,7 @@ public:
         std::call_once(s_flag, InitPtr);
         return m_ptr;
     }
+
 private:
     static void InitPtr() {
         m_ptr = new T();
@@ -100,4 +101,47 @@ T* OnceSingle<T>::m_ptr = nullptr;
 
 template<typename T>
 std::once_flag OnceSingle<T>::s_flag;
+
+
+// implement4
+template <typename T>
+class OnceSingleWithArgs final {
+public:
+    OnceSingleWithArgs() = delete;
+    OnceSingleWithArgs(const OnceSingle<T>& m) = delete;
+    OnceSingleWithArgs& operator=(const OnceSingle<T>& m) = delete;
+
+    ~OnceSingleWithArgs() = default;
+    class CGFunctionClass {
+    public:
+        ~CGFunctionClass() {
+            if (m_ptr != nullptr) {
+                delete m_ptr;
+                m_ptr = nullptr;
+            }
+        }
+    };
+    template<typename... Args>
+    static T* getInstance(Args&&... args) {
+        std::call_once(s_flag,InitPtr<T>,std::forward<Args>(args)...);
+        return m_ptr;
+    }
+
+private:
+    template<typename... Args>
+    static void InitPtr(Args&&... args) {
+        m_ptr = new T(args...);
+        static CGFunctionClass cg;
+    }
+
+private:
+    static T* m_ptr;
+    static std::once_flag s_flag;
+};
+
+template<typename T>
+T* OnceSingleWithArgs<T>::m_ptr = nullptr;
+
+template<typename T>
+std::once_flag OnceSingleWithArgs<T>::s_flag;
 #endif //MYCPPIMPLEMENT_MYSINGLETON_H

@@ -56,6 +56,15 @@ TEST(MyUtil, test_singleton) {
     EXPECT_EQ(raw_ptr, same_raw_ptr);
     raw_ptr = nullptr;
     same_raw_ptr = nullptr;
+
+    std::string *para_ptr = OnceSingleWithArgs<std::string>::getInstance("123");
+    std::string *same_para_ptr = OnceSingleWithArgs<std::string>::getInstance("456");
+    EXPECT_EQ(para_ptr, same_para_ptr);
+    EXPECT_EQ(*para_ptr, *same_para_ptr);
+    EXPECT_EQ(*para_ptr, "123");
+    EXPECT_NE(*same_para_ptr, "456");
+    para_ptr = nullptr;
+    same_para_ptr = nullptr;
 }
 
 TEST(MyUtil, DISABLED_test_thread) {
