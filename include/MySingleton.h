@@ -10,6 +10,7 @@
 
 #include "MutexLock.h"
 
+// implement1
 template<typename T>
 class SingleDemo {
 public:
@@ -44,6 +45,7 @@ std::shared_ptr<T> SingleDemo<T>::getInstance() {
     return single_ptr;
 }
 
+// implement2
 template <typename T>
 class Singleton : private T {
 private:
@@ -59,10 +61,12 @@ T &Singleton<T>::getInstance() {
     return s_oT;
 }
 
+// implement3
 template <typename T>
 class OnceSingle {
 public:
     OnceSingle() = delete;
+    OnceSingle(const OnceSingle<T>& m) = delete;
     OnceSingle& operator=(const OnceSingle<T>& m) = delete;
 
     ~OnceSingle() = default;
