@@ -20,7 +20,7 @@ TEST(MyCppFeatureTest, test2) {
     struct IntWrapper {
         int a;
         IntWrapper(int data) : a(data) {}
-        auto operator<=>(const IntWrapper& b) {
+        auto operator<=>(const IntWrapper& b) const->auto { // 尾置返回类型
             [[likely]] if (a < b.a) { // likely
                 return -1;
             } else if (a == b.a) {

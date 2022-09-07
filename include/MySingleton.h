@@ -6,6 +6,7 @@
 #define MYCPPIMPLEMENT_MYSINGLETON_H
 
 #include <memory>
+#include <mutex>
 
 #include "MutexLock.h"
 
@@ -58,4 +59,41 @@ T &Singleton<T>::getInstance() {
     return s_oT;
 }
 
+template <typename T>
+class OnceSingle {
+public:
+    OnceSingle() = delete;
+    OnceSingle& operator=(const OnceSingle<T>& m) = delete;
+
+    ~OnceSingle() = default;
+    class CGFunctionClass {
+        public:
+            ~CGFunctionClass() {
+                if (m_ptr != nullptr) {
+                    delete m_ptr;
+                    m_ptr = nullptr;
+                }
+            }
+    };
+
+    static T* getInstance() {
+        std::call_once(s_flag, InitPtr);
+        return m_ptr;
+    }
+private:
+    static void InitPtr() {
+        m_ptr = new T();
+        static CGFunctionClass cg;
+    }
+
+private:
+    static T* m_ptr;
+    static std::once_flag s_flag;
+};
+
+template<typename T>
+T* OnceSingle<T>::m_ptr = nullptr;
+
+template<typename T>
+std::once_flag OnceSingle<T>::s_flag;
 #endif //MYCPPIMPLEMENT_MYSINGLETON_H

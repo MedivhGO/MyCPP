@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "MyString.h"
+#include "MyLog.h"
 
 using std::vector;
 
@@ -17,12 +18,14 @@ MyString::MyString(const char* str) { // 空实参初始化的时候需要将s_d
         s_data = new char[len+1];
         strcpy(s_data,str);
     }
+    LOG_DEBUG("%s %s","Construct A Variable:", s_data);
 }
 
 MyString::MyString(const std::string& str) {
     size_t len = str.length();
     s_data = new char[len+1];
     strcpy(s_data, str.c_str());
+    LOG_DEBUG("%s %s","Construct A Variable:", s_data);
 }
 
 MyString::MyString(const MyString& other) { // 拷贝构造函数
@@ -77,6 +80,7 @@ const char *MyString::get() const {
 }
 
 MyString::~MyString() {
+    LOG_DEBUG("%s %s","Release A Variable: ", s_data);
     delete[] s_data;
     s_data = nullptr;
 }

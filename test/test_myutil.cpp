@@ -46,12 +46,19 @@ TEST(MyUtil, test_singleton) {
     MyString& a = Singleton<MyString>::getInstance();
     MyString& b = Singleton<MyString>::getInstance();
     EXPECT_EQ(&a, &b);
+
     std::shared_ptr<MyString> p = SingleDemo<MyString>::getInstance();
     std::shared_ptr<MyString> pp = SingleDemo<MyString>::getInstance();
     EXPECT_EQ(p, pp);
+
+    int *raw_ptr = OnceSingle<int>::getInstance();
+    int *same_raw_ptr = OnceSingle<int>::getInstance();
+    EXPECT_EQ(raw_ptr, same_raw_ptr);
+    raw_ptr = nullptr;
+    same_raw_ptr = nullptr;
 }
 
-TEST(MyUtil, test_thread) {
+TEST(MyUtil, DISABLED_test_thread) {
     std::shared_ptr<MyString> str_p = SingleDemo<MyString>::getInstance();
     auto test_call =
             [](const std::shared_ptr<MyString>& str_p, uint64_t thread_itr = 0) {
@@ -61,7 +68,7 @@ TEST(MyUtil, test_thread) {
     LaunchParallelTest(100, test_call,str_p);
 }
 
-TEST(MyUtil, test_mutex) {
+TEST(MyUtil, DISABLED_test_mutex) {
     MutexLock m;
     const int atomic_str_length = 100;
     const int test_cycle = 100;

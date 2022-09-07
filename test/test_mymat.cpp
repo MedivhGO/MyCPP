@@ -123,7 +123,7 @@ TEST(MyMatrixTest, multi_14) {
     EXPECT_EQ(O, M * N);
 }
 
-TEST(MyMatrixTest, multi_strassen) {
+TEST(MyMatrixTest, DISABLED_multi_strassen) {
     MyMatrix<int> n(120, 120);
     n.randomFillMatrix(-10, 10);
     MyMatrix<int> m(120, 120);
@@ -141,7 +141,7 @@ TEST(MyMatrixTest, multi_strassen) {
     EXPECT_EQ(c, d);
 }
 
-TEST(MyMatrixTest, multi_profile_naive) {
+TEST(MyMatrixTest, DISABLED_multi_profile_naive) {
     MyMatrix<int> m(100, 100);
     m.randomFillMatrix(-10, 10);
     MyMatrix<int> n(100, 100);
@@ -151,7 +151,7 @@ TEST(MyMatrixTest, multi_profile_naive) {
     }
 }
 
-TEST(MyMatrixTest, multi_profile_strassen) {
+TEST(MyMatrixTest, DISABLED_multi_profile_strassen) {
     MyMatrix<int> m(100, 100);
     m.randomFillMatrix(-10, 10);
     MyMatrix<int> n(100, 100);
