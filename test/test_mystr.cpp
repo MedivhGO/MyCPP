@@ -149,7 +149,7 @@ TEST(MyStringTest, test22) {
     EXPECT_STREQ(a.get(), b.c_str());
 }
 
-TEST(MyStringTest, test23) {
+TEST(MyStringTest, DISABLED_test23) {
     auto std_add = []() {
         std::string b;
         for (int i = 0; i < 1000; ++i) {
