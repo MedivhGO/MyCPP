@@ -457,9 +457,7 @@ public:
      *
      * Complexity: O(1) average case amortized plus complexity of K and M's constructor
      */
-    M& operator[](const K& key);
-
-    const M& operator[](const K& key) const;
+    M& operator[](const K& key); // 由于 [] 运算符会为 hashmap 增加kv，所以const对象不能进行调用， 因此不写 const 版本。
 
     /* Milestone 2 headers (you need to declare these) */
     // TODO: declare headers for copy constructor/assignment, move constructor/assignment
@@ -900,11 +898,6 @@ HashMap<K, M, H>::HashMap(std::initializer_list<value_type> init, size_t bucket_
 
 template <typename K, typename M, typename H>
 M& HashMap<K, M, H>::operator[](const K& key) {
-    return insert({key, {}}).first->second;
-}
-
-template <typename K, typename M, typename H>
-const M& HashMap<K, M, H>::operator[](const K& key) const {
     return insert({key, {}}).first->second;
 }
 

@@ -37,28 +37,26 @@ TEST(MyDataStructTest, test2) {
     map.insert({"Ethan", 2020});
     map.insert({"Frankie", 2021});
     map.insert({"Sathya", 2021});
-    // demonstrate the map in action!
-    map.debug();
-    map.rehash(5);
-    map.debug();
+
     std::set<string> keys = find_keys(map);
-    for (auto it = keys.begin(); it != keys.end(); ++it) {
-        cout << *it << endl;
-    }
+    EXPECT_EQ(keys.size(), 6);
+
+    map.rehash(5);
+    EXPECT_EQ(map.bucket_count(), 5);
 
     HashMap<string, int> map2(map);
-    map2.debug();
+    EXPECT_EQ(map2, map);
+
     HashMap<string, int> map3;
     map3 = map;
-    map3.debug();
+    EXPECT_EQ(map3, map);
 
     HashMap<string, int> map5(map3);
-    HashMap<string, int> map6(map3);
-
     HashMap<string, int> map7(std::move(map5));
-    map7.debug();
+    EXPECT_EQ(map7, map3);
 
+    HashMap<string, int> map6(map3);
     HashMap<string, int> map8;
     map8 = std::move(map6);
-    map8.debug();
+    EXPECT_EQ(map8, map3);
 }

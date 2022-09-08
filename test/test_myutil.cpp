@@ -25,7 +25,7 @@ TEST(MyUtil, test_random) {
     EXPECT_LT(rg.GetRandomNumberByDefault(), 2000);
 }
 
-TEST(MyUtil, test_random_profile) {
+TEST(MyUtil, DISABLED_test_random_profile) {
     RandomNumberGenerator rg(-1000,1000);
     auto default_generate = [&]() {
         for (int i = 0; i < 100000; ++i) {
