@@ -137,7 +137,7 @@ TEST(MyUtil, test_error) {
     EXPECT_THROW(throw UnixError(), std::exception);
 }
 
-TEST(MyUtil, test_log) {
+TEST(MyUtil, DISABLED_test_log) {
     enableLogging();
     LOG_DEBUG("DEBUG MESSAGE");
     LOG_ERROR("ERROR MESSAGE");
