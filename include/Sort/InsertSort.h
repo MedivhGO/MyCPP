@@ -10,8 +10,7 @@
 
 using namespace std;
 
-void InsertSort(vector<int> &data) {
-    int len = data.size();
+void InsertSort(vector<int> &data, int len) {
     if (len == 0) {
         return;
     }

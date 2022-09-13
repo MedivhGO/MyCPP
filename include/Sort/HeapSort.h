@@ -49,8 +49,7 @@ void AdjustDonwToUp(vector<int> &data) { // 插入一个元素，对堆进行调
     }
 }
 
-void HeapSort(vector<int> &data) {
-    int len = data.size();
+void HeapSort(vector<int> &data, int len) {
     // 从第一个非叶子节点开始到Root，向上调整
     for (int i = len / 2 - 1; i >= 0; --i) { // 找到第一个非叶子节点
         // 调整方法:就是构成相应的大顶堆

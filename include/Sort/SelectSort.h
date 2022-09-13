@@ -9,8 +9,7 @@
 
 using namespace std;
 
-void SelectSort(vector<int> &data) {
-    int len = data.size();
+void SelectSort(vector<int> &data, int len) {
     if (len == 0) {
         return;
     }
@@ -25,5 +24,5 @@ void SelectSort(vector<int> &data) {
             swap(data[min], data[i]);
         }
     }
-    }
+}
 #endif // APUE_SELECTSORT_H

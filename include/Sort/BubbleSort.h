@@ -9,8 +9,7 @@
 
 using namespace std;
 
-void BubbleSort(vector<int> &data) {
-    int len = data.size();
+void BubbleSort(vector<int> &data, int len) {
     for (int i = 0; i < len - 1; ++i) {
         int flag = false;
         for (int j = len - 1; j > i; --j) {

@@ -13,21 +13,21 @@
 
 TEST(MySort, test_bubblesort) {
     std::vector<int> ivec = {4, 3, 2, 1, 5};
-    BubbleSort(ivec);
+    BubbleSort(ivec, ivec.size());
     std::vector<int> res_vec = {1, 2, 3, 4, 5};
     EXPECT_EQ(ivec, res_vec);
 }
 
 TEST(MySort, test_heapsort) {
     std::vector<int> ivec = {4, 3, 2, 1, 5};
-    HeapSort(ivec);
+    HeapSort(ivec, ivec.size());
     std::vector<int> res_vec = {1, 2, 3, 4, 5};
     EXPECT_EQ(ivec, res_vec);
 }
 
 TEST(MySort, test_insertsort) {
     std::vector<int> ivec = {4, 3, 2, 1, 5};
-    InsertSort(ivec);
+    InsertSort(ivec, ivec.size());
     std::vector<int> res_vec = {1, 2, 3, 4, 5};
     EXPECT_EQ(ivec, res_vec);
 }
@@ -48,7 +48,7 @@ TEST(MySort, test_quicksort) {
 
 TEST(MySort, test_selectsort) {
     std::vector<int> ivec = {4, 3, 2, 1, 5};
-    SelectSort(ivec);
+    SelectSort(ivec, ivec.size());
     std::vector<int> res_vec = {1, 2, 3, 4, 5};
     EXPECT_EQ(ivec, res_vec);
 }
