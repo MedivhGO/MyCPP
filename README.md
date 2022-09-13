@@ -13,6 +13,7 @@
 - 实现MyBST(binary search tree)
 - 实现MyError
 - 实现MyHashMap
+- 实现常见的排序算法以及二分查找
 
 ## References
 See also:
