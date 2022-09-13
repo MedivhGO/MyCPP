@@ -11,21 +11,21 @@
 using namespace std;
 
 void merge(vector<int> &a, int start, int mid, int end) {
-    int *tmp = (int *)malloc((end - start + 1) * sizeof(int));
+    int *tmp = (int *)malloc((end - start) * sizeof(int)); // 分配一个临时空间用于排序
     int i = start;
-    int j = mid + 1;
+    int j = mid;
     int k = 0;
-    while (i <= mid && j <= end) {
+    while (i < mid && j < end) {
         if (a[i] <= a[j]) {
             tmp[k++] = a[i++];
         } else {
             tmp[k++] = a[j++];
         }
     }
-    while (i <= mid) {
+    while (i < mid) {
         tmp[k++] = a[i++];
     }
-    while (j <= end) {
+    while (j < end) {
         tmp[k++] = a[j++];
     }
     for (int i = 0; i < k; ++i) {
@@ -35,12 +35,12 @@ void merge(vector<int> &a, int start, int mid, int end) {
 }
 
 void MergeSort(vector<int> &a, int start, int end) {
-    if (a.empty() || start >= end) {
+    if (end - start <= 1) { // 当还剩一个元素的时候就推出
         return;
     }
-    int mid = (end + start) / 2;
+    int mid = (end  + start) / 2;
     MergeSort(a, start, mid);
-    MergeSort(a, mid + 1, end);
+    MergeSort(a, mid, end);
     merge(a, start, mid, end);
 }
 

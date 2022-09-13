@@ -25,7 +25,7 @@ TEST(MySort, test_heapsort) {
     EXPECT_EQ(ivec, res_vec);
 }
 
-TEST(MySort, DISABLED_test_insertsort) {
+TEST(MySort, test_insertsort) {
     std::vector<int> ivec = {4, 3, 2, 1, 5};
     InsertSort(ivec);
     std::vector<int> res_vec = {1, 2, 3, 4, 5};

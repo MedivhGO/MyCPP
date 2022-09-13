@@ -18,13 +18,14 @@ void InsertSort(vector<int> &data) {
     int tmp;
     for (int i = 1; i < len; ++i) {
         if (data[i] < data[i - 1]) {
-            tmp = data[i];
+            tmp = data[i]; // 在有序集合中寻找合适的位置
+            int prop_pos = i - 1;
+            while(prop_pos >= 0 && data[prop_pos] > tmp) { // 找第一个比tmp小的数，
+                data[prop_pos+1] = data[prop_pos];
+                prop_pos--;
+            }
+            data[prop_pos+1] = tmp;
         }
-        int j;
-        for (j = i - 1; data[j] > tmp; --j) {
-            data[j + 1] = data[j];
-        }
-        data[j] = tmp;
     }
 }
 
