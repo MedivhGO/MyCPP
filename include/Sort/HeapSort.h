@@ -109,7 +109,7 @@ void HeapSort(vector<int> &data, int len) {
         return;
     }
     // 建堆shiftDown方法，从最后一个节点的父节点开始调整
-    for (int i = (len - 1) / 2; i >= 0; --i) {
+    for (int i = len / 2 - 1; i >= 0; --i) {
         max_heapify(data, i, len);
     }
 
