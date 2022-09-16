@@ -86,16 +86,12 @@ int getParent(int i) {
     return (i - 1) / 2;
 }
 
-void shiftUp(vector<int> &data, int len) {
-    if (len == 0) {
-        return;
-    }
-    int child = len - 1;
+void shiftUp(vector<int> &data, int child) {
     int par = getParent(child);
     while (par >= 0) {
         if (data[par] >= data[child]) {
             break;
-        } else {
+        } else { // 如果孩子值大于父元素，那么就交换父子值，并继续向上调整
             swap(data[par], data[child]);
             child = par;
             par = getParent(child);
@@ -108,13 +104,13 @@ void HeapSort(vector<int> &data, int len) {
     if (len == 0) {
         return;
     }
-    // 建堆shiftDown方法，从最后一个节点的父节点开始调整
+    // 建堆 shiftDown 方法，从最后一个节点的父节点开始调整
     for (int i = len / 2 - 1; i >= 0; --i) {
         max_heapify(data, i, len);
     }
 
-    // 使用shiftUp方法建堆
-    for (int i = 0; i < len; ++i) {
+    // 使用 shiftUp 方法建堆
+    for (int i = 1; i < len; ++i) {
         shiftUp(data, i);
     }
 
