@@ -15,6 +15,8 @@
 #include "MyError.h"
 #include "MyLog.h"
 #include "MyCache.h"
+#include "MyFileReader.h"
+#include "MyProjectPath.h"
 
 using std::cout;
 using std::endl;
@@ -154,6 +156,16 @@ TEST(MyUtil, test_cache) {
     };
     LaunchParallelTest(20, fill_data);
     EXPECT_EQ(int_cache.getCacheSize(), 20);
+}
+
+TEST(MyUtil, test_filereader) {
+    FileReader f;
+    string project_root = PROJECT_PATH;
+    EXPECT_TRUE(f.open(project_root + "/resource/frtestcase"));
+    std::string read_one_line;
+    while(read_one_line = f.readLine(), !read_one_line.empty()) {
+        EXPECT_EQ(read_one_line, "line1");
+    }
 }
 
 

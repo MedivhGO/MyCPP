@@ -4,6 +4,8 @@ project(MyCppImplement)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -g")
 
+MESSAGE(STATUS "Begin CmakeList")
+
 
 set(tool_dest "bin")
 set(lib_dest "lib")
@@ -13,3 +15,5 @@ add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(googletest-master/googletest)
 include_directories(googletest-master/googletest/include)
+
+MESSAGE(STATUS "End CmakeList")

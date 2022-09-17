@@ -27,3 +27,6 @@ add_executable(test_mysp.test
 target_link_libraries(test_mysp.test
         ${PROJECT_NAME} gtest pthread)
 
+set(MAIN_PATH ${PROJECT_SOURCE_DIR})
+MESSAGE( STATUS ${MAIN_PATH})
+configure_file(${PROJECT_SOURCE_DIR}/test/MyProjectPath.h.in ${PROJECT_SOURCE_DIR}/test/MyProjectPath.h)

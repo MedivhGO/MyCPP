@@ -21,9 +21,9 @@ TEST(MySort, test_bubblesort) {
 }
 
 TEST(MySort, test_heapsort) {
-    RandomNumberGenerator rng(-100000, -100000);
+    RandomNumberGenerator rng(-100000, 100000);
     vector<int> test_dataset;
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 10000; ++i) {
         test_dataset.push_back(rng.GetRandomNumberByMt19937());
     }
     std::vector<int> sorted_dataset = test_dataset;
@@ -53,10 +53,21 @@ TEST(MySort, test_mergesort) {
 }
 
 TEST(MySort, test_quicksort) {
-    std::vector<int> ivec = {4, 3, 2, 1, 5};
-    QuickSort(ivec, 0, ivec.size());
-    std::vector<int> res_vec = {1, 2, 3, 4, 5};
-    EXPECT_EQ(ivec, res_vec);
+    RandomNumberGenerator rng(-100000, 100000);
+    vector<int> test_dataset;
+    for (int i = 0; i < 10000; ++i) {
+        test_dataset.push_back(rng.GetRandomNumberByMt19937());
+    }
+    std::vector<int> sorted_dataset = test_dataset;
+    auto run_stdsort = [&]() {
+        std::sort(sorted_dataset.begin(), sorted_dataset.end());
+    };
+    auto run_mysort = [&]() {
+        QuickSort(test_dataset, 0, test_dataset.size());
+    };
+    run_stdsort();
+    run_mysort();
+    EXPECT_EQ(sorted_dataset, test_dataset);
 }
 
 TEST(MySort, test_selectsort) {
