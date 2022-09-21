@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include "MySharedPtr.h"
 #include "MyUniquePtr.h"
 #include "MyString.h"
@@ -255,3 +256,33 @@ TEST(MySmartPtrTest, TEST26) {
     MyWeakPtr<int> wptr1 = isp;
     EXPECT_EQ(wptr1.expired(), false);
 }
+
+class B;
+class A { // A 拥有一个B的指针
+  public:
+    A() : m_sptrB(nullptr) {};
+    ~A() { std::cout << " A is destroyed" << std::endl; }
+    MySharedPtr<B> m_sptrB;
+};
+
+class B { // B 拥有一个A的指针
+  public:
+    B() : m_sptrA() {};
+    ~B() { std::cout << " B is destroyed" << std::endl; }
+    MyWeakPtr<A> m_sptrA;
+};
+
+TEST(MySmartPtrTest, TEST27) {
+    MySharedPtr<B> sptrB(new B);         // 定义一个sptrB变量
+    MySharedPtr<A> sptrA(new A);         // 定义一个sptrA变量
+    std::cout << sptrA.use_count() << std::endl;  // 1 sptrA
+    std::cout << sptrB.use_count() << std::endl;  // 1 sptrB
+    sptrB->m_sptrA = sptrA;             // sptA count 2, sptrB拥有B, 申请A.
+    sptrA->m_sptrB = sptrB;             // sptB count 2, sptrA拥有A, 申请B.
+    std::cout << sptrA.use_count() << std::endl;  // 2
+    std::cout << sptrB.use_count() << std::endl;  // 2
+    // 所以直到最后, 资源都没有被释放, 因为这两个shared_ptr的引用计数都不是0。
+    // 内存泄漏了
+    // 使用 weakptr 解决
+}
+

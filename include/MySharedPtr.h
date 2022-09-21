@@ -370,7 +370,7 @@ MyWeakPtr<T>::MyWeakPtr() = default;
 
 template<typename T>
 MyWeakPtr<T>::MyWeakPtr(const MyWeakPtr<T> &x) {
-    this->Construct_From_Weak(x);
+    this->Weakly_Construct_From(x);
 }
 
 template<typename T>
@@ -386,7 +386,8 @@ MyWeakPtr<T> &MyWeakPtr<T>::operator=(const MyWeakPtr<T> &x) noexcept {
 
 template<typename T>
 MyWeakPtr<T> &MyWeakPtr<T>::operator=(const MySharedPtr<T> &x) noexcept {
-    MySharedPtr<T>(x).swap(*this);
+    MyWeakPtr<T>(x).swap(*this);
+    return *this;
 }
 
 template<typename T>
@@ -411,7 +412,7 @@ void MyWeakPtr<T>::reset() noexcept {
 
 template<typename T>
 void MyWeakPtr<T>::swap(MyWeakPtr<T> &x) noexcept {
-    MyWeakPtr<T>(x).swap(*this);
+    this->Swap(x);
 }
 
 // my_make_unique
