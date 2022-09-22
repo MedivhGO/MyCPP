@@ -110,7 +110,7 @@ MyUniquePtr<T>::operator bool() const {
 // my_make_unique
 
 template<typename T, typename ...Args>
-MyUniquePtr<T> my_make_unique(Args &&...args) {
+MyUniquePtr<T> my_make_unique(Args &&...args) { // 返回一个右值
     return MyUniquePtr<T>(new T(std::forward<Args>(args)...)); // std::forward current not be replaced by mine
 }
 
