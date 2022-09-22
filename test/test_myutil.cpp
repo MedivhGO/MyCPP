@@ -168,4 +168,16 @@ TEST(MyUtil, test_filereader) {
     }
 }
 
+void normal_function(const int& x) {
+    std::cout << "Call Normal Function" << std::endl;
+};
+
+void normal_function(int&& x) {
+    std::cout << "Call RightRef Function" << std::endl;
+};
+
+TEST(MyUtil, test_rightref) {
+    normal_function(10); // 右值优先绑定到右值引用的函数上
+}
+
 
