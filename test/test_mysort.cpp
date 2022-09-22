@@ -11,7 +11,6 @@
 #include "Sort/SelectSort.h"
 #include "Sort/BinarySearch.h"
 #include "MyRandom.h"
-#include "MyProfile.h"
 
 TEST(MySort, test_bubblesort) {
     std::vector<int> ivec = {4, 3, 2, 1, 5};

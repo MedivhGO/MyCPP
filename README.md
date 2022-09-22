@@ -14,6 +14,7 @@
 - 实现MyError
 - 实现MyHashMap
 - 实现常见的排序算法以及二分查找
+- 实现MyFileReader
 
 ## References
 See also:
