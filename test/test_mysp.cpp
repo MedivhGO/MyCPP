@@ -277,9 +277,9 @@ TEST(MySmartPtrTest, TEST27) {
     MySharedPtr<A> sptrA(new A);         // 定义一个sptrA变量
     std::cout << sptrA.use_count() << std::endl;  // 1 sptrA
     std::cout << sptrB.use_count() << std::endl;  // 1 sptrB
-    sptrB->m_sptrA = sptrA;             // sptA count 2, sptrB拥有B, 申请A.
+    sptrB->m_sptrA = sptrA;             // sptA count 1, sptrB拥有B, 申请一个A的弱指针并不拥有.
     sptrA->m_sptrB = sptrB;             // sptB count 2, sptrA拥有A, 申请B.
-    std::cout << sptrA.use_count() << std::endl;  // 2
+    std::cout << sptrA.use_count() << std::endl;  // 1
     std::cout << sptrB.use_count() << std::endl;  // 2
     // 所以直到最后, 资源都没有被释放, 因为这两个shared_ptr的引用计数都不是0。
     // 内存泄漏了
