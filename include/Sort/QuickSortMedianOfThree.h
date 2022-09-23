@@ -80,10 +80,10 @@ int QS::partition(int left, int right, int pivotIndex) {
     int up = left + 1;
     int down = right;
     while (up < down) {
-        while (m_array[up] <= pivot) {
+        while (up <= right && m_array[up] <= pivot) {
             up++;
         }
-        while (m_array[down] > pivot) {
+        while (down >= left && m_array[down] > pivot) {
             down--;
         }
         if (up < down) {
