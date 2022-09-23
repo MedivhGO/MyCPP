@@ -8,9 +8,11 @@
 #include "Sort/InsertSort.h"
 #include "Sort/MergeSort.h"
 #include "Sort/QuickSort.h"
+#include "Sort/QuickSortMedianOfThree.h"
 #include "Sort/SelectSort.h"
 #include "Sort/BinarySearch.h"
 #include "MyRandom.h"
+#include "MyProfile.h"
 
 TEST(MySort, test_bubblesort) {
     std::vector<int> ivec = {4, 3, 2, 1, 5};
@@ -67,6 +69,21 @@ TEST(MySort, test_quicksort) {
     run_stdsort();
     run_mysort();
     EXPECT_EQ(sorted_dataset, test_dataset);
+}
+
+TEST(MySort, test_quicksortmedianofthree) {
+    RandomNumberGenerator rng(-100000, 100000);
+    vector<int> test_dataset;
+    for (int i = 0; i < 1000000; ++i) {
+        test_dataset.push_back(rng.GetRandomNumberByMt19937());
+    }
+    QS qs(test_dataset);
+    auto tmp = [&]() {
+        qs.sortAll();
+    };
+    auto res1 = measure(QuickSort,test_dataset, 0, test_dataset.size()).count();
+    auto res2 = measure(tmp).count();
+    EXPECT_LT(res1, res2);
 }
 
 TEST(MySort, test_selectsort) {
