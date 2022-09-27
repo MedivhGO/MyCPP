@@ -112,3 +112,14 @@ TEST(MyCppFeatureTest, test7) {
     std::cout << "done!" << std:: endl << "future result is "
               << result.get() << std::endl;
 }
+
+TEST(MyCppFeatureTest, test8) {
+    // runtime type identification, RTTI
+    // typeid 返回表达式的类型
+    int a = 10;
+    double b = 10;
+    EXPECT_NE(typeid(a), typeid(b));
+    EXPECT_NE(typeid(a), typeid(double));
+    EXPECT_STREQ("d", typeid(double).name());
+}
+
