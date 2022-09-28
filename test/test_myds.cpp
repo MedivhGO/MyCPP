@@ -6,6 +6,7 @@
 #include "MyRandom.h"
 #include "MySkipList.h"
 #include "hashmap.h"
+#include "MyRBTree.h"
 
 TEST(MyDataStructTest, test1) {
     Skiplist skiplist;
@@ -59,4 +60,8 @@ TEST(MyDataStructTest, test2) {
     HashMap<string, int> map8;
     map8 = std::move(map6);
     EXPECT_EQ(map8, map3);
+}
+
+TEST(MyDataStructTest, test_rbtree) {
+    MyRBTree<int> rb_tree;
 }

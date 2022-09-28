@@ -123,3 +123,18 @@ TEST(MyCppFeatureTest, test8) {
     EXPECT_STREQ("d", typeid(double).name());
 }
 
+class A{};
+class A_int{int a;};
+class A_char{char a;};
+
+TEST(MyCppFeatureTest, test9) {
+    EXPECT_EQ(sizeof(A),1);
+    EXPECT_EQ(sizeof(A_int), 4);
+    EXPECT_EQ(sizeof(A_char), 1);
+}
+
+TEST(MyCppFeatureTest, test10) {
+    int a = 10;
+    decltype(a) b = 20;
+    EXPECT_STREQ("i", typeid(b).name());
+}
