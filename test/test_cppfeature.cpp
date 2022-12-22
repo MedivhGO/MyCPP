@@ -138,3 +138,27 @@ TEST(MyCppFeatureTest, test10) {
     decltype(a) b = 20;
     EXPECT_STREQ("i", typeid(b).name());
 }
+
+// https://unique-ptr.com/archives/68
+template <typename Iterator>
+auto my_distance(Iterator begin, Iterator end) {
+    using Traits = std::iterator_traits<Iterator>;
+    if constexpr (
+        std::is_base_of_v<std::random_access_iterator_tag, typename Traits::iterator_category>
+    ) {
+        return end - begin;
+    } else {
+        auto result = typename Traits::difference_type();
+        for (auto it= begin; it != end; ++it) {
+            ++result;
+        }
+        return result;
+    }
+}
+
+TEST(MyCppFeatureTest, test11) {
+    // C++ 17 if constexpr
+    std::vector<int> ivec{1, 2, 3, 4, 5};
+    int res = my_distance(ivec.begin(), ivec.end());
+    EXPECT_EQ(res, 5);
+}
