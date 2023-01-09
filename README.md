@@ -16,6 +16,7 @@
 - 实现常见的排序算法以及二分查找
 - 实现MyFileReader
 - 实现MyRBTree
+- 实现异步日志
 
 ## References
 

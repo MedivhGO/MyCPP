@@ -2,10 +2,15 @@ set(header_path "${${PROJECT_NAME}_SOURCE_DIR}/include")
 set(header ${header_path}/MyString.h)
 set(src MyString.cpp)
 
+set(head_log ${header_path}/log.h)
+set(src_log log.cpp)
 
 add_library(${PROJECT_NAME} SHARED
         ${header}
-        ${src})
+        ${src}
+        ${head_log}
+        ${src_log})
+
 target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
         ${${PROJECT_NAME}_SOURCE_DIR}/include)

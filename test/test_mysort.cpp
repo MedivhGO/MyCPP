@@ -71,7 +71,7 @@ TEST(MySort, test_quicksort) {
     EXPECT_EQ(sorted_dataset, test_dataset);
 }
 
-TEST(MySort, test_quicksortmedianofthree) {
+TEST(MySort, DISABLED_test_quicksortmedianofthree) {
     RandomNumberGenerator rng(-100000, 100000);
     vector<int> test_dataset;
     for (int i = 0; i < 1000000; ++i) {

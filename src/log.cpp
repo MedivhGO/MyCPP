@@ -1,13 +1,18 @@
-#ifndef INCLUDE_STB_LOG_H
+//#ifndef INCLUDE_STB_LOG_H
+//#include "log.h"
+//#endif
+//#ifdef STB_LOG_IMPLEMENTATION
+
 #include "log.h"
-#endif
-#ifdef STB_LOG_IMPLEMENTATION
 #include <sys/stat.h>
 #include <cstdarg>
 #include <ctime>
 #include <string>
 #include <algorithm>
 #include <cassert>
+#include <climits>
+//#include <intrin.h>
+
 
 #define ASSERT_ALIGNMENT(ptr, align) assert((ptr) && ((uintptr_t(ptr) % (align)) == 0))
 
@@ -196,7 +201,7 @@ uint64_t CLogger::claim(uint64_t count) {
 		while (request_seq > seq + m_size_mask) {
 			if(loop_count < YIELD) {
 				for (spin_count = SPIN; spin_count > 0; --spin_count)
-					_mm_pause(); // pause, about 12ns
+					;//_mm_pause(); // pause, about 12ns
 			}
 			else {
 				unsigned yield_count = loop_count - YIELD;
@@ -632,4 +637,4 @@ std::pair<char*, size_t> CLogString::getstr(size_t required_size)
 #ifdef USE_NAMESPACE
 }
 #endif
-#endif // STB_LOG_IMPLEMENTATION
+//#endif // STB_LOG_IMPLEMENTATION

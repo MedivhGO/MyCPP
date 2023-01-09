@@ -1,5 +1,5 @@
-#ifndef INCLUDE_STB_LOG_H
-#define INCLUDE_STB_LOG_H
+//#ifndef INCLUDE_STB_LOG_H
+//#define INCLUDE_STB_LOG_H
 
 #include <vector>
 #include <atomic>
@@ -709,4 +709,4 @@ private:
 #ifdef USE_NAMESPACE
 }
 #endif
-#endif // INCLUDE_STB_LOG_H
+//#endif // INCLUDE_STB_LOG_H
