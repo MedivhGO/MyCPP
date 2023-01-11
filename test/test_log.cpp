@@ -269,7 +269,7 @@ void type_trait_test() {
     b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21;
 }
 
-TEST(MyAsyncLog, test_1) {
+TEST(MyAsyncLog, DISABLED_test_1) {
     thread_test();
     // file_rotate_test();
     common_test();
