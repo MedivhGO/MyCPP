@@ -170,6 +170,4 @@ void QS::bubbleSort(vector<int>& data, int len) {
     }
 }
 
-
-
 #endif // MYCPPIMPLEMENT_QUICKSORTMEDIANOFTHREE_H
