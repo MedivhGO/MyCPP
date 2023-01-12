@@ -40,7 +40,7 @@ class BST {
 
     Node *&get_root();
     void bfs(std::function<void(Node *&node)> func) const;
-    size_t length() const;
+    size_t length() const;           // bst 中的节点数
     bool add_node(const int &value);
     Node **find_node(int value);
     Node **find_parrent(int value);
