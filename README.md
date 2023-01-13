@@ -18,6 +18,35 @@
 - 实现MyRBTree
 - 实现异步日志
 
+## dependencies
+
+- C++ 20
+
+## build
+
+```shell
+git clone https://github.com/MedivhGO/MyCppImplement.git
+cd MyCppImplement
+mkdir build
+cd build
+cmake ..
+make
+```
+
+## run
+
+```shell
+cd build/test
+./test_case
+```
+
+## valgrind
+
+```shell
+/usr/bin/valgrind --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ./build/test/MyCppImplement.test
+```
+
+
 ## References
 
 See also:

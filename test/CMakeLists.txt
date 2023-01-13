@@ -24,7 +24,14 @@ add_executable(test_mysp.test
         test_mysp.cpp
         )
 
+add_executable(test_mymat.test
+        test_mymat.cpp
+        )
+
 target_link_libraries(test_mysp.test
+        ${PROJECT_NAME} gtest pthread)
+
+target_link_libraries(test_mymat.test
         ${PROJECT_NAME} gtest pthread)
 
 set(MAIN_PATH ${PROJECT_SOURCE_DIR})
