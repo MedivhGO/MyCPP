@@ -33,6 +33,12 @@ cmake ..
 make
 ```
 
+modify test/CMakeList.txt file to generate correspond single unit test executable file.
+
+- add_executable
+
+- target_link_libraries
+
 ## run
 
 ```shell
@@ -41,6 +47,8 @@ cd build/test
 ```
 
 ## valgrind
+
+to check memory leak, you can use blow command.
 
 ```shell
 /usr/bin/valgrind --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ./build/test/MyCppImplement.test

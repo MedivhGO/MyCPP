@@ -25,6 +25,7 @@ add_executable(test_mysp.test
         )
 
 add_executable(test_mymat.test
+        AllTests.cpp
         test_mymat.cpp
         )
 
