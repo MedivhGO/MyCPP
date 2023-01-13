@@ -35,6 +35,8 @@ make
 
 modify test/CMakeList.txt file to generate correspond single unit test executable file.
 
+add below code:
+
 - add_executable
 
 - target_link_libraries
@@ -43,7 +45,7 @@ modify test/CMakeList.txt file to generate correspond single unit test executabl
 
 ```shell
 cd build/test
-./test_case
+./test_case.test
 ```
 
 ## valgrind
