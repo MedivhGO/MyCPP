@@ -20,7 +20,9 @@
 
 ## dependencies
 
-- C++ 20 (需要 gcc 10)
+- C++ 20
+- required gcc-10 g++-10
+- cmake 3.21 or higher
 
 ## build
 

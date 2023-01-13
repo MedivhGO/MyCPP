@@ -54,7 +54,7 @@ else()
   set(GOOGLETEST_VERSION 1.9.0)
   project(gtest VERSION ${GOOGLETEST_VERSION} LANGUAGES CXX C)
 endif()
-cmake_minimum_required(VERSION 2.6.4)
+cmake_minimum_required(VERSION 3.25.1)
 
 if (POLICY CMP0063) # Visibility
   cmake_policy(SET CMP0063 NEW)

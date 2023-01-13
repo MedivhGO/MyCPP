@@ -24,11 +24,6 @@ std::partial_ordering BST::Node::operator<=>(const Node &_node) const { return v
 BST::BST() : root{nullptr} {}
 
 BST::~BST() {
-    std::vector<Node *> nodes;
-    bfs([&nodes](BST::Node *&node) { nodes.push_back(node); });
-    for (auto &node : nodes) {
-        delete node;
-    }
 }
 
 BST::BST(const BST &_bst) : BST() {
