@@ -19,7 +19,7 @@ class BST {
       public:
         Node(int value, Node *left = nullptr, Node *right = nullptr);
         Node();                 // Default Constructor
-        Node(const Node &node); // Copy Cunstructor
+        Node(const Node &node); // Copy Constructor
 
         bool operator==(const Node &) const;
         std::partial_ordering operator<=>(const Node &) const;
@@ -31,7 +31,7 @@ class BST {
     };
 
     BST();                           // Default Constructor
-    BST(const BST &bst);             // Copy Cunstructor
+    BST(const BST &bst);             // Copy Constructor
     ~BST();                          // Destructor
     BST(BST &&source);               // Move Constructor
     BST(std::initializer_list<int>); // Initializer List Constructor
