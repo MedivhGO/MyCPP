@@ -20,15 +20,16 @@
 
 ## dependencies
 
-- C++ 20
-- required gcc-10 g++-10
-- cmake 3.21 or higher
+to support C++ 20 feature
+
+- required gcc-10 g++-10 or higher
+- required cmake 3.21 or higher
 
 ## build
 
 ```shell
-git clone https://github.com/MedivhGO/MyCppImplement.git
-cd MyCppImplement
+git clone https://github.com/MedivhGO/MyCPP.git
+cd MyCPP
 mkdir build
 cd build
 cmake ..
