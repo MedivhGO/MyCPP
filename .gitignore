@@ -1,5 +1,5 @@
 cmake-build-debug/
-googletest-master/
+third_party/googletest/
 test/MyProjectPath.h
 .idea
 log/
