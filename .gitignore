@@ -2,3 +2,4 @@ cmake-build-debug/
 googletest-master/
 test/MyProjectPath.h
 .idea
+log/
