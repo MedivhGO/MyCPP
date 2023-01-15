@@ -2,4 +2,5 @@ cmake-build-debug/
 third_party/googletest/
 test/MyProjectPath.h
 .idea
-log/
+log/!/test/MyProjectPath.h
+!/test/MyProjectPath.h

@@ -158,7 +158,7 @@ TEST(MyBST, TEST12) {
 
     BST::Node **node{bst.find_node(10)};
     EXPECT_EQ((*node)->value, 10);
-    EXPECT_EQ((*node)->left->value, 7);
+    EXPECT_EQ(((*node)->left)->value, 7);
     EXPECT_EQ((*node)->right->value, 15);
 }
 

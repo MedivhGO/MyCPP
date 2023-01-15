@@ -10,13 +10,12 @@
 - [x] 实现MyMatrix(strassen实现矩阵乘法)
 - [x] 实现Singleton
 - [ ] 实现MyMalloc
-- [ ] 实现MyBST(binary search tree)
+- [x] 实现MyBST(binary search tree)
 - [x] 实现MyError
 - [x] 实现MyHashMap
 - [x] 实现常见的排序算法以及二分查找
 - [x] 实现MyFileReader
 - [ ] 实现MyRBTree
-- [x] 实现异步日志
 
 ## dependencies
 
@@ -71,5 +70,3 @@ See also:
 - https://github.com/DanesH-Abdollahi/DanesH-Abdollahi-AP_1400_HW4
 - https://github.com/heysulo/MyMalloc
 - https://github.com/0xf3cd/Compiler-Tokenizer
-- https://github.com/wangyongcong/stb_log
-
