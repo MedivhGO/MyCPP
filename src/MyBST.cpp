@@ -118,16 +118,69 @@ BST::Node **BST::find_parrent(int _value) {
     }
 
     while((*ret)->right || (*ret)->left) {
-        break;
+        if ((*ret)->right && (*ret)->value < _value && (*ret)->right->value == _value) {
+            return ret;
+        } else if ((*ret)->left && (*ret)->value > _value && (*ret)->left->value == _value) {
+            return ret;
+        }
+
+        if ((*ret) && (*ret)->value < _value) {
+            ret = &(*ret)->right;
+        } else if ((*ret) && (*ret)->value > _value) {
+            ret = &(*ret)->left;
+        }
     }
     return nullptr;
 }
 
+// 前驱结点：节点val值小于该节点val值并且值最大的节点
+// find_predecessor
+BST::Node **BST::find_predecessor(int _value) {
+    Node** target_node{find_node(_value)};
+    if (target_node == nullptr) {
+        return nullptr;
+    }
+
+    if (!(*target_node)->left) {
+        return target_node;
+    } else {
+        target_node = &((*target_node)->left);
+    }
+
+    while ((*target_node)->right) {
+        target_node = &((*target_node)->right);
+    }
+
+    return target_node;
+}
+
+// 后继节点：节点val值大于该节点val值并且值最小的节点
+// find_successor
 BST::Node **BST::find_successor(int _value) {
-    return nullptr;
+    Node** target_node{find_node(_value)};
+    if (target_node == nullptr) {
+        return nullptr;
+    }
+
+    if (!((*target_node)->right)) {
+        return target_node;
+    } else {
+        target_node = &((*target_node)->right);
+    }
+
+    while((*target_node)->left) {
+        target_node = &((*target_node)->left);
+    }
+
+    return target_node;
 }
 
 bool BST::delete_node(int _value) {
+    Node** one_node = find_node(_value);
+    if (one_node == nullptr) {
+        return false;
+    }
+    Node* target_node = *one_node;
     return true;
 }
 

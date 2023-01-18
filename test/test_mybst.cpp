@@ -203,7 +203,7 @@ TEST(MyBST, TEST15) {
     bst.add_node(8);
     bst.add_node(9);
 
-    BST::Node **node{bst.find_successor(10)};
+    BST::Node **node{bst.find_predecessor(10)};
     EXPECT_EQ((*node)->value, 9);
     EXPECT_EQ((*node)->left, nullptr);
     EXPECT_EQ((*node)->right, nullptr);
@@ -460,7 +460,7 @@ TEST(MyBST, TEST28) {
 TEST(MyBST, TEST29) {
     BST bst1{5, 1, 10, 2, 8, 50, 4, 60};
     BST bst2{3, 2, 100, 20, 8, 50, 4, 60, 44, 23};
-    EXPECT_EQ((*bst1.find_successor(5))->value, 4);
+    EXPECT_EQ((*bst1.find_predecessor(5))->value, 4);
     EXPECT_EQ(bst2.length(), 10);
 }
 

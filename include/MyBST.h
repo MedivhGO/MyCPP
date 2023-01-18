@@ -44,6 +44,7 @@ class BST {
     bool add_node(const int &value);
     Node **find_node(int value);
     Node **find_parrent(int value);
+    Node **find_predecessor(int value);
     Node **find_successor(int value);
     bool delete_node(int value);
 
