@@ -7,7 +7,9 @@ add_executable(${PROJECT_NAME}.test
         test_mymat.cpp
         test_myutil.cpp
         test_myds.cpp
-        test_cppfeature.cpp test_mysort.cpp test_mybst.cpp)
+        test_cppfeature.cpp
+        test_mysort.cpp
+        test_mybst.cpp)
 
 target_link_libraries(${PROJECT_NAME}.test
         ${PROJECT_NAME} gtest pthread)

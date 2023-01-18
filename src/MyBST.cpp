@@ -200,10 +200,16 @@ BST &BST::operator=(BST &&_bst) {
     return *this;
 }
 
+//operator++ Implement both ++ operators so that they would add 1 to each and every nodes in the tree.
+//do not forget the difference between bst++ and ++bst.
+
 const BST &BST::operator++() const {
+    bfs([](BST::Node *&node) { (node->value)++; });
     return *this;
 }
 
 const BST BST::operator++(int) const {
-    return *this;
+    BST ret(*this);
+    bfs([](BST::Node *&node) { (node->value)++; });
+    return ret;
 }
