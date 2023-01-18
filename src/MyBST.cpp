@@ -36,7 +36,11 @@ BST::BST(const BST &_bst) : BST() {
 }
 
 BST::BST(BST &&source) {
-
+    if (this == &source) {
+        return;
+    }
+    root = source.root;
+    source.root = nullptr;
 }
 
 BST::BST(std::initializer_list<int> _list) : BST() {
@@ -193,21 +197,29 @@ std::ostream &operator<<(std::ostream &_output, const BST &_bst) {
 }
 
 BST &BST::operator=(const BST &_bst) {
+    if (&_bst == this) {
+        return *this;
+    }
+    this->~BST();
+    root = nullptr;
+    _bst.bfs([this](BST::Node *&node) { this->add_node(node->value); });
     return *this;
 }
 
 BST &BST::operator=(BST &&_bst) {
+    this->~BST();
+    root = _bst.root;
+    _bst.root = nullptr;
     return *this;
 }
 
-//operator++ Implement both ++ operators so that they would add 1 to each and every nodes in the tree.
-//do not forget the difference between bst++ and ++bst.
-
+// ++object
 const BST &BST::operator++() const {
     bfs([](BST::Node *&node) { (node->value)++; });
     return *this;
 }
 
+// object++
 const BST BST::operator++(int) const {
     BST ret(*this);
     bfs([](BST::Node *&node) { (node->value)++; });
