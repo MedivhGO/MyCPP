@@ -21,7 +21,7 @@ TEST(MyDataStructTest, test1) {
 }
 
 template <typename KeyType, typename MappedTyped>
-std::set<KeyType> find_keys(const HashMap<KeyType, MappedTyped> &map) {
+std::set<KeyType> FindKeys(const HashMap<KeyType, MappedTyped> &map) {
     std::set<KeyType> res;
     for (auto it = map.begin(); it != map.end(); ++it) {
         auto [key, val] = *it;
@@ -39,7 +39,7 @@ TEST(MyDataStructTest, test2) {
     map.insert({"Frankie", 2021});
     map.insert({"Sathya", 2021});
 
-    std::set<string> keys = find_keys(map);
+    std::set<string> keys = FindKeys(map);
     EXPECT_EQ(keys.size(), 6);
 
     map.rehash(5);

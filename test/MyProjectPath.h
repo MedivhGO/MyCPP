@@ -1,1 +1,1 @@
-#define PROJECT_PATH "/mnt/c/Users/Administrator/CLionProjects/MyCPP"
+#define PROJECT_PATH "/mnt/c/Users/lijin/CLionProjects/MyCppImplement"

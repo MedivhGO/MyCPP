@@ -15,28 +15,28 @@
 class MutexLock : noncopyable {
 public:
     MutexLock() {
-        pthread_mutex_init(&mutex, NULL);
+        pthread_mutex_init(&mutex_, NULL);
     }
 
     ~MutexLock() {
-        pthread_mutex_lock(&mutex);
-        pthread_mutex_destroy(&mutex);
+        pthread_mutex_lock(&mutex_);
+        pthread_mutex_destroy(&mutex_);
     }
 
-    void lock() {
-        pthread_mutex_lock(&mutex);
+    void Lock() {
+        pthread_mutex_lock(&mutex_);
     }
 
-    void unlock() {
-        pthread_mutex_unlock(&mutex);
+    void Unlock() {
+        pthread_mutex_unlock(&mutex_);
     }
 
-    pthread_mutex_t *get() {
-        return &mutex;
+    pthread_mutex_t *Get() {
+        return &mutex_;
     }
 
 private:
-    pthread_mutex_t mutex;
+    pthread_mutex_t mutex_{};
 
 private:
     friend class Condition;
@@ -44,16 +44,16 @@ private:
 
 class MutexLockGuard {
 public:
-    explicit MutexLockGuard(MutexLock &_mutex) : m(_mutex) {
-        m.lock();
+    explicit MutexLockGuard(MutexLock &_mutex) : m_(_mutex) {
+        m_.Lock();
     }
 
     ~MutexLockGuard() {
-        m.unlock();
+        m_.Unlock();
     }
 
 private:
-    MutexLock &m;
+    MutexLock &m_;
 };
 
 #endif //MUTEXLOCK_H

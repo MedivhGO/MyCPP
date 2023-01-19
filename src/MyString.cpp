@@ -71,11 +71,11 @@ MyString& MyString::operator=(MyString &&other) noexcept {
     return *this;
 }
 
-size_t MyString::length() const{
+auto MyString::length() const -> size_t{
     return strlen(s_data);
 }
 
-const char *MyString::get() const {
+auto MyString::get() const -> const char * {
     return s_data;
 }
 
@@ -86,7 +86,7 @@ MyString::~MyString() {
 }
 
 // friend operator functions
-MyString operator+ (const MyString& lhs, const MyString& rhs) {
+auto operator+ (const MyString& lhs, const MyString& rhs) -> MyString {
     size_t len1 = lhs.length();
     size_t len2 = rhs.length();
     size_t total_len = len1 + len2;
@@ -96,12 +96,12 @@ MyString operator+ (const MyString& lhs, const MyString& rhs) {
     return MyString(tmp);
 }
 
-std::ostream& operator<< (std::ostream& os, const MyString& str) {
+auto operator<< (std::ostream& os, const MyString& str) -> std::ostream& {
     os << str.get();
     return os;
 }
 
-std::istream& operator>> (std::istream& is, MyString& str) {
+auto operator>> (std::istream& is, MyString& str) -> std::istream& {
     std::string tmp;
     is >> tmp; // 拷贝一次
     //str = MyString(tmp); // 拷贝两次, 一共拷贝了3次
@@ -113,14 +113,14 @@ bool operator==(const MyString& lhs, const MyString& rhs) {
     return strcmp(lhs.get(), rhs.get()) == 0;
 }
 
-bool operator!=(const MyString& lhs, const MyString& rhs) {
+auto operator!=(const MyString& lhs, const MyString& rhs) -> bool {
     return !(lhs == rhs);
 }
 
-bool operator>=(const MyString& lhs, const MyString& rhs) {
+auto operator>=(const MyString& lhs, const MyString& rhs) -> bool {
     return (strcmp(lhs.get(), rhs.get()) >= 0);
 }
-bool operator<=(const MyString& lhs, const MyString& rhs) {
+auto operator<=(const MyString& lhs, const MyString& rhs) -> bool {
     return (strcmp(lhs.get(), rhs.get()) <= 0);
 }
 
@@ -131,7 +131,7 @@ void swap(MyString& lhs, MyString& rhs) {
 }
 
 // member operator function
-const MyString& MyString::operator!() {
+auto MyString::operator!() -> const MyString& {
     size_t len = length();
     for(int i=0;i<len;i++) {
         if(s_data[i]>='a'&& s_data[i] <= 'z' ) {
@@ -141,11 +141,11 @@ const MyString& MyString::operator!() {
     return *this;
 }
 
-char& MyString::operator[](int idx) {
+auto MyString::operator[](int idx) -> char& {
     return s_data[idx];
 }
 
-const char& MyString::operator[](int idx) const {
+auto MyString::operator[](int idx) const -> const char& {
     return s_data[idx];
 }
 
@@ -174,11 +174,11 @@ int MyString::operator()(const MyString& substr) const {
     return -1;
 }
 
-int MyString::operator()(const char* substr) const {
+auto MyString::operator()(const char* substr) const -> int {
     return MyString::operator()(MyString(substr));
 }
 
-MyString& MyString::operator+=(const char* rhs) {
+auto MyString::operator+=(const char* rhs) -> MyString& {
     size_t len = strlen(rhs);
     size_t old_len = strlen(s_data);
     char* new_data = new char[len+old_len+1];

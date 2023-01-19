@@ -4,6 +4,7 @@ project(MyCppImplement)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -g")
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -ASAN_OPTIONS=detect_odr_violation=0")
+set (CMAKE_CXX_FLAGS "-DCMAKE_EXPORT_COMPILE_COMMANDS=1")
 
 MESSAGE(STATUS "Begin CmakeList")
 

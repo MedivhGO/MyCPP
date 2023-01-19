@@ -17,43 +17,43 @@ class BST {
   public:
     class Node {
       public:
-        Node(int value, Node *left = nullptr, Node *right = nullptr);
+        explicit Node(int value, Node *left = nullptr, Node *right = nullptr);
         Node();                 // Default Constructor
         Node(const Node &node); // Copy Constructor
 
-        bool operator==(const Node &) const;
-        std::partial_ordering operator<=>(const Node &) const;
-        friend std::ostream &operator<<(std::ostream &, const BST::Node &);
+        auto operator==(const Node &) const -> bool;
+        auto operator<=>(const Node &) const -> std::partial_ordering;
+        friend auto operator<<(std::ostream &, const BST::Node &) -> std::ostream &;
 
-        int value;
-        Node *left;
-        Node *right;
+        int value_;
+        Node *left_;
+        Node *right_;
     };
 
     BST();                           // Default Constructor
     BST(const BST &bst);             // Copy Constructor
     ~BST();                          // Destructor
-    BST(BST &&source);               // Move Constructor
+    BST(BST &&source) noexcept ;               // Move Constructor
     BST(std::initializer_list<int>); // Initializer List Constructor
-    BST &operator=(const BST &);     // Copy Version
-    BST &operator=(BST &&);          // Move Version
+    auto operator=(const BST &) -> BST &;     // Copy Version
+    BST &operator=(BST &&) noexcept ;          // Move Version
 
-    Node *&get_root();
-    void bfs(std::function<void(Node *&node)> func) const;
-    size_t length() const;           // bst 中的节点数
-    bool add_node(const int &value);
-    Node **find_node(int value);
-    Node **find_parrent(int value);
-    Node **find_predecessor(int value);
-    Node **find_successor(int value);
-    bool delete_node(int value);
+    Node *&GetRoot();
+    void Bfs(std::function<void(Node *&node)> func) const;
+    size_t Length() const;           // bst 中的节点数
+    bool AddNode(const int &value);
+    Node **FindNode(int value);
+    Node **FindParrent(int value);
+    Node **FindPredecessor(int value);
+    Node **FindSuccessor(int value);
+    bool DeleteNode(int value);
 
-    const BST &operator++() const;   // Left ++
-    const BST operator++(int) const; // Right ++
-    friend std::ostream &operator<<(std::ostream &, const BST &);
+    auto operator++() const -> const BST &;   // Left ++
+    auto operator++(int) const -> const BST; // Right ++
+    friend auto operator<<(std::ostream &, const BST &) -> std::ostream &;
 
   private:
-    Node *root;
+    Node *root_;
 };
 
 #endif // MYCPPIMPLEMENT_MYBST_H
