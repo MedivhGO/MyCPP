@@ -184,8 +184,62 @@ bool BST::delete_node(int _value) {
     if (one_node == nullptr) {
         return false;
     }
-    Node* target_node = *one_node;
-    return true;
+    Node** parent_node = find_parrent(_value);
+    // 是叶子节点
+    if (!(*one_node)->left && !(*one_node)->right) {
+        if ((*one_node)->value > (*parent_node)->value) {
+            delete (*one_node);
+            (*parent_node)->right = nullptr;
+        } else {
+            delete (*one_node);
+            (*parent_node)->left = nullptr;
+        }
+        return true;
+    }
+    // one_node 有两个孩子
+    if ((*one_node)->left && (*one_node)->right) {
+        Node* t = (*one_node)->right;
+        Node* del_left = (*one_node)->left;
+        Node* find_sub_left = (*one_node)->right;
+        while (find_sub_left->left) {
+            find_sub_left = find_sub_left->left;
+        }
+        find_sub_left->left = del_left;
+
+        if ((*one_node)->value > (*parent_node)->value) {
+            delete (*one_node);
+            (*parent_node)->right = t;
+        } else {
+            delete (*one_node);
+            (*parent_node)->left = t;
+        }
+        return true;
+    }
+    // one_node 有一个孩子
+    if ((*one_node)->left) {
+        Node* t = (*one_node)->left;
+        if ((*one_node)->value > (*parent_node)->value) {
+            delete (*one_node);
+            (*parent_node)->right = t;
+        } else {
+            delete (*one_node);
+            (*parent_node)->left = t;
+        }
+        return true;
+    }
+
+    if ((*one_node)->right) {
+        Node* t = (*one_node)->right;
+        if ((*one_node)->value > (*parent_node)->value) {
+            delete (*one_node);
+            (*parent_node)->right = t;
+        } else {
+            delete (*one_node);
+            (*parent_node)->left = t;
+        }
+        return true;
+    }
+    return false;
 }
 
 std::ostream &operator<<(std::ostream &_output, const BST &_bst) {
