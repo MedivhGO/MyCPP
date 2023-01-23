@@ -15,7 +15,7 @@
 class MutexLock : noncopyable {
 public:
     MutexLock() {
-        pthread_mutex_init(&mutex_, NULL);
+        pthread_mutex_init(&mutex_, nullptr);
     }
 
     ~MutexLock() {
@@ -31,7 +31,7 @@ public:
         pthread_mutex_unlock(&mutex_);
     }
 
-    pthread_mutex_t *Get() {
+    auto Get() -> pthread_mutex_t * {
         return &mutex_;
     }
 

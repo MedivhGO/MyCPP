@@ -14,17 +14,17 @@
 template<typename T>
 class Cache {
 public:
-    std::shared_ptr<const T> fastLoadT(std::thread::id id);
-    int getCacheSize() { return cache.size(); }
+    std::shared_ptr<const T> FastLoadT(std::thread::id id);
+    int GetCacheSize() { return cache_.size(); }
 private:
-    std::unique_ptr<const T> loadT(std::thread::id id);
+    auto LoadT(std::thread::id id) -> std::unique_ptr<const T>;
 
-    MutexLock m;
-    std::unordered_map<std::thread::id, std::weak_ptr<const T>> cache;
+    MutexLock m_;
+    std::unordered_map<std::thread::id, std::weak_ptr<const T>> cache_;
 };
 
 template<typename  T>
-std::unique_ptr<const T> Cache<T>::loadT(std::thread::id id) {
+auto Cache<T>::LoadT(std::thread::id id) -> std::unique_ptr<const T> {
     if (std::is_same<T, int>::value) {
         return std::make_unique<const int>(9999);
     }
@@ -32,14 +32,14 @@ std::unique_ptr<const T> Cache<T>::loadT(std::thread::id id) {
 }
 
 template<typename  T>
-std::shared_ptr<const T> Cache<T>::fastLoadT(std::thread::id id) {
-    MutexLockGuard lm(m);
-    auto objPtr = cache[id].lock();
-    if (!objPtr) {
-        objPtr = loadT(id);
-        cache[id] = objPtr;
+auto Cache<T>::FastLoadT(std::thread::id id) -> std::shared_ptr<const T> {
+    MutexLockGuard lm(m_);
+    auto obj_ptr = cache_[id].lock();
+    if (!obj_ptr) {
+        obj_ptr = LoadT(id);
+        cache_[id] = obj_ptr;
     }
-    return objPtr;
+    return obj_ptr;
 }
 
 #endif //MYCPPIMPLEMENT_MYCACHE_H

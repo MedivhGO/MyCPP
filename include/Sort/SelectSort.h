@@ -7,9 +7,7 @@
 
 #include <vector>
 
-using namespace std;
-
-void SelectSort(vector<int> &data, int len) {
+void SelectSort(std::vector<int> &data, int len) {
     if (len == 0) {
         return;
     }

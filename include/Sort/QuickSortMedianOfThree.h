@@ -157,7 +157,7 @@ void QS::quickSort(int left, int right) {
 
 void QS::bubbleSort(vector<int>& data, int len) {
     for (int i = 0; i < len - 1; ++i) {
-        int skip = false;
+        bool skip = false;
         for (int j = len - 1; j > i; --j) {
             if (data[j] < data[j-1]) {
                 swap(data[j], data[j - 1]);

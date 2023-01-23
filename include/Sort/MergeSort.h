@@ -8,10 +8,8 @@
 
 #include <vector>
 
-using namespace std;
-
-void merge(vector<int> &a, int start, int mid, int end) {
-    int *tmp = (int *)malloc((end - start) * sizeof(int)); // 分配一个临时空间用于排序
+void Merge(std::vector<int> &a, int start, int mid, int end) {
+    int *tmp = static_cast<int *>(malloc((end - start) * sizeof(int))); // 分配一个临时空间用于排序
     int i = start;
     int j = mid;
     int k = 0;
@@ -34,14 +32,14 @@ void merge(vector<int> &a, int start, int mid, int end) {
     free(tmp);
 }
 
-void MergeSort(vector<int> &a, int start, int end) {
+void MergeSort(std::vector<int> &a, int start, int end) {
     if (end - start <= 1) { // 当还剩一个元素的时候就推出
         return;
     }
     int mid = (end  + start) / 2;
     MergeSort(a, start, mid);
     MergeSort(a, mid, end);
-    merge(a, start, mid, end);
+    Merge(a, start, mid, end);
 }
 
 #endif // APUE_MERGESORT_H

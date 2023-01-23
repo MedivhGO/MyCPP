@@ -8,9 +8,7 @@
 
 #include <vector>
 
-using namespace std;
-
-void InsertSort(vector<int> &data, int len) {
+void InsertSort(std::vector<int> &data, int len) {
     if (len == 0) {
         return;
     }

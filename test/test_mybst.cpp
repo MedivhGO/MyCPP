@@ -10,37 +10,37 @@ TEST(MyBST, TEST1) {
     BST::Node left{10, nullptr, nullptr};
     BST::Node right{10, nullptr, nullptr};
     BST::Node node{10, &left, &right};
-    EXPECT_EQ(node.left, &left);
-    EXPECT_EQ(node.right, &right);
+    EXPECT_EQ(node.left_, &left);
+    EXPECT_EQ(node.right_, &right);
 }
 
 TEST(MyBST, TEST2) {
 
-    BST::Node left{10, nullptr, nullptr};
+    BST::Node left_{10, nullptr, nullptr};
     BST::Node right{10, nullptr, nullptr};
-    BST::Node node{10, &left, &right};
+    BST::Node node{10, &left_, &right};
     BST::Node copy{node};
-    EXPECT_EQ(copy.value, node.value);
-    EXPECT_EQ(copy.left, node.left);
-    EXPECT_EQ(copy.right, node.right);
+    EXPECT_EQ(copy.value_, node.value_);
+    EXPECT_EQ(copy.left_, node.left_);
+    EXPECT_EQ(copy.right_, node.right_);
 }
 
 TEST(MyBST, TEST3) {
 
     BST::Node default_{};
-    EXPECT_EQ(default_.value, 0);
-    EXPECT_EQ(default_.left, nullptr);
-    EXPECT_EQ(default_.right, nullptr);
+    EXPECT_EQ(default_.value_, 0);
+    EXPECT_EQ(default_.left_, nullptr);
+    EXPECT_EQ(default_.right_, nullptr);
 }
 
 TEST(MyBST, TEST4) {
 
-    BST::Node left{10, nullptr, nullptr};
+    BST::Node left_{10, nullptr, nullptr};
     BST::Node right{10, nullptr, nullptr};
-    BST::Node node{10, &left, &right};
+    BST::Node node{10, &left_, &right};
 
     std::cout << "address of node: " << &node << std::endl;
-    std::cout << "address of left: " << &left << std::endl;
+    std::cout << "address of left_: " << &left_ << std::endl;
     std::cout << "address of right: " << &right << std::endl;
     std::cout << std::string(80, '*') << std::endl;
     std::cout << "PRINT A NODE" << std::endl;
@@ -76,45 +76,45 @@ TEST(MyBST, TEST5) {
 
 TEST(MyBST, TEST6) {
     BST bst{};
-    EXPECT_EQ(bst.get_root(), nullptr);
+    EXPECT_EQ(bst.GetRoot(), nullptr);
 }
 
 TEST(MyBST, TEST7) {
     BST bst{};
-    bst.add_node(10);
-    bst.add_node(20);
-    bst.add_node(5);
-    EXPECT_EQ(bst.get_root()->value, 10);
-    EXPECT_EQ(bst.get_root()->left->value, 5);
-    EXPECT_EQ(bst.get_root()->right->value, 20);
+    bst.AddNode(10);
+    bst.AddNode(20);
+    bst.AddNode(5);
+    EXPECT_EQ(bst.GetRoot()->value_, 10);
+    EXPECT_EQ(bst.GetRoot()->left_->value_, 5);
+    EXPECT_EQ(bst.GetRoot()->right_->value_, 20);
 }
 
 TEST(MyBST, TEST8) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
 
-    EXPECT_FALSE(bst.add_node(53));
-    EXPECT_EQ(bst.get_root()->left->left->value, 7);
-    EXPECT_EQ(bst.get_root()->left->right->value, 15);
-    EXPECT_EQ(bst.get_root()->right->right->value, 53);
+    EXPECT_FALSE(bst.AddNode(53));
+    EXPECT_EQ(bst.GetRoot()->left_->left_->value_, 7);
+    EXPECT_EQ(bst.GetRoot()->left_->right_->value_, 15);
+    EXPECT_EQ(bst.GetRoot()->right_->right_->value_, 53);
 }
 
 TEST(MyBST, TEST9) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
 
-    EXPECT_FALSE(bst.add_node(50));
+    EXPECT_FALSE(bst.AddNode(50));
 
     std::vector<int> values;
-    bst.bfs([&values](BST::Node *&node) { values.push_back(node->value); });
+    bst.Bfs([&values](BST::Node *&node) { values.push_back(node->value_); });
     EXPECT_EQ(values.size(), 4);
     EXPECT_TRUE(std::find(values.begin(), values.end(), 25) != values.end());
     EXPECT_TRUE(std::find(values.begin(), values.end(), 10) != values.end());
@@ -124,24 +124,24 @@ TEST(MyBST, TEST9) {
 
 TEST(MyBST, TEST10) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
 
-    EXPECT_EQ(bst.length(), 6);
+    EXPECT_EQ(bst.Length(), 6);
 }
 
 TEST(MyBST, TEST11) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
 
     std::cout << "PRINT A BINARY SEARCH TREE" << std::endl;
     std::cout << bst << std::endl;
@@ -149,325 +149,325 @@ TEST(MyBST, TEST11) {
 
 TEST(MyBST, TEST12) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
 
-    BST::Node **node{bst.find_node(10)};
-    EXPECT_EQ((*node)->value, 10);
-    EXPECT_EQ(((*node)->left)->value, 7);
-    EXPECT_EQ((*node)->right->value, 15);
+    BST::Node **node{bst.FindNode(10)};
+    EXPECT_EQ((*node)->value_, 10);
+    EXPECT_EQ(((*node)->left_)->value_, 7);
+    EXPECT_EQ((*node)->right_->value_, 15);
 }
 
 TEST(MyBST, TEST13) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
 
-    BST::Node **node{bst.find_node(11)};
+    BST::Node **node{bst.FindNode(11)};
     EXPECT_EQ(node, nullptr);
 }
 
 TEST(MyBST, TEST14) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
 
     std::cout << "here" << std::endl;
-    BST::Node **node{bst.find_parrent(15)};
+    BST::Node **node{bst.FindParrent(15)};
     std::cout << "here2" << std::endl;
-    EXPECT_EQ((*node)->value, 10);
-    EXPECT_EQ((*node)->left->value, 7);
-    EXPECT_EQ((*node)->right->value, 15);
+    EXPECT_EQ((*node)->value_, 10);
+    EXPECT_EQ((*node)->left_->value_, 7);
+    EXPECT_EQ((*node)->right_->value_, 15);
 }
 
 TEST(MyBST, TEST15) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
-    bst.add_node(8);
-    bst.add_node(9);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
+    bst.AddNode(8);
+    bst.AddNode(9);
 
-    BST::Node **node{bst.find_predecessor(10)};
-    EXPECT_EQ((*node)->value, 9);
-    EXPECT_EQ((*node)->left, nullptr);
-    EXPECT_EQ((*node)->right, nullptr);
+    BST::Node **node{bst.FindPredecessor(10)};
+    EXPECT_EQ((*node)->value_, 9);
+    EXPECT_EQ((*node)->left_, nullptr);
+    EXPECT_EQ((*node)->right_, nullptr);
 
-    BST::Node **node_suc{bst.find_successor(10)};
-    EXPECT_EQ((*node_suc)->value, 15);
-    EXPECT_EQ((*node_suc)->left, nullptr);
-    EXPECT_EQ((*node_suc)->right, nullptr);
+    BST::Node **node_suc{bst.FindSuccessor(10)};
+    EXPECT_EQ((*node_suc)->value_, 15);
+    EXPECT_EQ((*node_suc)->left_, nullptr);
+    EXPECT_EQ((*node_suc)->right_, nullptr);
 }
 
 TEST(MyBST, TEST16) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
-    bst.add_node(8);
-    bst.add_node(9);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
+    bst.AddNode(8);
+    bst.AddNode(9);
 
-    EXPECT_FALSE(bst.delete_node(11));
+    EXPECT_FALSE(bst.DeleteNode(11));
 }
 
 TEST(MyBST, TEST17) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(53);
-    bst.add_node(15);
-    bst.add_node(7);
-    bst.add_node(8);
-    bst.add_node(9);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(53);
+    bst.AddNode(15);
+    bst.AddNode(7);
+    bst.AddNode(8);
+    bst.AddNode(9);
 
-    EXPECT_EQ(bst.length(), 8);
-    EXPECT_TRUE(bst.delete_node(53)); // leaf node
-    EXPECT_EQ(bst.length(), 7);
-    EXPECT_EQ(bst.get_root()->right->right, nullptr);
+    EXPECT_EQ(bst.Length(), 8);
+    EXPECT_TRUE(bst.DeleteNode(53)); // leaf node
+    EXPECT_EQ(bst.Length(), 7);
+    EXPECT_EQ(bst.GetRoot()->right_->right_, nullptr);
 }
 
 TEST(MyBST, TEST18) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(65);
-    bst.add_node(60);
-    bst.add_node(70);
-    bst.add_node(5);
-    bst.add_node(2);
-    bst.add_node(7);
-    bst.add_node(75);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(65);
+    bst.AddNode(60);
+    bst.AddNode(70);
+    bst.AddNode(5);
+    bst.AddNode(2);
+    bst.AddNode(7);
+    bst.AddNode(75);
 
-    EXPECT_EQ(bst.length(), 10);
-    EXPECT_TRUE(bst.delete_node(10)); // only left child
-    EXPECT_EQ(bst.length(), 9);
-    EXPECT_EQ(bst.get_root()->left->value, 5);
-    EXPECT_EQ(bst.get_root()->left->left->value, 2);
-    EXPECT_EQ(bst.get_root()->left->right->value, 7);
-    EXPECT_EQ(bst.get_root()->left->right->left, nullptr);
-    EXPECT_EQ(bst.get_root()->left->right->right, nullptr);
+    EXPECT_EQ(bst.Length(), 10);
+    EXPECT_TRUE(bst.DeleteNode(10)); // only left_ child
+    EXPECT_EQ(bst.Length(), 9);
+    EXPECT_EQ(bst.GetRoot()->left_->value_, 5);
+    EXPECT_EQ(bst.GetRoot()->left_->left_->value_, 2);
+    EXPECT_EQ(bst.GetRoot()->left_->right_->value_, 7);
+    EXPECT_EQ(bst.GetRoot()->left_->right_->left_, nullptr);
+    EXPECT_EQ(bst.GetRoot()->left_->right_->right_, nullptr);
 }
 
 TEST(MyBST, TEST19) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(65);
-    bst.add_node(60);
-    bst.add_node(70);
-    bst.add_node(5);
-    bst.add_node(2);
-    bst.add_node(7);
-    bst.add_node(75);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(65);
+    bst.AddNode(60);
+    bst.AddNode(70);
+    bst.AddNode(5);
+    bst.AddNode(2);
+    bst.AddNode(7);
+    bst.AddNode(75);
 
-    BST::Node *address_of_5{*bst.find_node(5)};
-    BST::Node *address_of_2{*bst.find_node(2)};
+    BST::Node *address_of_5{*bst.FindNode(5)};
+    BST::Node *address_of_2{*bst.FindNode(2)};
 
-    EXPECT_TRUE(bst.delete_node(10)); // only left child
+    EXPECT_TRUE(bst.DeleteNode(10)); // only left_ child
 
     // the remaining nodes should not be regenerated
     // => address of remaining nodes before and after deletion should be the same
     // when deleting a node: just reconnect the needed parents and children
-    EXPECT_EQ(*bst.find_node(5), address_of_5);
-    EXPECT_EQ(*bst.find_node(2), address_of_2);
+    EXPECT_EQ(*bst.FindNode(5), address_of_5);
+    EXPECT_EQ(*bst.FindNode(2), address_of_2);
 }
 
 TEST(MyBST, TEST20) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(65);
-    bst.add_node(60);
-    bst.add_node(70);
-    bst.add_node(5);
-    bst.add_node(2);
-    bst.add_node(7);
-    bst.add_node(75);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(65);
+    bst.AddNode(60);
+    bst.AddNode(70);
+    bst.AddNode(5);
+    bst.AddNode(2);
+    bst.AddNode(7);
+    bst.AddNode(75);
 
-    EXPECT_EQ(bst.length(), 10);
-    EXPECT_TRUE(bst.delete_node(50)); // only right child
-    EXPECT_EQ(bst.length(), 9);
-    EXPECT_EQ(bst.get_root()->right->value, 65);
-    EXPECT_EQ(bst.get_root()->right->right->value, 70);
-    EXPECT_EQ(bst.get_root()->right->right->right->value, 75);
-    EXPECT_EQ(bst.get_root()->right->left->value, 60);
-    EXPECT_EQ(bst.get_root()->right->left->left, nullptr);
-    EXPECT_EQ(bst.get_root()->right->left->right, nullptr);
+    EXPECT_EQ(bst.Length(), 10);
+    EXPECT_TRUE(bst.DeleteNode(50)); // only right child
+    EXPECT_EQ(bst.Length(), 9);
+    EXPECT_EQ(bst.GetRoot()->right_->value_, 65);
+    EXPECT_EQ(bst.GetRoot()->right_->right_->value_, 70);
+    EXPECT_EQ(bst.GetRoot()->right_->right_->right_->value_, 75);
+    EXPECT_EQ(bst.GetRoot()->right_->left_->value_, 60);
+    EXPECT_EQ(bst.GetRoot()->right_->left_->left_, nullptr);
+    EXPECT_EQ(bst.GetRoot()->right_->left_->right_, nullptr);
 }
 
 TEST(MyBST, TEST21) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(65);
-    bst.add_node(60);
-    bst.add_node(70);
-    bst.add_node(5);
-    bst.add_node(2);
-    bst.add_node(7);
-    bst.add_node(75);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(65);
+    bst.AddNode(60);
+    bst.AddNode(70);
+    bst.AddNode(5);
+    bst.AddNode(2);
+    bst.AddNode(7);
+    bst.AddNode(75);
 
-    BST::Node *address_of_60{*bst.find_node(60)};
-    BST::Node *address_of_75{*bst.find_node(75)};
+    BST::Node *address_of_60{*bst.FindNode(60)};
+    BST::Node *address_of_75{*bst.FindNode(75)};
 
-    EXPECT_TRUE(bst.delete_node(50)); // only left child
+    EXPECT_TRUE(bst.DeleteNode(50)); // only left_ child
 
     // the remaining nodes should not be regenerated
     // => address of remaining nodes before and after deletion should be the same
     // when deleting a node: just reconnect the needed parents and children
-    EXPECT_EQ(*bst.find_node(60), address_of_60);
-    EXPECT_EQ(*bst.find_node(75), address_of_75);
+    EXPECT_EQ(*bst.FindNode(60), address_of_60);
+    EXPECT_EQ(*bst.FindNode(75), address_of_75);
 }
 
 TEST(MyBST, DISABLED_TEST22) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(65);
-    bst.add_node(60);
-    bst.add_node(70);
-    bst.add_node(5);
-    bst.add_node(2);
-    bst.add_node(7);
-    bst.add_node(75);
-    bst.add_node(20);
-    bst.add_node(15);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(65);
+    bst.AddNode(60);
+    bst.AddNode(70);
+    bst.AddNode(5);
+    bst.AddNode(2);
+    bst.AddNode(7);
+    bst.AddNode(75);
+    bst.AddNode(20);
+    bst.AddNode(15);
 
-    EXPECT_EQ(bst.length(), 12);
-    EXPECT_TRUE(bst.delete_node(10)); // both children exist
-    EXPECT_EQ(bst.length(), 11);
-    EXPECT_EQ(bst.get_root()->left->value, 7);
-    EXPECT_EQ(bst.get_root()->left->left->right, nullptr);
-    EXPECT_EQ(bst.get_root()->left->left->value, 5);
+    EXPECT_EQ(bst.Length(), 12);
+    EXPECT_TRUE(bst.DeleteNode(10)); // both children exist
+    EXPECT_EQ(bst.Length(), 11);
+    EXPECT_EQ(bst.GetRoot()->left_->value_, 7);
+    EXPECT_EQ(bst.GetRoot()->left_->left_->right_, nullptr);
+    EXPECT_EQ(bst.GetRoot()->left_->left_->value_, 5);
 }
 
 TEST(MyBST, DISABLED_TEST23) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(65);
-    bst.add_node(60);
-    bst.add_node(70);
-    bst.add_node(5);
-    bst.add_node(2);
-    bst.add_node(7);
-    bst.add_node(75);
-    bst.add_node(20);
-    bst.add_node(15);
-    bst.add_node(22);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(65);
+    bst.AddNode(60);
+    bst.AddNode(70);
+    bst.AddNode(5);
+    bst.AddNode(2);
+    bst.AddNode(7);
+    bst.AddNode(75);
+    bst.AddNode(20);
+    bst.AddNode(15);
+    bst.AddNode(22);
 
-    EXPECT_EQ(bst.length(), 13);
-    EXPECT_TRUE(bst.delete_node(25)); // both children exist
-    EXPECT_EQ(bst.length(), 12);
-    EXPECT_EQ(bst.get_root()->value, 22);
-    EXPECT_EQ(bst.get_root()->left->value, 10);
-    EXPECT_EQ(bst.get_root()->left->right->right, nullptr);
+    EXPECT_EQ(bst.Length(), 13);
+    EXPECT_TRUE(bst.DeleteNode(25)); // both children exist
+    EXPECT_EQ(bst.Length(), 12);
+    EXPECT_EQ(bst.GetRoot()->value_, 22);
+    EXPECT_EQ(bst.GetRoot()->left_->value_, 10);
+    EXPECT_EQ(bst.GetRoot()->left_->right_->right_, nullptr);
 }
 
 TEST(MyBST, TEST24) {
     BST bst{};
-    bst.add_node(5);
-    bst.add_node(10);
-    bst.add_node(50);
+    bst.AddNode(5);
+    bst.AddNode(10);
+    bst.AddNode(50);
     BST copy{bst};
-    EXPECT_EQ(bst.length(), copy.length());
-    EXPECT_EQ(bst.get_root()->right->value, copy.get_root()->right->value);
+    EXPECT_EQ(bst.Length(), copy.Length());
+    EXPECT_EQ(bst.GetRoot()->right_->value_, copy.GetRoot()->right_->value_);
 }
 
 TEST(MyBST, TEST25) {
     BST bst{};
-    bst.add_node(5);
-    bst.add_node(10);
-    bst.add_node(50);
+    bst.AddNode(5);
+    bst.AddNode(10);
+    bst.AddNode(50);
 
     BST equal{};
-    bst.add_node(51);
-    bst.add_node(66);
-    bst.add_node(10);
+    bst.AddNode(51);
+    bst.AddNode(66);
+    bst.AddNode(10);
     equal = bst;
-    EXPECT_EQ(bst.length(), equal.length());
-    EXPECT_EQ(bst.get_root()->right->right->value, equal.get_root()->right->right->value);
+    EXPECT_EQ(bst.Length(), equal.Length());
+    EXPECT_EQ(bst.GetRoot()->right_->right_->value_, equal.GetRoot()->right_->right_->value_);
 }
 
 TEST(MyBST, TEST26) {
     BST bst{};
-    bst.add_node(5);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(1);
-    bst.add_node(2);
-    bst.add_node(4);
-    bst.add_node(60);
-    bst.add_node(8);
+    bst.AddNode(5);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(1);
+    bst.AddNode(2);
+    bst.AddNode(4);
+    bst.AddNode(60);
+    bst.AddNode(8);
 
     bst = bst;
-    EXPECT_EQ(bst.get_root()->right->left->value, 8);
+    EXPECT_EQ(bst.GetRoot()->right_->left_->value_, 8);
 }
 
 TEST(MyBST, TEST27) {
     BST bst{};
-    bst.add_node(5);
-    bst.add_node(10);
-    bst.add_node(50);
+    bst.AddNode(5);
+    bst.AddNode(10);
+    bst.AddNode(50);
 
-    int test_value{bst.get_root()->right->value};
-    BST::Node *address_of_root{*bst.find_node(5)};
+    int test_value{bst.GetRoot()->right_->value_};
+    BST::Node *address_of_root{*bst.FindNode(5)};
 
     BST move{std::move(bst)};
-    EXPECT_EQ(address_of_root, move.get_root());
-    EXPECT_EQ(test_value, move.get_root()->right->value);
+    EXPECT_EQ(address_of_root, move.GetRoot());
+    EXPECT_EQ(test_value, move.GetRoot()->right_->value_);
 }
 
 TEST(MyBST, TEST28) {
     BST bst{};
-    bst.add_node(25);
-    bst.add_node(10);
-    bst.add_node(50);
-    bst.add_node(65);
-    bst.add_node(5);
-    bst.add_node(20);
-    bst.add_node(22);
+    bst.AddNode(25);
+    bst.AddNode(10);
+    bst.AddNode(50);
+    bst.AddNode(65);
+    bst.AddNode(5);
+    bst.AddNode(20);
+    bst.AddNode(22);
 
-    int test_value{bst.get_root()->left->right->value};
-    BST::Node *address_of_root{*bst.find_node(25)};
+    int test_value{bst.GetRoot()->left_->right_->value_};
+    BST::Node *address_of_root{*bst.FindNode(25)};
 
     BST move{};
     move = std::move(bst);
-    EXPECT_EQ(address_of_root, move.get_root());
-    EXPECT_EQ(test_value, move.get_root()->left->right->value);
+    EXPECT_EQ(address_of_root, move.GetRoot());
+    EXPECT_EQ(test_value, move.GetRoot()->left_->right_->value_);
 }
 
 TEST(MyBST, TEST29) {
     BST bst1{5, 1, 10, 2, 8, 50, 4, 60};
     BST bst2{3, 2, 100, 20, 8, 50, 4, 60, 44, 23};
-    EXPECT_EQ((*bst1.find_predecessor(5))->value, 4);
-    EXPECT_EQ((*bst1.find_successor(5))->value, 8);
-    EXPECT_EQ(bst2.length(), 10);
+    EXPECT_EQ((*bst1.FindPredecessor(5))->value_, 4);
+    EXPECT_EQ((*bst1.FindSuccessor(5))->value_, 8);
+    EXPECT_EQ(bst2.Length(), 10);
 }
 
 TEST(MyBST, TEST30) {
@@ -475,10 +475,10 @@ TEST(MyBST, TEST30) {
     BST bst2{++bst};
 
     std::vector<int> values;
-    EXPECT_EQ(bst.get_root()->value, 6);
-    EXPECT_EQ(bst2.get_root()->value, 6);
-    EXPECT_EQ(bst.get_root()->right->right->right->value, 61);
-    EXPECT_EQ(bst2.get_root()->right->right->right->value, 61);
+    EXPECT_EQ(bst.GetRoot()->value_, 6);
+    EXPECT_EQ(bst2.GetRoot()->value_, 6);
+    EXPECT_EQ(bst.GetRoot()->right_->right_->right_->value_, 61);
+    EXPECT_EQ(bst2.GetRoot()->right_->right_->right_->value_, 61);
 }
 
 TEST(MyBST, TEST31) {
@@ -486,10 +486,10 @@ TEST(MyBST, TEST31) {
     BST bst2{bst1++};
 
     std::vector<int> values1;
-    bst1.bfs([&values1](BST::Node *&node) { values1.push_back(node->value); });
+    bst1.Bfs([&values1](BST::Node *&node) { values1.push_back(node->value_); });
 
     std::vector<int> values2;
-    bst2.bfs([&values2](BST::Node *&node) { values2.push_back(node->value); });
+    bst2.Bfs([&values2](BST::Node *&node) { values2.push_back(node->value_); });
 
     for (size_t i{}; i < values1.size(); i++)
         EXPECT_EQ(values2[i], values1[i] - 1);

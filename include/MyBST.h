@@ -21,6 +21,7 @@ class BST {
         Node();                 // Default Constructor
         Node(const Node &node); // Copy Constructor
 
+        Node(int _value);
         auto operator==(const Node &) const -> bool;
         auto operator<=>(const Node &) const -> std::partial_ordering;
         friend auto operator<<(std::ostream &, const BST::Node &) -> std::ostream &;
@@ -39,7 +40,7 @@ class BST {
     BST &operator=(BST &&) noexcept ;          // Move Version
 
     Node *&GetRoot();
-    void Bfs(std::function<void(Node *&node)> func) const;
+    void Bfs(const std::function<void(Node *&node)>& func) const;
     size_t Length() const;           // bst 中的节点数
     bool AddNode(const int &value);
     Node **FindNode(int value);

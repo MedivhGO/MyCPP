@@ -7,11 +7,9 @@
 
 #include <vector>
 
-using namespace std;
-
 // Hoare partition scheme
 // 为第一个元素找合适的位置
-int partition(vector<int> &data, int left, int right) {
+int Partition(std::vector<int> &data, int left, int right) {
     int ret = left;
     int pivot = data[left];
     while (left < right) {
@@ -29,9 +27,9 @@ int partition(vector<int> &data, int left, int right) {
     return left;
 }
 
-void QuickSort(vector<int> &data, int left, int right) {
+void QuickSort(std::vector<int> &data, int left, int right) {
     if (right - left > 0) {
-        int i = partition(data, left, right - 1);
+        int i = Partition(data, left, right - 1);
         QuickSort(data, left, i);
         QuickSort(data, i + 1, right);
     }

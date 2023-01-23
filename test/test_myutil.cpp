@@ -100,11 +100,11 @@ TEST(MyUtil, DISABLED_test_mutex) {
 
         std::string res_str_with_lock;
         auto multi_add_with_lock = [&](uint64_t thread_itr = 0) {
-            m.lock();
+            m.Lock();
             for (int i = 0; i < 10; ++i) {
                 res_str_with_lock += std::to_string(i);
             }
-            m.unlock();
+            m.Unlock();
         };
 
         LaunchParallelTest(atomic_str_length, multi_add_without_lock);
@@ -140,44 +140,44 @@ TEST(MyUtil, test_error) {
 }
 
 TEST(MyUtil, DISABLED_test_log) {
-    enableLogging();
+    EnableLogging();
     LOG_DEBUG("DEBUG MESSAGE");
     LOG_ERROR("ERROR MESSAGE");
     LOG_INFO("INFO MESSAGE");
     LOG_WARN("WARN MESSAGE");
-    disableLogging();
+    DisableLogging();
 }
 
 TEST(MyUtil, test_cache) {
     Cache<int> int_cache;
     auto fill_data = [&](uint64_t thread_itr = 0) {
-        std::shared_ptr<const int> id_ptr = int_cache.fastLoadT(std::this_thread::get_id());
+        std::shared_ptr<const int> id_ptr = int_cache.FastLoadT(std::this_thread::get_id());
         LOG_DEBUG(std::to_string(*id_ptr).c_str());
     };
     LaunchParallelTest(20, fill_data);
-    EXPECT_EQ(int_cache.getCacheSize(), 20);
+    EXPECT_EQ(int_cache.GetCacheSize(), 20);
 }
 
 TEST(MyUtil, test_filereader) {
     FileReader f;
-    string project_root = PROJECT_PATH;
-    EXPECT_TRUE(f.open(project_root + "/resource/frtestcase"));
+    std::string project_root = PROJECT_PATH;
+    EXPECT_TRUE(f.Open(project_root + "/resource/frtestcase"));
     std::string read_one_line;
-    while(read_one_line = f.readLine(), !read_one_line.empty()) {
+    while(read_one_line = f.ReadLine(), !read_one_line.empty()) {
         EXPECT_EQ(read_one_line, "line1");
     }
 }
 
-void normal_function(const int& x) {
+void NormalFunction(const int& x) {
     std::cout << "Call Normal Function" << std::endl;
 };
 
-void normal_function(int&& x) {
+void NormalFunction(int&& x) {
     std::cout << "Call RightRef Function" << std::endl;
 };
 
 TEST(MyUtil, test_rightref) {
-    normal_function(10); // 右值优先绑定到右值引用的函数上
+    NormalFunction(10); // 右值优先绑定到右值引用的函数上
 }
 
 

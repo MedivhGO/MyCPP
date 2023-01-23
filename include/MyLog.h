@@ -25,26 +25,26 @@ enum LogLevel {
 bool b_DebugLogs = false;
 
 void logDebug(LogLevel iLevel, const char *zFormat, ...);
-void enableLogging();
-void disableLogging();
+void EnableLogging();
+void DisableLogging();
 
 void logDebug(LogLevel iLevel, const char *zFormat, ...) {
-    const char *zPrefix = nullptr;
+    const char *z_prefix = nullptr;
     switch (iLevel) {
         case LogLevel::DEBUG:
             if (!b_DebugLogs) {
                 return;
             }
-            zPrefix = "DEBUG  ";
+            z_prefix = "DEBUG  ";
             break;
         case LogLevel::INFO:
-            zPrefix = "INFO   ";
+            z_prefix = "INFO   ";
             break;
         case LogLevel::WARNING:
-            zPrefix = "WARNING";
+            z_prefix = "WARNING";
             break;
         case LogLevel::ERROR:
-            zPrefix = "ERROR  ";
+            z_prefix = "ERROR  ";
             break;
 
         default:
@@ -53,18 +53,18 @@ void logDebug(LogLevel iLevel, const char *zFormat, ...) {
 
     va_list args;
     va_start(args, zFormat);
-    char zLogLine[MAX_LOG_SIZE];
-    vsnprintf(zLogLine, MAX_LOG_SIZE, zFormat, args);
-    printf("|%s| %s\n", zPrefix, zLogLine);
+    char z_log_line[MAX_LOG_SIZE];
+    vsnprintf(z_log_line, MAX_LOG_SIZE, zFormat, args);
+    printf("|%s| %s\n", z_prefix, z_log_line);
     va_end(args);
 }
 
-void enableLogging() {
+void EnableLogging() {
     b_DebugLogs = true;
     LOG_DEBUG("Debug logs enabled");
 }
 
-void disableLogging() {
+void DisableLogging() {
     LOG_DEBUG("Debug logs disabled");
     b_DebugLogs = false;
 }

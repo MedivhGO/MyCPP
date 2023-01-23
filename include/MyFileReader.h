@@ -7,71 +7,67 @@
 
 #include <fstream>
 
-using std::ifstream;
-using std::string;
-using std::ios;
-
 class FileReader {
   public:
     FileReader();
 
     ~FileReader();
 
-    bool open(string directory);
+    bool Open(const std::string& directory);
 
-    bool hasOpen();
+    bool HasOpen();
 
-    bool hasEnd();
+    bool HasEnd();
 
-    string readLine();
+    std::string ReadLine();
 
   private:
-    string file_directory;
-    ifstream fin;
-    bool has_open;
+    std::string file_directory_;
+    std::ifstream fin_;
+    bool has_open_;
     bool has_end;
 };
 
 FileReader::FileReader() {
-    file_directory = "";
-    has_open = false;
+    file_directory_ = "";
+    has_open_ = false;
     has_end = false;
 }
 
 FileReader::~FileReader() {
-    if (has_open) {
-        fin.close();
+    if (has_open_) {
+        fin_.close();
     }
 }
 
-bool FileReader::open(string directory) {
-    if (fin.is_open()) {
-        fin.close();
+auto FileReader::Open(const std::string& directory) -> bool {
+    if (fin_.is_open()) {
+        fin_.close();
     }
 
-    file_directory = directory;
-    fin.open(directory, ios::in);
+    file_directory_ = directory;
+    fin_.open(directory, std::ios::in);
 
-    has_open = fin.is_open();
-    return has_open;
+    has_open_ = fin_.is_open();
+    return has_open_;
 }
 
-bool FileReader::hasOpen() { return has_open; }
+auto FileReader::HasOpen() -> bool { return has_open_; }
 
-bool FileReader::hasEnd() { return has_end; }
+auto FileReader::HasEnd() -> bool { return has_end; }
 
-string FileReader::readLine() {
-    string next_line = "";
-    if (!has_open || has_end) {
+auto FileReader::ReadLine() -> std::string {
+    std::string next_line;
+    if (!has_open_ || has_end) {
         return next_line;
     }
 
-    if (fin.eof()) {
+    if (fin_.eof()) {
         has_end = true;
         return next_line;
     }
 
-    getline(fin, next_line);
+    getline(fin_, next_line);
     return next_line;
 }
 
