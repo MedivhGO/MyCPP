@@ -22,7 +22,7 @@ enum LogLevel {
     ERROR
 };
 
-bool b_DebugLogs = false;
+bool b_debug_logs = false;
 
 void logDebug(LogLevel iLevel, const char *zFormat, ...);
 void EnableLogging();
@@ -32,7 +32,7 @@ void logDebug(LogLevel iLevel, const char *zFormat, ...) {
     const char *z_prefix = nullptr;
     switch (iLevel) {
         case LogLevel::DEBUG:
-            if (!b_DebugLogs) {
+            if (!b_debug_logs) {
                 return;
             }
             z_prefix = "DEBUG  ";
@@ -60,13 +60,13 @@ void logDebug(LogLevel iLevel, const char *zFormat, ...) {
 }
 
 void EnableLogging() {
-    b_DebugLogs = true;
+    b_debug_logs = true;
     LOG_DEBUG("Debug logs enabled");
 }
 
 void DisableLogging() {
     LOG_DEBUG("Debug logs disabled");
-    b_DebugLogs = false;
+    b_debug_logs = false;
 }
 
 #endif //MYCPPIMPLEMENT_MYLOG_H
