@@ -7,6 +7,7 @@
 #include <regex>
 #include <string>
 #include <future>
+#include <type_traits>
 
 TEST(MyCppFeatureTest, test1) {
     // Structured Bindings for C++ 17
@@ -22,12 +23,12 @@ TEST(MyCppFeatureTest, test1) {
 TEST(MyCppFeatureTest, test2) {
     // <=> for C++ 20
     struct IntWrapper {
-        int a;
-        IntWrapper(int data) : a(data) {}
+        int a_;
+        explicit IntWrapper(int data) : a_(data) {}
         auto operator<=>(const IntWrapper& b) const->auto { // 尾置返回类型
-            [[likely]] if (a < b.a) { // likely
+            [[likely]] if (a_ < b.a_) { // likely
                 return -1;
-            } else if (a == b.a) {
+            } else if (a_ == b.a_) {
                 return 0;
             } else {
                 return -1;
@@ -38,27 +39,27 @@ TEST(MyCppFeatureTest, test2) {
 }
 
 template<typename T>
-T  adder(T value) {
+auto  Adder(T value) -> T {
     return value;
 }
 
 template<typename T, typename... Args>
-T adder(T first, Args... args) {
-    return first + adder(args...);
+auto Adder(T first, Args... args) -> T {
+    return first + Adder(args...);
 }
 
 TEST(MyCppFeatureTest, test3) {
     // variadic template for C++ 11
-    EXPECT_EQ(adder(1,2,3), 6);
+    EXPECT_EQ(Adder(1,2,3), 6);
 }
 
-int foo(int para) {
+int Foo(int para) {
     return para;
 }
 
 TEST(MyCppFeatureTest, test4) {
     // std::function
-    std::function<int(int)> func1 = foo;
+    std::function<int(int)> func1 = Foo;
 
     int important = 10;
 
@@ -99,7 +100,7 @@ TEST(MyCppFeatureTest, test5) {
 }
 
 TEST(MyCppFeatureTest, test6) {
-    long long int i;
+    int64_t i;
     EXPECT_EQ(sizeof(i), 8);
 }
 
@@ -124,13 +125,13 @@ TEST(MyCppFeatureTest, test8) {
 }
 
 class A{};
-class A_int{int a;};
-class A_char{char a;};
+class AInt{int a_;};
+class AChar{char a_;};
 
 TEST(MyCppFeatureTest, test9) {
     EXPECT_EQ(sizeof(A),1);
-    EXPECT_EQ(sizeof(A_int), 4);
-    EXPECT_EQ(sizeof(A_char), 1);
+    EXPECT_EQ(sizeof(AInt), 4);
+    EXPECT_EQ(sizeof(AChar), 1);
 }
 
 TEST(MyCppFeatureTest, test10) {
@@ -141,7 +142,7 @@ TEST(MyCppFeatureTest, test10) {
 
 // https://unique-ptr.com/archives/68
 template <typename Iterator>
-auto my_distance(Iterator begin, Iterator end) {
+auto MyDistance(Iterator begin, Iterator end) {
     using Traits = std::iterator_traits<Iterator>;
     if constexpr (
         std::is_base_of_v<std::random_access_iterator_tag, typename Traits::iterator_category>
@@ -159,6 +160,31 @@ auto my_distance(Iterator begin, Iterator end) {
 TEST(MyCppFeatureTest, test11) {
     // C++ 17 if constexpr
     std::vector<int> ivec{1, 2, 3, 4, 5};
-    int res = my_distance(ivec.begin(), ivec.end());
+    int res = MyDistance(ivec.begin(), ivec.end());
     EXPECT_EQ(res, 5);
+}
+
+const bool SUPPRESS_EXPECT = true;
+
+struct TESTNOEXPECT {
+  int n_;
+  TESTNOEXPECT() {
+    n_ = 0;
+  }
+
+  TESTNOEXPECT(const TESTNOEXPECT& a) noexcept (SUPPRESS_EXPECT) {
+    n_ = a.n_;
+  }
+
+  TESTNOEXPECT(TESTNOEXPECT&&) noexcept = delete;
+};
+
+TEST(MyCppFeatureTest, test12) {
+  // keyword noexpect
+  // 移动构造函数标记为 noexpect
+  // 因为在资源的移动过程中如果抛出了异常，那么那些正在被处理的原始对象数据可能因为异常而丢失
+  EXPECT_EQ(std::is_move_constructible<TESTNOEXPECT>::value, false);
+  EXPECT_EQ(std::is_trivially_move_constructible<TESTNOEXPECT>::value, false);
+  EXPECT_EQ(std::is_nothrow_move_constructible<TESTNOEXPECT>::value, false);
+  EXPECT_EQ(std::is_copy_constructible<TESTNOEXPECT>::value, true);
 }
