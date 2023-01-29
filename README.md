@@ -15,7 +15,9 @@
 - [x] 实现MyHashMap
 - [x] 实现常见的排序算法以及二分查找
 - [x] 实现MyFileReader
+- [x] 实现MyFileWriter
 - [ ] 实现MyRBTree
+- [x] 实现MyProfiler
 
 ## dependencies
 
@@ -58,6 +60,14 @@ to check memory leak, you can use blow command.
 /usr/bin/valgrind --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ./build/test/MyCppImplement.test
 ```
 
+## profiler
+
+```C++
+// use MyProfile.h measure function to get runtime data
+// example
+// measure(function_name, param1, param2).count()
+```
+
 
 ## References
 
@@ -70,3 +80,4 @@ See also:
 - https://github.com/DanesH-Abdollahi/DanesH-Abdollahi-AP_1400_HW4
 - https://github.com/heysulo/MyMalloc
 - https://github.com/0xf3cd/Compiler-Tokenizer
+- https://github.com/Xue64/The-Dive-Library

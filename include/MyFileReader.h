@@ -8,67 +8,75 @@
 #include <fstream>
 
 class FileReader {
-  public:
-    FileReader();
+ public:
+  FileReader();
 
-    ~FileReader();
+  ~FileReader();
 
-    bool Open(const std::string& directory);
+  auto Open(const std::string &directory) -> bool;
 
-    bool HasOpen();
+  auto HasOpen() -> bool;
 
-    bool HasEnd();
+  auto HasEnd() -> bool;
 
-    std::string ReadLine();
+  auto ReadLine() -> std::string;
 
-  private:
-    std::string file_directory_;
-    std::ifstream fin_;
-    bool has_open_;
-    bool has_end;
+  void Close();
+
+ private:
+  std::string file_directory_;
+  std::ifstream fin_;
+  bool has_open_;
+  bool has_end_;
 };
 
 FileReader::FileReader() {
-    file_directory_ = "";
-    has_open_ = false;
-    has_end = false;
+  file_directory_ = "";
+  has_open_ = false;
+  has_end_ = false;
+}
+
+void FileReader::Close() {
+  if (has_open_) {
+    fin_.close();
+  }
 }
 
 FileReader::~FileReader() {
-    if (has_open_) {
-        fin_.close();
-    }
+  if (has_open_) {
+    fin_.close();
+  }
 }
 
-auto FileReader::Open(const std::string& directory) -> bool {
-    if (fin_.is_open()) {
-        fin_.close();
-    }
+auto FileReader::Open(const std::string &directory) -> bool {
+  if (fin_.is_open()) {
+    fin_.close();
+  }
 
-    file_directory_ = directory;
-    fin_.open(directory, std::ios::in);
+  file_directory_ = directory;
+  fin_.open(directory, std::ios::in);
 
-    has_open_ = fin_.is_open();
-    return has_open_;
+  has_open_ = fin_.is_open();
+  return has_open_;
 }
 
 auto FileReader::HasOpen() -> bool { return has_open_; }
 
-auto FileReader::HasEnd() -> bool { return has_end; }
+auto FileReader::HasEnd() -> bool { return has_end_; }
 
 auto FileReader::ReadLine() -> std::string {
-    std::string next_line;
-    if (!has_open_ || has_end) {
-        return next_line;
-    }
-
-    if (fin_.eof()) {
-        has_end = true;
-        return next_line;
-    }
-
-    getline(fin_, next_line);
+  std::string next_line;
+  if (!has_open_ || has_end_) {
     return next_line;
+  }
+
+  if (fin_.eof()) {
+    has_end_ = true;
+    return next_line;
+  }
+
+  getline(fin_, next_line);
+  return next_line;
 }
 
-#endif // MYCPPIMPLEMENT_MYFILEREADER_H
+#endif  // MYCPPIMPLEMENT_MYFILEREADER_H

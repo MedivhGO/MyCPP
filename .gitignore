@@ -4,3 +4,4 @@ test/MyProjectPath.h
 .idea
 log/!/test/MyProjectPath.h
 !/test/MyProjectPath.h
+resource/
