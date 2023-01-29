@@ -15,9 +15,9 @@ class MyString {
   MyString(MyString &&other) noexcept;                      // 移动构造函数
   auto operator=(const MyString &other) -> MyString &;      // 赋值运算符
   auto operator=(MyString &&other) noexcept -> MyString &;  // 移动赋值运算符
-  [[nodiscard]] size_t Length() const;
+  [[nodiscard]] auto Length() const -> size_t;
 
-  [[nodiscard]] const char *Get() const;
+  [[nodiscard]] auto Get() const -> const char *;
 
   virtual ~MyString();  // 虚析构函数，释放s_data指向的指针
 
@@ -27,13 +27,13 @@ class MyString {
 
   friend auto operator>>(std::istream &is, MyString &str) -> std::istream &;
 
-  friend bool operator==(const MyString &lhs, const MyString &rhs);
+  friend auto operator==(const MyString &lhs, const MyString &rhs) -> bool;
 
-  friend bool operator!=(const MyString &lhs, const MyString &rhs);
+  friend auto operator!=(const MyString &lhs, const MyString &rhs) -> bool;
 
-  friend bool operator>=(const MyString &lhs, const MyString &rhs);
+  friend auto operator>=(const MyString &lhs, const MyString &rhs) -> bool;
 
-  friend bool operator<=(const MyString &lhs, const MyString &rhs);
+  friend auto operator<=(const MyString &lhs, const MyString &rhs) -> bool;
 
   friend void Swap(MyString &lhs, MyString &rhs);
 
