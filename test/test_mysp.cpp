@@ -250,7 +250,7 @@ TEST(MySmartPtrTest, TEST26) {
     MySharedPtr<int> isp{my_make_shared<int>(10)};
     EXPECT_TRUE(isp.unique());
     MySharedPtr<MyString> my_strsp{my_make_shared<MyString>("123")};
-    EXPECT_STREQ(my_strsp->get(), "123");
+    EXPECT_STREQ(my_strsp->Get(), "123");
     MyWeakPtr<int> wptr(isp);
     EXPECT_EQ(wptr.use_count(), 1);
     MyWeakPtr<int> wptr1 = isp;

@@ -8,51 +8,49 @@
 #include <iostream>
 
 class MyString {
-public:
-    explicit MyString(const char *str = nullptr);          // 一个参数的构造函数，当没有提供初始值时就采用默认的参数
-    explicit MyString(const std::string &str);             // 使用std::string构造MyString
-    MyString(const MyString &other);                       // 拷贝构造函数
-    MyString(MyString &&other) noexcept;                   // 移动构造函数
-    MyString &operator=(const MyString &other);            // 赋值运算符
-    MyString &operator=(MyString &&other) noexcept;        // 移动赋值运算符
-    [[nodiscard]] size_t length() const;
+ public:
+  explicit MyString(const char *str = nullptr);  // 一个参数的构造函数，当没有提供初始值时就采用默认的参数
+  explicit MyString(const std::string &str);                // 使用std::string构造MyString
+  MyString(const MyString &other);                          // 拷贝构造函数
+  MyString(MyString &&other) noexcept;                      // 移动构造函数
+  auto operator=(const MyString &other) -> MyString &;      // 赋值运算符
+  auto operator=(MyString &&other) noexcept -> MyString &;  // 移动赋值运算符
+  [[nodiscard]] size_t Length() const;
 
-    [[nodiscard]] const char *get() const;
+  [[nodiscard]] const char *Get() const;
 
-    virtual ~MyString();                                   // 虚析构函数，释放s_data指向的指针
+  virtual ~MyString();  // 虚析构函数，释放s_data指向的指针
 
-    friend MyString operator+(const MyString &lhs, const MyString &rhs);
+  friend auto operator+(const MyString &lhs, const MyString &rhs) -> MyString;
 
-    friend std::ostream &operator<<(std::ostream &os, const MyString &str);
+  friend auto operator<<(std::ostream &os, const MyString &str) -> std::ostream &;
 
-    friend std::istream &operator>>(std::istream &is, MyString &str);
+  friend auto operator>>(std::istream &is, MyString &str) -> std::istream &;
 
-    friend bool operator==(const MyString &lhs, const MyString &rhs);
+  friend bool operator==(const MyString &lhs, const MyString &rhs);
 
-    friend bool operator!=(const MyString &lhs, const MyString &rhs);
+  friend bool operator!=(const MyString &lhs, const MyString &rhs);
 
-    friend bool operator>=(const MyString &lhs, const MyString &rhs);
+  friend bool operator>=(const MyString &lhs, const MyString &rhs);
 
-    friend bool operator<=(const MyString &lhs, const MyString &rhs);
+  friend bool operator<=(const MyString &lhs, const MyString &rhs);
 
+  friend void Swap(MyString &lhs, MyString &rhs);
 
-    friend void swap(MyString &lhs, MyString &rhs);
+  auto operator!() -> const MyString &;
 
-    const MyString &operator!();
+  auto operator[](int idx) -> char &;
 
-    char &operator[](int idx);
+  auto operator[](int idx) const -> const char &;
 
-    const char &operator[](int idx) const;
+  auto operator()(const MyString &substr) const -> int;
 
-    int operator()(const MyString &substr) const;
+  auto operator()(const char *substr) const -> int;
 
-    int operator()(const char* substr) const;
+  auto operator+=(const char *rhs) -> MyString &;
 
-    MyString &operator+=(const char *rhs);
-
-
-private:
-    char *s_data;
+ private:
+  char *s_data_;
 };
 
-#endif //MYSTRING_H
+#endif  // MYSTRING_H
