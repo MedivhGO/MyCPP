@@ -65,7 +65,7 @@ to check memory leak, you can use blow command.
 ```C++
 // use MyProfile.h measure function to get runtime data
 // example
-// measure(function_name, param1, param2).count()
+ measure(function_name, param1, param2).count()
 ```
 
 
