@@ -8,117 +8,109 @@
 #define MAXLENGTH 32
 #define N 999
 
-#include <vector>
 #include <random>
+#include <vector>
 
-using namespace std;
+struct Node {
+  int key_;
+  std::vector<std::shared_ptr<Node>> next_;
 
-struct node {
-    int key;
-    vector<std::shared_ptr<node>> next;
-
-    node(int val, int max_level) : key(val) {
-        for (int i = 0; i < max_level; i++) {
-            next.emplace_back(nullptr);
-        }
-    };
+  Node(int val, int max_level) : key_(val) {
+    for (int i = 0; i < max_level; i++) {
+      next_.emplace_back(nullptr);
+    }
+  };
 };
 
 class Skiplist {
-private:
-    int _max_height;
-    std::shared_ptr<node> _head;
+ private:
+  int max_height_{1};
+  std::shared_ptr<Node> head_;
 
-public:
-    Skiplist() : _max_height(1) {
-        _head = std::make_shared<node>(0, MAXLENGTH);
-        srand(0);
+ public:
+  Skiplist() {
+    head_ = std::make_shared<Node>(0, MAXLENGTH);
+    srand(0);
+  }
+
+  auto FindGENode(const int key, std::vector<std::shared_ptr<Node>> &prev) -> std::shared_ptr<Node> {  // for insert
+    std::shared_ptr<Node> ptr = head_;
+    int level = max_height_ - 1;
+    while (true) {
+      std::shared_ptr<Node> next = ptr->next_[level];
+      if (next != nullptr && key > next->key_) {
+        ptr = next;
+      } else {
+        prev[level] = ptr;
+        if (level == 0) {
+          return next;
+        }
+        level--;
+      }
     }
+  }
 
-    std::shared_ptr<node> FindGENode(const int key, vector<std::shared_ptr<node>> &prev) {  // for insert
-        std::shared_ptr<node> ptr = _head;
-        int level = _max_height - 1;
-        while (true) {
-            std::shared_ptr<node> next = ptr->next[level];
-            if (next != nullptr && key > next->key) {
-                ptr = next;
-            } else {
-                prev[level] = ptr;
-                if (level == 0) {
-                    return next;
-                } else {
-                    level--;
-                }
-            }
-        }
+  auto FindGENode(const int key) -> std::shared_ptr<Node> {  // for search
+    std::shared_ptr<Node> ptr = head_;
+    int level = max_height_ - 1;
+    while (true) {
+      std::shared_ptr<Node> next = ptr->next_[level];
+      if (next != nullptr && key > next->key_) {
+        ptr = next;
+      } else {
+        if (level == 0) {
+          return next;
+        }           level--;
+
+      }
     }
+  }
 
-    std::shared_ptr<node> FindGENode(const int key) {  // for search
-        std::shared_ptr<node> ptr = _head;
-        int level = _max_height - 1;
-        while (true) {
-            std::shared_ptr<node> next = ptr->next[level];
-            if (next != nullptr && key > next->key) {
-                ptr = next;
-            } else {
-                if (level == 0) {
-                    return next;
-                } else {
-                    level--;
-                }
-            }
-        }
+  auto RandomLevel(float factor = 0.5) -> int {
+    int level = 1;
+    while ((rand() % N) / N > factor && level < MAXLENGTH) {
+      level++;
     }
+    return level;
+  }
 
-    int RandomLevel(float factor = 0.5) {
-        int level = 1;
-        while ((rand() % N) / N > factor && level < MAXLENGTH) {
-            level++;
-        }
-        return level;
+  auto Search(int target) -> bool {
+    std::shared_ptr<Node> temp = FindGENode(target);
+    return temp && temp->key_ == target;
+  }
+
+  void Add(int num) {
+    int ran_level = RandomLevel();
+    std::shared_ptr<Node> new_node = std::make_shared<Node>(num, ran_level);
+    std::vector<std::shared_ptr<Node>> prev(MAXLENGTH, head_);
+    std::shared_ptr<Node> temp = FindGENode(num, prev);
+    if (ran_level > max_height_) {
+      for (int i = max_height_ - 1; i < ran_level; i++) {
+        prev[i] = head_;
+      }
+      max_height_ = ran_level;
     }
-
-    bool search(int target) {
-        std::shared_ptr<node> temp = FindGENode(target);
-        if (temp && temp->key == target) {
-            return true;
-        } else {
-            return false;
-        }
+    for (int i = 0; i < max_height_; i++) {
+      new_node->next_[i] = prev[i]->next_[i];
+      prev[i]->next_[i] = new_node;
     }
+  }
 
-    void add(int num) {
-        int ran_level = RandomLevel();
-        std::shared_ptr<node> new_node = std::make_shared<node>(num, ran_level);
-        vector<std::shared_ptr<node>> prev(MAXLENGTH, _head);
-        std::shared_ptr<node> temp = FindGENode(num, prev);
-        if (ran_level > _max_height) {
-            for (int i = _max_height - 1; i < ran_level; i++) {
-                prev[i] = _head;
-            }
-            _max_height = ran_level;
-        }
-        for (int i = 0; i < _max_height; i++) {
-            new_node->next[i] = prev[i]->next[i];
-            prev[i]->next[i] = new_node;
-        }
+  auto Erase(int num) -> bool {
+    std::vector<std::shared_ptr<Node>> prev(MAXLENGTH, head_);
+    std::shared_ptr<Node> temp = FindGENode(num, prev);
+    if (temp == nullptr || temp->key_ != num) {
+      return false;
     }
-
-    bool erase(int num) {
-        vector<std::shared_ptr<node>> prev(MAXLENGTH, _head);
-        std::shared_ptr<node> temp = FindGENode(num, prev);
-        if (temp == nullptr || temp->key != num) {
-            return false;
-        }
-        int level = temp->next.size();
-        for (int i = 0; i < level; i++) {
-            prev[i]->next[i] = temp->next[i];
-        }
-        temp.reset();
-        return true;
+    int level = temp->next_.size();
+    for (int i = 0; i < level; i++) {
+      prev[i]->next_[i] = temp->next_[i];
     }
+    temp.reset();
+    return true;
+  }
 
-    ~Skiplist() = default;
+  ~Skiplist() = default;
 };
 
-#endif //MYCPPIMPLEMENT_MYSKIPLIST_H
+#endif  // MYCPPIMPLEMENT_MYSKIPLIST_H
