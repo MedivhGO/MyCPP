@@ -28,11 +28,9 @@ TEST(MyCppFeatureTest, test2) {
     auto operator<=>(const IntWrapper &b) const -> auto{  // 尾置返回类型
       [[likely]] if (a_ < b.a_) {                         // likely
         return -1;
-      }
-      else if (a_ == b.a_) {
+      } else if (a_ == b.a_) {
         return 0;
-      }
-      else {
+      } else {
         return 1;
       }
     }
