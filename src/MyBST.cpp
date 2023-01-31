@@ -108,7 +108,8 @@ auto BST::FindNode(int _value) -> BST::Node ** {
   while (*ret != nullptr) {
     if ((*ret)->value_ == _value) {
       return ret;
-    } else if ((*ret)->value_ > _value) {
+    }
+    if ((*ret)->value_ > _value) {
       ret = &((*ret)->left_);
     } else {
       ret = &((*ret)->right_);
@@ -126,7 +127,8 @@ auto BST::FindParrent(int _value) -> BST::Node ** {
   while (((*ret)->right_ != nullptr) || ((*ret)->left_ != nullptr)) {
     if (((*ret)->right_ != nullptr) && (*ret)->value_ < _value && (*ret)->right_->value_ == _value) {
       return ret;
-    } else if (((*ret)->left_ != nullptr) && (*ret)->value_ > _value && (*ret)->left_->value_ == _value) {
+    }
+    if (((*ret)->left_ != nullptr) && (*ret)->value_ > _value && (*ret)->left_->value_ == _value) {
       return ret;
     }
 
@@ -149,14 +151,12 @@ auto BST::FindPredecessor(int _value) -> BST::Node ** {
 
   if ((*target_node)->left_ == nullptr) {
     return target_node;
-  } else {
-    target_node = &((*target_node)->left_);
   }
 
+  target_node = &((*target_node)->left_);
   while ((*target_node)->right_ != nullptr) {
     target_node = &((*target_node)->right_);
   }
-
   return target_node;
 }
 
@@ -170,14 +170,11 @@ auto BST::FindSuccessor(int _value) -> BST::Node ** {
 
   if (((*target_node)->right_) == nullptr) {
     return target_node;
-  } else {
-    target_node = &((*target_node)->right_);
   }
-
+  target_node = &((*target_node)->right_);
   while ((*target_node)->left_ != nullptr) {
     target_node = &((*target_node)->left_);
   }
-
   return target_node;
 }
 
