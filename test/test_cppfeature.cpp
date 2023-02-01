@@ -8,6 +8,8 @@
 #include <regex>
 #include <string>
 #include <type_traits>
+#include <numbers>
+#include <unordered_set>
 
 TEST(MyCppFeatureTest, test1) {
   // Structured Bindings for C++ 17
@@ -187,4 +189,57 @@ TEST(MyCppFeatureTest, test13) {
   for (const auto &x : i_vec) {
     EXPECT_EQ(x, 1);
   }
+}
+
+TEST(MyCppFeatureTest, test14) {
+  // ranges
+  std::vector a = {3, 2, 1};
+  std::vector b = {3, 2, 1};
+  std::ranges::sort(a.begin(), a.end());
+  std::ranges::sort(b);
+
+  EXPECT_EQ(a, b);
+  EXPECT_EQ(std::ranges::max(a), 3);
+  EXPECT_EQ(std::ranges::min(a),1);
+}
+
+TEST(MyCppFeatureTest, test15) {
+  std::string s = "bocchi the rock";
+  EXPECT_TRUE(s.starts_with("bocchi"));
+}
+
+TEST(MyCppFeatureTest, test16) {
+  constexpr std::string_view haystack =
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+      "do eiusmod tempor incididunt ut labore et dolore magna aliqua";
+  const std::string_view  needle{"pisci"};
+  auto it = std::search(haystack.begin(), haystack.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
+  EXPECT_EQ(it - haystack.begin(), 43);
+}
+
+TEST(MyCppFeatureTest, test17) {
+  const std::string_view  needle{"pisci"};
+  std::quoted(needle); // 给字符串加上双引号。
+}
+
+TEST(MyCppFeatureTest, test18) {
+  const std::string_view  needle{"pisci"};
+  std::quoted(needle); // 给字符串加上双引号
+}
+
+TEST(MyCppFeatureTest, test19) {
+  EXPECT_EQ(std::numbers::pi, std::numbers::pi_v<double>);
+}
+
+TEST(MyCppFeatureTest, test20) {
+  std::map<int, int> map{{1, 10}, {2, 20}, {3, 30}};
+  std::unordered_set<int> u_set{1, 2, 3};
+  EXPECT_TRUE(map.contains(1));
+  EXPECT_FALSE(u_set.contains(4));
+}
+
+TEST(MyCppFeatureTest, test21) {
+  std::vector a{1,2,3,4,5};
+  EXPECT_EQ(a.rbegin()[0], 5);
+  EXPECT_EQ(rbegin(a)[1],4);
 }
