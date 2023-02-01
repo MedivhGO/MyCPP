@@ -193,6 +193,7 @@ TEST(MyCppFeatureTest, test13) {
 
 TEST(MyCppFeatureTest, test14) {
   // ranges
+  // C++ 20
   std::vector a = {3, 2, 1};
   std::vector b = {3, 2, 1};
   std::ranges::sort(a.begin(), a.end());
@@ -204,11 +205,13 @@ TEST(MyCppFeatureTest, test14) {
 }
 
 TEST(MyCppFeatureTest, test15) {
+    // C++ 20
   std::string s = "bocchi the rock";
   EXPECT_TRUE(s.starts_with("bocchi"));
 }
 
 TEST(MyCppFeatureTest, test16) {
+  // C++ 17
   constexpr std::string_view haystack =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
       "do eiusmod tempor incididunt ut labore et dolore magna aliqua";
@@ -218,28 +221,67 @@ TEST(MyCppFeatureTest, test16) {
 }
 
 TEST(MyCppFeatureTest, test17) {
-  const std::string_view  needle{"pisci"};
-  std::quoted(needle); // 给字符串加上双引号。
-}
-
-TEST(MyCppFeatureTest, test18) {
+    // C++ 14
   const std::string_view  needle{"pisci"};
   std::quoted(needle); // 给字符串加上双引号
 }
 
-TEST(MyCppFeatureTest, test19) {
+TEST(MyCppFeatureTest, test18) {
   EXPECT_EQ(std::numbers::pi, std::numbers::pi_v<double>);
 }
 
-TEST(MyCppFeatureTest, test20) {
+TEST(MyCppFeatureTest, test19) {
   std::map<int, int> map{{1, 10}, {2, 20}, {3, 30}};
   std::unordered_set<int> u_set{1, 2, 3};
   EXPECT_TRUE(map.contains(1));
   EXPECT_FALSE(u_set.contains(4));
 }
 
-TEST(MyCppFeatureTest, test21) {
+TEST(MyCppFeatureTest, test20) {
+    // C++ 17
   std::vector a{1,2,3,4,5};
   EXPECT_EQ(a.rbegin()[0], 5);
   EXPECT_EQ(rbegin(a)[1],4);
+
+  EXPECT_EQ(a.end()[-1], 5);
+  EXPECT_EQ(end(a)[-2], 4);
 }
+
+TEST(MyCppFeatureTest, test21) {
+    uint32_t a = 1;
+    EXPECT_EQ(std::popcount(a),1);
+    EXPECT_TRUE(std::has_single_bit(a));
+    EXPECT_EQ(std::countl_zero(a),31);
+}
+
+TEST(MyCppFeatureTest, test22) {
+    // C++ 20
+    uint32_t a = 1;
+    EXPECT_EQ(std::popcount(a),1);
+    EXPECT_TRUE(std::has_single_bit(a));
+    EXPECT_EQ(std::countl_zero(a),31);
+}
+
+TEST(MyCppFeatureTest, test23) {
+    // C++ 17
+    std::vector<int> a{1,2,3};
+    for (int idx = 1; auto x : a) { // 将初始化语句放入其中
+        x += idx++;
+    }
+
+    for (int idx = 0; auto dx : {1, 1, 1, 1}) {
+        EXPECT_EQ(1,idx+dx);
+    }
+}
+
+constexpr auto sort(auto arr) {
+    std::sort(arr.begin(), arr.end());
+    return arr;
+}
+
+TEST(MyCppFeatureTest, test24) {
+    // C++ 20
+    constexpr auto ret = sort(std::array{3,2,1});
+    static_assert(std::is_sorted(ret.begin(), ret.end())); // 编译期间检查是否已经排好序
+}
+
