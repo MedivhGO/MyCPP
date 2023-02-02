@@ -5,10 +5,10 @@
 #include <gtest/gtest.h>
 
 #include <future>
+#include <numbers>
 #include <regex>
 #include <string>
 #include <type_traits>
-#include <numbers>
 #include <unordered_set>
 
 TEST(MyCppFeatureTest, test1) {
@@ -28,13 +28,13 @@ TEST(MyCppFeatureTest, test2) {
     int a_;
     explicit IntWrapper(int data) : a_(data) {}
     auto operator<=>(const IntWrapper &b) const -> auto{  // 尾置返回类型
-      [[likely]] if (a_ < b.a_) {                         // likely
+      [[likely]] if (a_ < b.a_) {                         // likely C++ 20
         return -1;
-      } else if (a_ == b.a_) {
-        return 0;
-      } else {
-        return 1;
       }
+      if (a_ == b.a_) {
+        return 0;
+      }
+      return 1;
     }
   };
   EXPECT_TRUE(IntWrapper(1) < IntWrapper(2));
@@ -201,11 +201,11 @@ TEST(MyCppFeatureTest, test14) {
 
   EXPECT_EQ(a, b);
   EXPECT_EQ(std::ranges::max(a), 3);
-  EXPECT_EQ(std::ranges::min(a),1);
+  EXPECT_EQ(std::ranges::min(a), 1);
 }
 
 TEST(MyCppFeatureTest, test15) {
-    // C++ 20
+  // C++ 20
   std::string s = "bocchi the rock";
   EXPECT_TRUE(s.starts_with("bocchi"));
 }
@@ -215,18 +215,19 @@ TEST(MyCppFeatureTest, test16) {
   constexpr std::string_view haystack =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
       "do eiusmod tempor incididunt ut labore et dolore magna aliqua";
-  const std::string_view  needle{"pisci"};
+  const std::string_view needle{"pisci"};
   auto it = std::search(haystack.begin(), haystack.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
   EXPECT_EQ(it - haystack.begin(), 43);
 }
 
 TEST(MyCppFeatureTest, test17) {
-    // C++ 14
-  const std::string_view  needle{"pisci"};
-  std::quoted(needle); // 给字符串加上双引号
+  // C++ 14
+  const std::string_view needle{"pisci"};
+  std::quoted(needle);  // 给字符串加上双引号
 }
 
 TEST(MyCppFeatureTest, test18) {
+  // C++ 14 支持变量模板
   EXPECT_EQ(std::numbers::pi, std::numbers::pi_v<double>);
 }
 
@@ -238,50 +239,69 @@ TEST(MyCppFeatureTest, test19) {
 }
 
 TEST(MyCppFeatureTest, test20) {
-    // C++ 17
-  std::vector a{1,2,3,4,5};
+  // C++ 17
+  std::vector a{1, 2, 3, 4, 5};
   EXPECT_EQ(a.rbegin()[0], 5);
-  EXPECT_EQ(rbegin(a)[1],4);
+  EXPECT_EQ(rbegin(a)[1], 4);
 
   EXPECT_EQ(a.end()[-1], 5);
   EXPECT_EQ(end(a)[-2], 4);
 }
 
 TEST(MyCppFeatureTest, test21) {
-    uint32_t a = 1;
-    EXPECT_EQ(std::popcount(a),1);
-    EXPECT_TRUE(std::has_single_bit(a));
-    EXPECT_EQ(std::countl_zero(a),31);
-}
-
-TEST(MyCppFeatureTest, test22) {
-    // C++ 20
-    uint32_t a = 1;
-    EXPECT_EQ(std::popcount(a),1);
-    EXPECT_TRUE(std::has_single_bit(a));
-    EXPECT_EQ(std::countl_zero(a),31);
+  uint32_t a = 1;
+  EXPECT_EQ(std::popcount(a), 1);
+  EXPECT_TRUE(std::has_single_bit(a));
+  EXPECT_EQ(std::countl_zero(a), 31);
 }
 
 TEST(MyCppFeatureTest, test23) {
-    // C++ 17
-    std::vector<int> a{1,2,3};
-    for (int idx = 1; auto x : a) { // 将初始化语句放入其中
-        x += idx++;
-    }
+  // C++ 17
+  std::vector<int> a{1, 2, 3};
+  for (int idx = 1; auto x : a) {  // 将初始化语句放入其中
+    x += idx++;
+  }
 
-    for (int idx = 0; auto dx : {1, 1, 1, 1}) {
-        EXPECT_EQ(1,idx+dx);
-    }
+  for (int idx = 0; auto dx : {1, 1, 1, 1}) {
+    EXPECT_EQ(1, idx + dx);
+  }
 }
 
-constexpr auto sort(auto arr) {
-    std::sort(arr.begin(), arr.end());
-    return arr;
+constexpr auto Sort(auto arr) -> std::array<int, 3> {
+  std::sort(arr.begin(), arr.end());
+  return arr;
 }
 
 TEST(MyCppFeatureTest, test24) {
-    // C++ 20
-    constexpr auto ret = sort(std::array{3,2,1});
-    static_assert(std::is_sorted(ret.begin(), ret.end())); // 编译期间检查是否已经排好序
+  // C++ 20
+  constexpr auto ret = Sort(std::array{3, 2, 1});
+  static_assert(std::is_sorted(ret.begin(), ret.end()));  // 编译期间检查是否已经排好序
 }
 
+struct [[deprecated]] DepClass {};
+
+TEST(MyCppFeatureTest, test25) {
+  // C++ 14
+  // DepClass dc; compile warning
+}
+
+TEST(MyCppFeatureTest, test26) {
+  // C++ 14
+  int a = 0b0001'0011'1010;
+  double b = 3.14'1234'1234'1234;
+}
+
+TEST(MyCppFeatureTest, test27) {
+  // C++ 14
+  struct A {};
+  std::unique_ptr<A> ptr = std::make_unique<A>();
+}
+
+TEST(MyCppFeatureTest, test28) {
+  // C++ 14
+  // 将第二个参数交给第一个参数，返回值为第二个参数
+  std::vector<int> v;
+  auto p = std::exchange(v, {1, 2, 3, 4});
+  EXPECT_EQ(v.size(), 4);
+  EXPECT_EQ(p.size(), 0);
+}
