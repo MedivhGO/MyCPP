@@ -3,11 +3,11 @@ project(MyCppImplement)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -g")
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -ASAN_OPTIONS=detect_odr_violation=0")
-set (CMAKE_CXX_FLAGS "-DCMAKE_EXPORT_COMPILE_COMMANDS=1")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address
+# -ASAN_OPTIONS=detect_odr_violation=0")
+set(CMAKE_CXX_FLAGS "-DCMAKE_EXPORT_COMPILE_COMMANDS=1")
 
-MESSAGE(STATUS "Begin CmakeList")
-
+message(STATUS "Begin CmakeList")
 
 set(tool_dest "bin")
 set(lib_dest "lib")
@@ -18,4 +18,4 @@ add_subdirectory(test)
 add_subdirectory(third_party/googletest/googletest)
 include_directories(third_party/googletest/googletest/include)
 
-MESSAGE(STATUS "End CmakeList")
+message(STATUS "End CmakeList")
