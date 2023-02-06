@@ -104,12 +104,20 @@ auto operator>>(std::istream &is, MyString &str) -> std::istream & {
   return is;
 }
 
-auto operator==(const MyString &lhs, const MyString &rhs) -> bool { return strcmp(lhs.Get(), rhs.Get()) == 0; }
+auto operator<=>(const MyString &lhs, const MyString& rhs) -> std::partial_ordering {
+  if (strcmp(lhs.Get(), rhs.Get()) < 0) {
+    return std::partial_ordering::less;
+  }
+  if (strcmp(lhs.Get(), rhs.Get()) > 0) {
+    return std::partial_ordering::greater;
+  }
+  return std::partial_ordering::equivalent;
+}
 
-auto operator!=(const MyString &lhs, const MyString &rhs) -> bool { return !(lhs == rhs); }
-
-auto operator>=(const MyString &lhs, const MyString &rhs) -> bool { return (strcmp(lhs.Get(), rhs.Get()) >= 0); }
-auto operator<=(const MyString &lhs, const MyString &rhs) -> bool { return (strcmp(lhs.Get(), rhs.Get()) <= 0); }
+// 还需要实现 ==
+auto operator==(const MyString &lhs, const MyString& rhs) -> bool {
+  return (lhs<=>rhs) == 0;
+}
 
 void Swap(MyString &lhs, MyString &rhs) {
   char *t = lhs.s_data_;

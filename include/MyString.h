@@ -27,13 +27,9 @@ class MyString {
 
   friend auto operator>>(std::istream &is, MyString &str) -> std::istream &;
 
-  friend auto operator==(const MyString &lhs, const MyString &rhs) -> bool;
+  friend auto operator<=>(const MyString &lhs, const MyString& rhs) -> std::partial_ordering;
 
-  friend auto operator!=(const MyString &lhs, const MyString &rhs) -> bool;
-
-  friend auto operator>=(const MyString &lhs, const MyString &rhs) -> bool;
-
-  friend auto operator<=(const MyString &lhs, const MyString &rhs) -> bool;
+  friend auto operator==(const MyString &lhs, const MyString& rhs) -> bool;
 
   friend void Swap(MyString &lhs, MyString &rhs);
 
