@@ -18,6 +18,7 @@
 - [x] 实现MyFileWriter
 - [x] 实现MyRBTree
 - [x] 实现MyProfiler
+- [ ] 实现MyVector
 
 ## dependencies
 
@@ -82,3 +83,5 @@ See also:
 - https://github.com/0xf3cd/Compiler-Tokenizer
 - https://github.com/Xue64/The-Dive-Library
 - https://github.com/Dynmi/RedBlackTree
+- https://github.com/percentcer/VectorTest
+- https://github.com/taskflow/taskflow
