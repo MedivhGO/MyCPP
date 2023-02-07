@@ -14,7 +14,8 @@
 #include <cstddef>
 
 // https://stackoverflow.com/questions/49503152/is-using-namespace-stdliterals-safe
-using namespace std::literals;
+// using namespace std::literals;
+using std::literals::string_literals::operator""s;
 
 TEST(MyCppFeatureTest, test1) {
   // Structured Bindings for C++ 17
