@@ -19,6 +19,7 @@
 - [x] 实现MyRBTree
 - [x] 实现MyProfiler
 - [ ] 实现MyVector
+- [ ] 实现MySmallVector
 
 ## dependencies
 

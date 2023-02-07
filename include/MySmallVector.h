@@ -2,8 +2,8 @@
 // Created by Lee on 2023/2/6.
 //
 
-#ifndef MYCPPIMPLEMENT_MYSMALLVEC_H
-#define MYCPPIMPLEMENT_MYSMALLVEC_H
+#ifndef MYCPPIMPLEMENT_MYSMALLVECTOR_H
+#define MYCPPIMPLEMENT_MYSMALLVECTOR_H
 
 // small vector modified from llvm
 
@@ -1052,4 +1052,4 @@ swap(tf::SmallVector<T, N> &LHS, tf::SmallVector<T, N> &RHS) {
 }
 }  // end of namespace std ----------------------------------------------------
 
-#endif  // MYCPPIMPLEMENT_MYSMALLVEC_H
+#endif  // MYCPPIMPLEMENT_MYSMALLVECTOR_H
