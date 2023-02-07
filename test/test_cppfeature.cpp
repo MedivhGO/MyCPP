@@ -10,6 +10,10 @@
 #include <string>
 #include <type_traits>
 #include <unordered_set>
+#include <string_view>
+
+// https://stackoverflow.com/questions/49503152/is-using-namespace-stdliterals-safe
+using namespace std::literals;
 
 TEST(MyCppFeatureTest, test1) {
   // Structured Bindings for C++ 17
@@ -318,10 +322,8 @@ TEST(MyCppFeatureTest, test30) {
   // 字符串查找
   // 遍历字符串
   // 显示字符串
-  constexpr auto s = "it is a test"sv; // 字面量后缀 sv
+  std::string_view s = "it is a test"sv; // 字面量后缀 sv
 
-  std::string_view sv1("hello world");
-  std::string s1(sv1);
-  EXPECT_EQ(8, sizeof(sv1));
-  EXPECT_EQ(28, sizeof(s1));
+  std::string_view sv1("abc");
+  EXPECT_EQ(std::size(sv1), 3);
 }
