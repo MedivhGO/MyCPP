@@ -305,3 +305,23 @@ TEST(MyCppFeatureTest, test28) {
   EXPECT_EQ(v.size(), 4);
   EXPECT_EQ(p.size(), 0);
 }
+
+TEST(MyCppFeatureTest, test30) {
+  // C++ 17
+  // string_view 是一个 char 数据的视图或者说引用，它并不拥有该数据是为了避免拷贝，
+  // 因此使用 string_view 可以用来做性能优化
+  // 由于 string_vew 并不拥有所引用的字符串，所以它也不会去关注被引用字符串的生命周期
+  // 用户在使用的时候需要注意，不要将一个临时变量给一个 string_view
+  // 那样会导致 string_view 引用的内容也失效
+
+  // 使用场景
+  // 字符串查找
+  // 遍历字符串
+  // 显示字符串
+  constexpr auto s = "it is a test"sv; // 字面量后缀 sv
+
+  std::string_view sv1("hello world");
+  std::string s1(sv1);
+  EXPECT_EQ(8, sizeof(sv1));
+  EXPECT_EQ(28, sizeof(s1));
+}
