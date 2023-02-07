@@ -11,6 +11,7 @@
 #include <type_traits>
 #include <unordered_set>
 #include <string_view>
+#include <cstddef>
 
 // https://stackoverflow.com/questions/49503152/is-using-namespace-stdliterals-safe
 using namespace std::literals;
@@ -308,6 +309,20 @@ TEST(MyCppFeatureTest, test28) {
   auto p = std::exchange(v, {1, 2, 3, 4});
   EXPECT_EQ(v.size(), 4);
   EXPECT_EQ(p.size(), 0);
+}
+
+TEST(MyCppFeatureTest, test29) {
+    // C++ 17 std::byte 为了类型安全，禁止其做某些操作
+    std::byte b1{0x3F};
+    std::byte b2{0b1111'0000};
+    std::byte b4[4] {b1, b2, std::byte{1}}; // b4[3] 为 0
+    EXPECT_EQ(b1, b4[0]);
+    std::byte b5{42}; // OK (as for all enums with fixed underlying type since C++17), 只能使用列表初始化
+    // std::byte b2(42） error
+    // std::byte b3 = 42; // ERROR
+    // std::byte b4 = {42}; // ERROR
+    EXPECT_TRUE(b2 == std::byte{0b1111'0000});
+    EXPECT_EQ(std::to_integer<int>(b2), 240);
 }
 
 TEST(MyCppFeatureTest, test30) {

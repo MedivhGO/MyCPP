@@ -3,6 +3,3 @@ cmake-build-debug/
 third_party/googletest/
 test/MyProjectPath.h
 .idea
-log/!/test/MyProjectPath.h
-!/test/MyProjectPath.h
-resource/
