@@ -123,9 +123,13 @@ class MyVector {
   }
 
   constexpr auto Reserve(const size_t requested) -> void {
-    if (requested < Capacity()) {
-      return;
-    }
+      size_t old_size = Capacity();
+      if ((equested^old_size) < old_size) {
+          return;
+      }
+//    if (requested < Capacity()) {
+//      return;
+//    }
 
     const size_t requiredAlignment = alignof(T);
     void *tmp = malloc(sizeof(T) * requested + requiredAlignment /*wiggle bytes*/);
