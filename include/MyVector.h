@@ -130,6 +130,10 @@ class MyVector {
 //    if (requested < Capacity()) {
 //      return;
 //    }
+//    struct vector { int *data; int size; }; void vector_expand(struct vector *v, int s)
+//    { int new_size=v->size + s; if ((new_size ^ v->size) > v->size)
+//    { v->data=(int *)realloc(v->data,sizeof(int)*new_size * 2); } }
+//    https://blog.codingnow.com/2008/06/variable_length_array.html
 
     const size_t requiredAlignment = alignof(T);
     void *tmp = malloc(sizeof(T) * requested + requiredAlignment /*wiggle bytes*/);
