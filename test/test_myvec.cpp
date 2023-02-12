@@ -211,7 +211,7 @@ TEST_F(MyVecTest, DestroyElements) {
   // destroy the first half of the vector
   destructo.DestroyElements(0, insertions >> 1);
 
-  for (size_t i = 0; i<insertions>> 1; ++i) {
+  for (size_t i = 0; i < insertions >> 1; ++i) {
     EXPECT_TRUE(destructo[i].destroyed);
   }
   for (size_t i = (insertions >> 1) + 1; i < destructo.Size(); ++i) {

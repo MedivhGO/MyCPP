@@ -31,7 +31,7 @@
 @brief small vector include file
 */
 
-namespace tf { namespace detail {
+namespace util { namespace detail {
 
 /**
 @private
@@ -49,10 +49,10 @@ inline uint64_t NextCapacity(uint64_t A) {
   return A + 1;
 }
 
-}}  // end of namespace tf::detail --------------------------------------------
+}}  // end of namespace util::detail --------------------------------------------
 
 
-namespace tf {
+namespace util {
 
 /**
 @private
@@ -303,7 +303,7 @@ void SmallVectorTemplateBase<T, isPodLike>::grow(size_t MinSize) {
   size_t CurCapacity = this->capacity();
   size_t CurSize = this->size();
   // Always grow, even from zero.
-  size_t NewCapacity = size_t(tf::detail::NextCapacity(CurCapacity+2));
+  size_t NewCapacity = size_t(util::detail::NextCapacity(CurCapacity+2));
   if (NewCapacity < MinSize)
     NewCapacity = MinSize;
   T *NewElts = static_cast<T*>(std::malloc(NewCapacity*sizeof(T)));
@@ -960,7 +960,7 @@ class SmallVector : public SmallVectorImpl<T> {
   }
 
   //template <typename RangeTy>
-  //explicit SmallVector(const tf::iterator_range<RangeTy> &R)
+  //explicit SmallVector(const util::iterator_range<RangeTy> &R)
   //    : SmallVectorImpl<T>(N) {
   //  this->append(R.begin(), R.end());
   //}
@@ -1034,20 +1034,20 @@ static inline size_t capacity_in_bytes(const SmallVector<T, N> &X) {
   return X.capacity_in_bytes();
 }
 
-} // end tf namespace ---------------------------------------------------------
+} // end util namespace ---------------------------------------------------------
 
 namespace std {
 /// Implement std::swap in terms of SmallVector swap.
 template<typename T>
 inline void
-swap(tf::SmallVectorImpl<T> &LHS, tf::SmallVectorImpl<T> &RHS) {
+swap(util::SmallVectorImpl<T> &LHS, util::SmallVectorImpl<T> &RHS) {
   LHS.swap(RHS);
 }
 
 /// Implement std::swap in terms of SmallVector swap.
 template<typename T, unsigned N>
 inline void
-swap(tf::SmallVector<T, N> &LHS, tf::SmallVector<T, N> &RHS) {
+swap(util::SmallVector<T, N> &LHS, util::SmallVector<T, N> &RHS) {
   LHS.swap(RHS);
 }
 }  // end of namespace std ----------------------------------------------------
