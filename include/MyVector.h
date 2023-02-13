@@ -61,6 +61,7 @@ class MyVector {
 
   constexpr ~MyVector() noexcept {
     DestroyElements(first_, last_);
+    free(first_);
     first_ = nullptr;
     last_ = nullptr;
     end_ = nullptr;
