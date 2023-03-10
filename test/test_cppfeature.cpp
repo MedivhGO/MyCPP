@@ -343,3 +343,9 @@ TEST(MyCppFeatureTest, test30) {
   std::string_view sv1("abc");
   EXPECT_EQ(std::size(sv1), 3);
 }
+
+TEST(MyCppFeatureTest, test31) {
+  std::shared_ptr<const int> sp = nullptr;
+  sp = std::make_shared<const int>(10);
+  EXPECT_EQ(*sp, 10);
+}
