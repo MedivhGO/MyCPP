@@ -351,6 +351,7 @@ TEST(MyCppFeatureTest, test31) {
 }
 
 // 零长数组
+// https://stackoverflow.com/questions/15329907/whats-the-difference-between-char-and-char-in-struct
 typedef struct {
   int age;
   char const *name;
