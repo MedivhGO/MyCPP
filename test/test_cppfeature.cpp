@@ -349,3 +349,53 @@ TEST(MyCppFeatureTest, test31) {
   sp = std::make_shared<const int>(10);
   EXPECT_EQ(*sp, 10);
 }
+
+// 零长数组
+typedef struct {
+  int age;
+  char const *name;
+  char intro[];
+} Person;
+
+// 结构体后的空间都可以存储数组
+
+Person *PersonNew(char const* name, int age, char const *intro) {
+  size_t intro_len = (intro ? strlen(intro) : 0) + 1;
+  Person *p = (Person*)malloc(sizeof(Person) + intro_len);
+  p->age = age;
+  p->name = name;
+  if (intro) {
+    strcpy(p->intro, intro);
+  } else {
+    p->intro[0] = 0;
+  }
+  return p;
+}
+
+void PersonToString(Person const* const p) {
+  printf("Person{name%s, age=%d, intro=%s}\n", p->name, p->age, p->intro);
+}
+
+void PersonDestory(Person** ptr) {
+  if (ptr && *ptr) {
+    free(*ptr);
+    *ptr = NULL;
+  }
+}
+
+void PersonSetIntro(Person** ptr, char const* intro) {
+  if (ptr && *ptr) {
+    Person *person = *ptr;
+    Person *new_person = PersonNew(person->name, person->age, intro);
+    PersonDestory(ptr);
+    *ptr = new_person;
+  }
+}
+
+TEST(MyCppFeatureTest, test32) {
+  Person *p = PersonNew("hello", 10, "world1");
+  PersonToString(p);
+  PersonSetIntro(&p, "world2");
+  PersonToString(p);
+  PersonDestory(&p);
+}
