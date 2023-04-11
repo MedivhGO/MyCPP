@@ -222,7 +222,8 @@ TEST(MyCppFeatureTest, test16) {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
       "do eiusmod tempor incididunt ut labore et dolore magna aliqua";
   const std::string_view needle{"pisci"};
-  auto it = std::search(haystack.begin(), haystack.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
+  auto it = std::search(haystack.begin(), haystack.end(),
+                        std::boyer_moore_searcher(needle.begin(), needle.end()));
   EXPECT_EQ(it - haystack.begin(), 43);
 }
 
