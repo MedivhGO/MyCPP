@@ -8,7 +8,6 @@
 #include "Sort/InsertSort.h"
 #include "Sort/MergeSort.h"
 #include "Sort/QuickSort.h"
-#include "Sort/QuickSortMedianOfThree.h"
 #include "Sort/SelectSort.h"
 #include "Sort/BinarySearch.h"
 #include "MyRandom.h"
@@ -71,19 +70,17 @@ TEST(MySort, test_quicksort) {
     EXPECT_EQ(sorted_dataset, test_dataset);
 }
 
-TEST(MySort, DISABLED_test_quicksortmedianofthree) {
+TEST(MySort, test_quicksortmedianofthree) {
     RandomNumberGenerator rng(-100000, 100000);
     vector<int> test_dataset;
     for (int i = 0; i < 1000000; ++i) {
         test_dataset.push_back(rng.GetRandomNumberByMt19937());
     }
-    QS qs(test_dataset);
-    auto tmp = [&]() {
-        qs.sortAll();
-    };
+    std::vector<int> sorted_dataset = test_dataset;
     auto res1 = measure(QuickSort,test_dataset, 0, test_dataset.size()).count();
-    auto res2 = measure(tmp).count();
+    auto res2 = measure(QuickSortMOT,sorted_dataset, 0, sorted_dataset.size()).count();
     EXPECT_LT(res1, res2);
+    EXPECT_EQ(sorted_dataset, test_dataset);
 }
 
 TEST(MySort, test_selectsort) {

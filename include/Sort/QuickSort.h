@@ -59,5 +59,86 @@ void QuickSort(std::vector<int> &data, int left, int right) {
  */
 
 
+// median of three element 划分
+
+void bubbleSort(vector<int>& data, int len) {
+  for (int i = 0; i < len - 1; ++i) {
+    bool skip = false;
+    for (int j = len - 1; j > i; --j) {
+      if (data[j] < data[j-1]) {
+        swap(data[j], data[j - 1]);
+        skip = true;
+      }
+    }
+    if (skip == false) {
+      return;
+    }
+  }
+}
+
+int medianOfThree(std::vector<int>& data, int left, int right) {
+  if (right <= left || data.empty() || right >= data.size() || left < 0) {
+    return -1;
+  }
+  int middle = (left + right) / 2;
+  if (left == middle && data[left] > data[right]) {
+    swap(data[left], data[right]);
+    return middle;
+  }
+  vector<int> tmp;
+  tmp.push_back(data[left]);
+  tmp.push_back(data[right]);
+  tmp.push_back(data[middle]);
+  bubbleSort(tmp, 3);
+  data[left] = tmp[0];
+  data[middle] = tmp[1];
+  data[right] = tmp[2];
+  return middle;
+}
+
+int partition(std::vector<int> &data, int left, int right, int pivotIndex) {
+  if (data.empty()
+      || left < 0
+      || right <= left
+      || right >= data.size()
+      || pivotIndex < left
+      || pivotIndex > right) {
+    return -1;
+  }
+  swap(data[left], data[pivotIndex]);
+  int pivot = data[left];
+  int up = left + 1;
+  int down = right;
+  while (up < down) {
+    while (up <= right && data[up] <= pivot) {
+      up++;
+    }
+    while (down >= left && data[down] > pivot) {
+      down--;
+    }
+    if (up < down) {
+      swap(data[up], data[down]);
+    }
+  }
+  if (down < 0) {
+    return -1;
+  }
+  if (right - left > 1) {
+    swap(data[left], data[down]);
+  }
+  return down;
+}
+
+void QuickSortMOT(std::vector<int> &data, int left, int right) {
+  if (right - left > 1) {
+    int pivot_index = medianOfThree(data, left, right - 1);
+    int part = partition(data, left, right - 1, pivot_index);
+    QuickSortMOT(data, left, part);
+    QuickSortMOT(data, part+1, right);
+  }
+}
+
+
+
 
 #endif // APUE_QUICKSORT_H
