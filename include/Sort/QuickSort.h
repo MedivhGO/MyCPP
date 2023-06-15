@@ -7,32 +7,34 @@
 
 #include <vector>
 
+#include "BubbleSort.h"
+
 // Hoare partition scheme
 // 为第一个元素找合适的位置
 int Partition(std::vector<int> &data, int left, int right) {
-    int ret = left;
-    int pivot = data[left];
-    while (left < right) {
-        while (left < right && data[right] > pivot) {
-            --right;
-        }
-        while (left < right && data[left] <= pivot) { // 把 pivot 归到左半部分
-            ++left;
-        }
-        if (left < right) {
-            swap(data[left], data[right]);
-        }
+  int ret = left;
+  int pivot = data[left];
+  while (left < right) {
+    while (left < right && data[right] > pivot) {
+      --right;
     }
-    swap(data[left], data[ret]);
-    return left;
+    while (left < right && data[left] <= pivot) {  // 把 pivot 归到左半部分
+      ++left;
+    }
+    if (left < right) {
+      swap(data[left], data[right]);
+    }
+  }
+  swap(data[left], data[ret]);
+  return left;
 }
 
 void QuickSort(std::vector<int> &data, int left, int right) {
-    if (right - left > 0) {
-        int i = Partition(data, left, right - 1);
-        QuickSort(data, left, i);
-        QuickSort(data, i + 1, right);
-    }
+  if (right - left > 0) {
+    int i = Partition(data, left, right - 1);
+    QuickSort(data, left, i);
+    QuickSort(data, i + 1, right);
+  }
 }
 
 // 在无序的情况下，每次的划分点都能把数组平均分成两份
@@ -58,25 +60,9 @@ void QuickSort(std::vector<int> &data, int left, int right) {
 一种可选的做法是先记录相同元素的相对位置，再进行排序。这需要额外的空间开销。
  */
 
-
 // median of three element 划分
 
-void bubbleSort(vector<int>& data, int len) {
-  for (int i = 0; i < len - 1; ++i) {
-    bool skip = false;
-    for (int j = len - 1; j > i; --j) {
-      if (data[j] < data[j-1]) {
-        swap(data[j], data[j - 1]);
-        skip = true;
-      }
-    }
-    if (skip == false) {
-      return;
-    }
-  }
-}
-
-int medianOfThree(std::vector<int>& data, int left, int right) {
+int medianOfThree(std::vector<int> &data, int left, int right) {
   if (right <= left || data.empty() || right >= data.size() || left < 0) {
     return -1;
   }
@@ -89,7 +75,7 @@ int medianOfThree(std::vector<int>& data, int left, int right) {
   tmp.push_back(data[left]);
   tmp.push_back(data[right]);
   tmp.push_back(data[middle]);
-  bubbleSort(tmp, 3);
+  BubbleSort(tmp, 3);
   data[left] = tmp[0];
   data[middle] = tmp[1];
   data[right] = tmp[2];
@@ -97,12 +83,7 @@ int medianOfThree(std::vector<int>& data, int left, int right) {
 }
 
 int partition(std::vector<int> &data, int left, int right, int pivotIndex) {
-  if (data.empty()
-      || left < 0
-      || right <= left
-      || right >= data.size()
-      || pivotIndex < left
-      || pivotIndex > right) {
+  if (data.empty() || left < 0 || right <= left || right >= data.size() || pivotIndex < left || pivotIndex > right) {
     return -1;
   }
   swap(data[left], data[pivotIndex]);
@@ -134,11 +115,8 @@ void QuickSortMOT(std::vector<int> &data, int left, int right) {
     int pivot_index = medianOfThree(data, left, right - 1);
     int part = partition(data, left, right - 1, pivot_index);
     QuickSortMOT(data, left, part);
-    QuickSortMOT(data, part+1, right);
+    QuickSortMOT(data, part + 1, right);
   }
 }
 
-
-
-
-#endif // APUE_QUICKSORT_H
+#endif  // APUE_QUICKSORT_H

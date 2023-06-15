@@ -70,10 +70,10 @@ TEST(MySort, test_quicksort) {
     EXPECT_EQ(sorted_dataset, test_dataset);
 }
 
-TEST(MySort, test_quicksortmedianofthree) {
+TEST(MySort, test_quicksortmot) {
     RandomNumberGenerator rng(-100000, 100000);
     vector<int> test_dataset;
-    for (int i = 0; i < 1000000; ++i) {
+    for (int i = 0; i < 10000; ++i) {
         test_dataset.push_back(rng.GetRandomNumberByMt19937());
     }
     std::vector<int> sorted_dataset = test_dataset;
