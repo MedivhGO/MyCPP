@@ -18,7 +18,7 @@
 - [x] 实现MyFileWriter
 - [x] 实现MyRBTree
 - [x] 实现MyProfiler
-- [ ] 实现MyVector
+- [x] 实现MyVector
 
 ## dependencies
 
