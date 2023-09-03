@@ -9,7 +9,6 @@
 - [x] 实现MutexLock
 - [x] 实现MyMatrix(strassen实现矩阵乘法)
 - [x] 实现Singleton
-- [ ] 实现MyMalloc
 - [x] 实现MyBST(binary search tree)
 - [x] 实现MyError
 - [x] 实现MyHashMap
