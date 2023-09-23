@@ -10,6 +10,7 @@
 
 #include <random>
 #include <vector>
+#include <memory>
 
 struct Node {
   int key_;

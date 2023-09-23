@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 project(MyCppImplement)
 
+set(GOOGLETEST_VERSION 1.11.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -g")
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address
