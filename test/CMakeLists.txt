@@ -10,7 +10,8 @@ add_executable(
   test_myds.cpp
   test_cppfeature.cpp
   test_mysort.cpp
-  test_mybst.cpp test_myvec.cpp)
+  test_mybst.cpp test_myvec.cpp
+  test_myskiplist.cpp)
 
 target_link_libraries(${PROJECT_NAME}.test ${PROJECT_NAME} gtest pthread)
 
