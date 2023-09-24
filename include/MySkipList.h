@@ -31,14 +31,14 @@ class Skiplist {
   static constexpr auto DEFAULT_MAX_LEVEL = 16;
   static constexpr auto DEFAULT_PROBABILITY = 0.5F;
   static constexpr auto HEAD_VALUE = "head";
-  static constexpr auto TAIIL_VALUE = "NIL";
+  static constexpr auto TAIL_VALUE = "NIL";
 
  public:
   Skiplist() : Skiplist(DEFAULT_PROBABILITY, DEFAULT_MAX_LEVEL) {}
 
   Skiplist(const float probability, const unsigned int max_level) : probability_(probability), max_level_(max_level) {
     head_ = std::make_shared<Node>(std::numeric_limits<int>::min(), HEAD_VALUE, max_level);
-    tail_ = std::make_shared<Node>(std::numeric_limits<int>::max(), TAIIL_VALUE, max_level);
+    tail_ = std::make_shared<Node>(std::numeric_limits<int>::max(), TAIL_VALUE, max_level);
     std::fill(head_->next_.begin(), head_->next_.end(), tail_);
     ResetMaxKey();
   }
