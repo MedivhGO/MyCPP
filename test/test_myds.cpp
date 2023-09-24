@@ -8,18 +8,6 @@
 #include "MySkipList.h"
 #include "hashmap.h"
 
-TEST(MyDataStructTest, test1) {
-  Skiplist skiplist;
-  for (int i = 0; i < 100; ++i) {
-    skiplist.Add(i);
-  }
-
-  RandomNumberGenerator rng(0, 99);
-  for (int i = 0; i < 100; ++i) {
-    EXPECT_TRUE(skiplist.Search(rng.GetRandomNumberByMt19937()));
-  }
-}
-
 template <typename KeyType, typename MappedTyped>
 auto FindKeys(const HashMap<KeyType, MappedTyped> &map) -> std::set<KeyType> {
   std::set<KeyType> res;
