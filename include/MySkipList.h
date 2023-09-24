@@ -6,7 +6,6 @@
 #define MYCPPIMPLEMENT_MYSKIPLIST_H
 
 #define MAXLENGTH 32
-#define N 999
 
 #include <random>
 #include <vector>
@@ -32,6 +31,10 @@ class Skiplist {
   Skiplist() {
     head_ = std::make_shared<Node>(0, MAXLENGTH);
     srand(0);
+  }
+
+  Skiplist(int value, int max_level) {
+    head_ = std::make_shared<Node>(value, max_level);
   }
 
   auto FindGENode(const int key, std::vector<std::shared_ptr<Node>> &prev) -> std::shared_ptr<Node> {  // for insert
@@ -69,7 +72,7 @@ class Skiplist {
 
   auto RandomLevel(float factor = 0.5) -> int {
     int level = 1;
-    while ((rand() % N) / N > factor && level < MAXLENGTH) {
+    while (((rand() % 999) * 1.0 / 999) > factor && level < MAXLENGTH) {
       level++;
     }
     return level;
@@ -109,6 +112,34 @@ class Skiplist {
     }
     temp.reset();
     return true;
+  }
+
+  auto GetMaxLevel() -> int {
+    return 10;
+  }
+
+  auto GetMinKey() -> int {
+    return 10;
+  }
+
+  auto GetMaxKey() -> int {
+    return 20;
+  }
+
+  auto IsEmpty() -> bool {
+    return true;
+  }
+
+  auto InsertOrUpdate(int key, std::string value) -> void {
+    return;
+  }
+
+  auto Peek() -> std::string {
+    return "aa";
+  }
+
+  auto Size() -> int {
+    return 10;
   }
 
   ~Skiplist() = default;

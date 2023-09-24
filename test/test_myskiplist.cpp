@@ -7,357 +7,128 @@
 
 class SkipListTest : public ::testing::Test {
 public:
-    SkipList skipList;
+    Skiplist skipList;
 };
 
-TEST_F(SkipListTest, defaultMaxLevel
-) {
-ASSERT_EQ(16, skipList.
-
-getMaxLevel()
-
-);
+TEST_F(SkipListTest, defaultMaxLevel) {
+    ASSERT_EQ(16, skipList.GetMaxLevel());
 }
 
-TEST_F(SkipListTest, specificMaxLevel
-) {
-const int MAX_LEVEL = 18;
-SkipList skipList = SkipList(0.5, MAX_LEVEL);
-ASSERT_EQ(MAX_LEVEL, skipList
-.
-
-getMaxLevel()
-
-);
+TEST_F(SkipListTest, specificMaxLevel) {
+    const int MAX_LEVEL = 18;
+    Skiplist skipList = Skiplist(0.5, MAX_LEVEL);
+    ASSERT_EQ(MAX_LEVEL, skipList.GetMaxLevel());
 }
 
+TEST_F(SkipListTest, minKey) {
+    ASSERT_THROW(skipList.GetMinKey(), std::runtime_error);
 
-TEST_F(SkipListTest, minKey
-) {
-ASSERT_THROW(skipList
-.
+    skipList.InsertOrUpdate(1, "a");
+    skipList.InsertOrUpdate(2, "b");
+    ASSERT_EQ(1, skipList.GetMinKey());
 
-getMinKey(), std::runtime_error
+    skipList.InsertOrUpdate(3, "d");
+    ASSERT_EQ(1, skipList.GetMinKey());
 
-);
+    skipList.InsertOrUpdate(0, "c");
+    ASSERT_EQ(0, skipList.GetMinKey());
 
-skipList.insertOrUpdate(1, "a");
-skipList.insertOrUpdate(2, "b");
-ASSERT_EQ(1, skipList.
+    skipList.Peek();
 
-getMinKey()
+    ASSERT_EQ(1, skipList.
+            GetMinKey());
+    while (!skipList.IsEmpty()) {
+        skipList.Peek();
+    }
 
-);
-
-skipList.insertOrUpdate(3, "d");
-ASSERT_EQ(1, skipList.
-
-getMinKey()
-
-);
-
-skipList.insertOrUpdate(0, "c");
-ASSERT_EQ(0, skipList.
-
-getMinKey()
-
-);
-
-skipList.
-
-peek();
-
-ASSERT_EQ(1, skipList.
-
-getMinKey()
-
-);
-
-while(!skipList.
-
-isEmpty()
-
-)
-skipList.
-
-peek();
-
-skipList.insertOrUpdate(100, "c");
-ASSERT_EQ(100, skipList.
-
-getMinKey()
-
-);
+    skipList.InsertOrUpdate(100, "c");
+    ASSERT_EQ(100, skipList.GetMinKey());
 }
 
+TEST_F(SkipListTest, maxKey) {
+    ASSERT_THROW(skipList.GetMaxKey(), std::runtime_error);
 
-TEST_F(SkipListTest, maxKey
-) {
-ASSERT_THROW(skipList
-.
+    skipList.InsertOrUpdate(1, "a");
+    skipList.InsertOrUpdate(2, "b");
+    ASSERT_EQ(2, skipList.GetMaxKey());
 
-getMaxKey(), std::runtime_error
+    skipList.InsertOrUpdate(0, "c");
+    ASSERT_EQ(2, skipList.GetMaxKey());
 
-);
+    skipList.InsertOrUpdate(3, "d");
+    ASSERT_EQ(3, skipList.GetMaxKey());
 
-skipList.insertOrUpdate(1, "a");
-skipList.insertOrUpdate(2, "b");
-ASSERT_EQ(2, skipList.
+    skipList.Peek();
 
-getMaxKey()
+    ASSERT_EQ(3, skipList.GetMaxKey());
 
-);
+    while (!skipList.IsEmpty()) {
+        skipList.Peek();
+    }
 
-skipList.insertOrUpdate(0, "c");
-ASSERT_EQ(2, skipList.
-
-getMaxKey()
-
-);
-
-skipList.insertOrUpdate(3, "d");
-ASSERT_EQ(3, skipList.
-
-getMaxKey()
-
-);
-
-skipList.
-
-peek();
-
-ASSERT_EQ(3, skipList.
-
-getMaxKey()
-
-);
-
-while(!skipList.
-
-isEmpty()
-
-)
-skipList.
-
-peek();
-
-skipList.insertOrUpdate(1, "a");
-ASSERT_EQ(1, skipList.
-
-getMaxKey()
-
-);
+    skipList.InsertOrUpdate(1, "a");
+    ASSERT_EQ(1, skipList.GetMaxKey());
 }
 
-TEST_F(SkipListTest, insertAndPeek
-) {
-const unsigned long SIZE = 1000;
+TEST_F(SkipListTest, insertAndPeek) {
+    const unsigned long SIZE = 1000;
 
-//insert values
-for (
-int i = 1;
-i <=
-SIZE;
-i++) {
-std::ostringstream os;
-os <<
-i;
-skipList.
-insertOrUpdate(i, os
-.
+    // insert values
+    for (int i = 1; i <= SIZE; i++) {
+        std::ostringstream os;
+        os << i;
+        skipList.InsertOrUpdate(i, os.str());
+        ASSERT_FALSE(skipList.IsEmpty());
+        ASSERT_EQ(i, skipList.Size());
+    }
 
-str()
-
-);
-ASSERT_FALSE(skipList
-.
-
-isEmpty()
-
-);
-ASSERT_EQ(i, skipList
-.
-
-size()
-
-);
+    // find and delete
+    for (int i = 1; i <= SIZE; i++) {
+        std::ostringstream os;
+        os << i;
+        ASSERT_FALSE(skipList.IsEmpty());
+        ASSERT_EQ(skipList.Peek(), os.str());
+        ASSERT_EQ(SIZE - i, skipList.Size());
+    }
+    ASSERT_TRUE(skipList.IsEmpty());
+    EXPECT_THROW(skipList.Peek(), std::runtime_error);
 }
 
-//find and delete
-for (
-int i = 1;
-i <=
-SIZE;
-i++) {
-std::ostringstream os;
-os <<
-i;
-ASSERT_FALSE(skipList
-.
+TEST_F(SkipListTest, updateValues) {
+    const unsigned long SIZE = 1000;
 
-isEmpty()
+    // insert values
+    for (int i = 1; i <= SIZE; i++) {
+        std::ostringstream os;
+        os << i;
+        skipList.InsertOrUpdate(i, os.str());
+        ASSERT_FALSE(skipList.IsEmpty());
+        ASSERT_EQ(i, skipList.Size());
+    }
 
-);
-ASSERT_EQ(skipList
-.
+    // update values
+    for (int i = 1; i <= SIZE; i++) {
+        std::ostringstream os;
+        os << i;
+        skipList.InsertOrUpdate(i, os.str());
+        ASSERT_FALSE(skipList.IsEmpty());
+        ASSERT_EQ(SIZE, skipList.Size());
+    }
 
-peek(), os
-
-.
-
-str()
-
-);
-ASSERT_EQ(SIZE
-- i, skipList.
-
-size()
-
-);
-}
-ASSERT_TRUE(skipList
-.
-
-isEmpty()
-
-);
-EXPECT_THROW(skipList
-.
-
-peek(), std::runtime_error
-
-);
+    // find and delete
+    for (int i = 1; i <= SIZE; i++) {
+        std::ostringstream os;
+        os << i << i;
+        ASSERT_FALSE(skipList.IsEmpty());
+        ASSERT_EQ(skipList.Peek(), os.str());
+        ASSERT_EQ(SIZE - i, skipList.Size());
+    }
+    ASSERT_TRUE(skipList.IsEmpty());
+    EXPECT_THROW(skipList.Peek(), std::runtime_error);
 }
 
-
-TEST_F(SkipListTest, updateValues
-) {
-const unsigned long SIZE = 1000;
-
-//insert values
-for (
-int i = 1;
-i <=
-SIZE;
-i++) {
-std::ostringstream os;
-os <<
-i;
-skipList.
-insertOrUpdate(i, os
-.
-
-str()
-
-);
-ASSERT_FALSE(skipList
-.
-
-isEmpty()
-
-);
-ASSERT_EQ(i, skipList
-.
-
-size()
-
-);
+TEST_F(SkipListTest, EmptyList) {
+    ASSERT_TRUE(skipList.IsEmpty());
+    ASSERT_EQ(0, skipList.Size());
+    EXPECT_THROW(skipList.Peek(), std::runtime_error);
 }
-
-//update values
-for (
-int i = 1;
-i <=
-SIZE;
-i++) {
-std::ostringstream os;
-os <<
-i;
-skipList.
-insertOrUpdate(i, os
-.
-
-str()
-
-);
-ASSERT_FALSE(skipList
-.
-
-isEmpty()
-
-);
-ASSERT_EQ(SIZE, skipList
-.
-
-size()
-
-);
-}
-
-//find and delete
-for (
-int i = 1;
-i <=
-SIZE;
-i++) {
-std::ostringstream os;
-os << i <<
-i;
-ASSERT_FALSE(skipList
-.
-
-isEmpty()
-
-);
-ASSERT_EQ(skipList
-.
-
-peek(), os
-
-.
-
-str()
-
-);
-ASSERT_EQ(SIZE
-- i, skipList.
-
-size()
-
-);
-}
-ASSERT_TRUE(skipList
-.
-
-isEmpty()
-
-);
-EXPECT_THROW(skipList
-.
-
-peek(), std::runtime_error
-
-);
-}
-
-TEST_F(SkipListTest, EmptyList
-) {
-ASSERT_TRUE(skipList
-.
-
-isEmpty()
-
-);
-ASSERT_EQ(0, skipList.
-
-size()
-
-);
-EXPECT_THROW(skipList
-.
-
-peek(), std::runtime_error
-
-);
-}
-
