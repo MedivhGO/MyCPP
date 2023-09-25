@@ -205,3 +205,11 @@ void NormalFunction(int &&x) { std::cout << "Call RightRef Function" << std::end
 TEST(MyUtil, test_rightref) {
   NormalFunction(10);  // 右值优先绑定到右值引用的函数上
 }
+
+TEST(MyUtil, TotalMem) {
+  auto p = new uint64_t[1024*1024];
+  size_t mem_num = MemProfiler::memory();
+  ASSERT_NE(0, mem_num);
+  std::cout << mem_num << " KB";
+  delete[] p;
+}
