@@ -872,11 +872,11 @@ void HashMap<K, M, H>::rehash(size_t new_bucket_count) {
         while (curr != nullptr) {
             const auto& [key, mapped] = curr->value;
             size_t index = _hash_function(key) % new_bucket_count;
-
-            auto temp = curr;
-            curr = temp->next;
-            temp->next = new_buckets_array[index];
-            new_buckets_array[index] = temp;
+            // curr 存储的是当前桶的第一个元素的地址
+            auto temp = curr;                     // temp 为将要更换桶位置的节点地址
+            curr = temp->next;                    // curr 为 temp 的下一个节点地址
+            temp->next = new_buckets_array[index];// temp 节点的下一个节点是新桶的第一个节点的地址
+            new_buckets_array[index] = temp;      // 将 temp 做为新桶的第一个节点
         }
     }
     _buckets_array = std::move(new_buckets_array);
