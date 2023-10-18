@@ -744,7 +744,7 @@ std::pair<typename HashMap<K, M, H>::iterator, bool> HashMap<K, M, H>::insert(co
     if (node_to_edit != nullptr) {
         return {make_iterator(node_to_edit), false};
     }
-
+    // 将新建的 node 插入到该桶的第一个位置
     auto temp = new node(value, _buckets_array[index]);
     _buckets_array[index] = temp;
 
