@@ -19,7 +19,7 @@ void SelectSort(std::vector<int> &data, int len) {
             }
         }
         if (min != i) { // 把这个最小的 key 放在当前需要确定的 slot 上
-            swap(data[min], data[i]);
+            std::swap(data[min], data[i]);
         }
     }
 }
