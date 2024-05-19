@@ -13,7 +13,7 @@
 #include "MyFileWriter.h"
 #include "MyLog.h"
 #include "MyProfile.h"
-#include "MyProjectPath.h"
+#include "../resource/MyProjectPath.h"
 #include "MyRandom.h"
 #include "MySingleton.h"
 #include "MyString.h"

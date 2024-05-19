@@ -15,6 +15,10 @@
 
 enum color { BLACK, RED };
 
+// fix warning
+// https://stackoverflow.com/questions/3934933/templated-functions-error-template-id-does-not-match-any-template-declaration
+typedef char* charPtr;
+
 template <class K, class T>
 struct RbNode {
   K key_;
@@ -304,22 +308,15 @@ auto RbTree<K, T>::Search(const K &key, T &val) const -> bool {
 // return 1 if a > b
 template <class K, class T>
 auto RbTree<K, T>::Cmp(const K &a, const K &b) const -> int {
-  if (typeid(a) == typeid(char *)) {
-    // string type
-    char *x = (char*)(a); // NOLINT
-    char *y = (char*)(b); // NOLINT
-    return strcmp(x, y);
-  }
-  if (a < b) {
-    return -1;
-  }
   if (a == b) {
     return 0;
   }
-  if (a > b) {
-    return 1;
-  }
-  return 0;
+  return a < b ? -1 : 1;
+}
+
+template<>
+auto RbTree<charPtr, charPtr>::Cmp(const charPtr &a, const charPtr &b) const -> int {
+  return strcmp(a, b);
 }
 
 // take 'node' as the center, make a left_ rotation

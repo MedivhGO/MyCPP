@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <string_view>
 #include <cstddef>
+#include <algorithm>
 
 // https://stackoverflow.com/questions/49503152/is-using-namespace-stdliterals-safe
 using namespace std::literals;
@@ -202,7 +203,7 @@ TEST(MyCppFeatureTest, test14) {
   // C++ 20
   std::vector a = {3, 2, 1};
   std::vector b = {3, 2, 1};
-  std::ranges::sort(a.begin(), a.end());
+  std::sort(a.begin(), a.end());
   std::ranges::sort(b);
 
   EXPECT_EQ(a, b);

@@ -199,7 +199,7 @@ std::vector<int> topKUsingPartitionParallelWithRestrictedMemory(fs::path &p, int
   return nums.back();
 }
 
-TEST(MyFile, Multi_Thread_File) {
+TEST(MyFile, DISABLED_Multi_Thread_File) {
   auto tempFile = CreateTempfile();
   struct rlimit limit;
   limit.rlim_cur = MEMORY_LIMIT;

@@ -1,5 +1,5 @@
 .DS_Store
 cmake-build-debug/
 third_party/googletest/
-test/MyProjectPath.h
 .idea
+build

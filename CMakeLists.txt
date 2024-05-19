@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(MyCppImplement)
+project(MyCpp)
 
 set(GOOGLETEST_VERSION 1.11.0)
 set(CMAKE_CXX_STANDARD 17)
