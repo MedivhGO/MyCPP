@@ -3,3 +3,4 @@ cmake-build-debug/
 third_party/googletest/
 .idea
 build
+resource/MyProjectPath.h
