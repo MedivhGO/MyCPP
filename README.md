@@ -58,7 +58,7 @@ cd build/test
 to check memory leak, you can use blow command.
 
 ```shell
-/usr/bin/valgrind --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ./build/test/MyCppImplement.test
+/usr/bin/valgrind --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ./build/test/MyCpp.test
 ```
 
 ## profiler
