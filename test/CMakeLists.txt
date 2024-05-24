@@ -10,10 +10,14 @@ add_executable(
   test_myds.cpp
   test_cppfeature.cpp
   test_mysort.cpp
-  test_mybst.cpp test_myvec.cpp
-  test_myskiplist.cpp test_topn.cpp)
+  test_mybst.cpp
+  test_myvec.cpp
+  test_myskiplist.cpp
+  test_topn.cpp
+  test_mock.cpp
+  )
 
-target_link_libraries(${PROJECT_NAME}.test ${PROJECT_NAME} gtest pthread)
+target_link_libraries(${PROJECT_NAME}.test ${PROJECT_NAME} gtest pthread gmock) 
 
 target_compile_definitions(${PROJECT_NAME}.test
                            PRIVATE TEST_DIR="${CMAKE_CURRENT_LIST_DIR}/test")

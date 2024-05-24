@@ -16,7 +16,6 @@ set(include_dest "include/")
 
 add_subdirectory(src)
 add_subdirectory(test)
-add_subdirectory(third_party/googletest/googletest)
-include_directories(third_party/googletest/googletest/include)
+add_subdirectory(third_party/googletest)
 
 message(STATUS "End CmakeList")
