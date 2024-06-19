@@ -15,7 +15,7 @@ add_executable(
   test_myskiplist.cpp
   test_topn.cpp
   test_mock.cpp FixedThreadPoolTest.cpp
-  )
+        test_memorypool.cpp)
 
 target_link_libraries(${PROJECT_NAME}.test ${PROJECT_NAME} gtest pthread gmock) 
 

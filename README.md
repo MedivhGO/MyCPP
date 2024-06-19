@@ -20,6 +20,7 @@
 - [x] 实现MyVector
 - [x] 实现MySkipList
 - [x] 实现MyThreadPool
+- [x] 实现MyMemoryPool
 
 ## dependencies
 
@@ -89,3 +90,4 @@ See also:
 - https://github.com/AleksanderBrzozowski/AAL
 - https://github.com/shejialuo/topKProblem
 - https://github.com/marcodiri/cpp-java-threadpool
+- https://github.com/green-anger/MemoryPool
