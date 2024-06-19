@@ -6,7 +6,10 @@ set(src MyString.cpp)
 set(head_bst ${header_path}/MyBST.h)
 set(src_bst MyBST.cpp)
 
-add_library(${PROJECT_NAME} SHARED ${header} ${src} ${head_bst} ${src_bst})
+set(head_threadpool ${header_path}/FixedThreadPool.h)
+set(src_threadpool FixedThreadPool.cpp)
+
+add_library(${PROJECT_NAME} SHARED ${header} ${src} ${head_bst} ${src_bst} ${head_threadpool} ${src_threadpool})
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
