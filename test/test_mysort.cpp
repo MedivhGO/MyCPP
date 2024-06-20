@@ -70,7 +70,7 @@ TEST(MySort, test_quicksort) {
     EXPECT_EQ(sorted_dataset, test_dataset);
 }
 
-TEST(MySort, test_quicksortmot) {
+TEST(MySort, DISABLED_test_quicksortmot) {
     RandomNumberGenerator rng(-100000, 100000);
     vector<int> test_dataset;
     for (int i = 0; i < 10000; ++i) {

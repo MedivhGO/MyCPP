@@ -12,29 +12,28 @@
 // Hoare partition scheme
 // 为第一个元素找合适的位置
 int Partition(std::vector<int> &data, int left, int right) {
-  int ret = left;
   int pivot = data[left];
   while (left < right) {
-    while (left < right && data[right] > pivot) {
+    while (left < right && data[right] >= pivot) {
       --right;
     }
-    while (left < right && data[left] <= pivot) {  // 把 pivot 归到左半部分
+    data[left] = data[right];
+    while (left < right && data[left] < pivot) {
       ++left;
     }
-    if (left < right) {
-      swap(data[left], data[right]);
-    }
+    data[right] = data[left];
   }
-  swap(data[left], data[ret]);
+  data[left] = pivot;
   return left;
 }
 
 void QuickSort(std::vector<int> &data, int left, int right) {
-  if (right - left > 0) {
-    int i = Partition(data, left, right - 1);
-    QuickSort(data, left, i);
-    QuickSort(data, i + 1, right);
+  if (left >= right) {
+    return;
   }
+  int i = Partition(data, left, right - 1);
+  QuickSort(data, left, i);
+  QuickSort(data, i + 1, right);
 }
 
 // 在无序的情况下，每次的划分点都能把数组平均分成两份

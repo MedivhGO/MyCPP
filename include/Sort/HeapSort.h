@@ -68,18 +68,20 @@ using namespace std;
 void max_heapify(vector<int> &data, int root, int len) {
     int lchild = root * 2 + 1;
     int rchild = root * 2 + 2;
-    if (lchild < len) { // 有左孩子
-        int next_modify = lchild;
-        if (rchild < len) { // 有右孩子
-            if (data[rchild] > data[lchild]) {
-                next_modify = rchild;
-            }
-        }
-        if (data[root] < data[next_modify]) {
-            swap(data[root], data[next_modify]);   // 交换这个子树中大小关系不符合堆定义的节点
-            max_heapify(data, next_modify, len); // 对调整过的孩子重新建堆
-        }
+    if (lchild >= len) {
+        return;
     }
+    // 有左孩子
+    int next_modify = lchild;
+    // 有右孩子且右孩子大于左孩子
+    if (rchild < len && data[rchild] > data[lchild]) {
+        next_modify = rchild;
+    }
+    if (data[root] > data[next_modify]) {
+        return;
+    }
+    swap(data[root], data[next_modify]);   // 交换这个子树中大小关系不符合堆定义的节点
+    max_heapify(data, next_modify, len); // 对调整过的孩子重新建堆
 }
 
 int getParent(int i) {

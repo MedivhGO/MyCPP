@@ -1,12 +1,14 @@
 //
 // Created by Lee on 2022/9/6.
 // Modified by Lee on 2023/9/24.
+// Modified by Lee on 2024年6月20日11:58:03
 //
 
 #ifndef MYCPPIMPLEMENT_MYSKIPLIST_H
 #define MYCPPIMPLEMENT_MYSKIPLIST_H
 
 #include <random>
+#include <utility>
 #include <vector>
 #include <memory>
 
@@ -15,16 +17,16 @@ struct Node {
   std::string value_;
   std::vector<std::shared_ptr<Node>> next_;
 
-  Node(int key, const std::string& value, int max_level)
-      : key_(key), value_(value), next_(max_level, nullptr) {};
+  Node(int key, std::string value, int max_level)
+      : key_(key), value_(std::move(value)), next_(max_level, nullptr) {};
 };
 
 class Skiplist {
  private:
   std::shared_ptr<Node> tail_;
   std::shared_ptr<Node> head_;
-  int max_key_;
-  const uint64_t max_level_;
+  int max_key_{};
+  const int max_level_;
   const float probability_;
 
  private:
@@ -36,7 +38,7 @@ class Skiplist {
  public:
   Skiplist() : Skiplist(DEFAULT_PROBABILITY, DEFAULT_MAX_LEVEL) {}
 
-  Skiplist(const float probability, const unsigned int max_level) : probability_(probability), max_level_(max_level) {
+  Skiplist(const float probability, const int max_level) : probability_(probability), max_level_(max_level) {
     head_ = std::make_shared<Node>(std::numeric_limits<int>::min(), HEAD_VALUE, max_level);
     tail_ = std::make_shared<Node>(std::numeric_limits<int>::max(), TAIL_VALUE, max_level);
     std::fill(head_->next_.begin(), head_->next_.end(), tail_);
@@ -56,8 +58,11 @@ class Skiplist {
   }
 
   auto RandomLevel() -> int {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0.0, 1.0);
     int level = 1;
-    while ((static_cast<float>(rand())  / RAND_MAX) > probability_ && level < max_level_) {
+    while (dis(gen) > probability_ && level < max_level_) {
       level++;
     }
     return level;
@@ -119,11 +124,11 @@ class Skiplist {
     return head_->next_[0] == tail_;
   }
 
+  // 取跳表的头元素，并将头元素删除
   auto Peek() -> std::string {
     CheckIsNotEmpty();
     auto cur = head_->next_[0];
     std::string value = cur->value_;
-    int key = cur->key_;
     for (int i = 0; i < cur->next_.size(); ++i) {
       head_->next_[i] = cur->next_[i];
     }

@@ -7,66 +7,66 @@
 
 class SkipListTest : public ::testing::Test {
 public:
-    Skiplist skipList;
+    Skiplist skip_list_;
 };
 
 TEST_F(SkipListTest, defaultMaxLevel) {
-    ASSERT_EQ(16, skipList.GetMaxLevel());
+    ASSERT_EQ(16, skip_list_.GetMaxLevel());
 }
 
 TEST_F(SkipListTest, specificMaxLevel) {
     const int max_level = 18;
-    Skiplist skipList = Skiplist(0.5, max_level);
-    ASSERT_EQ(max_level, skipList.GetMaxLevel());
+    Skiplist skip_list = Skiplist(0.5, max_level);
+    ASSERT_EQ(max_level, skip_list.GetMaxLevel());
 }
 
 TEST_F(SkipListTest, minKey) {
-    ASSERT_THROW(skipList.GetMinKey(), std::runtime_error);
+    ASSERT_THROW(skip_list_.GetMinKey(), std::runtime_error);
 
-    skipList.Add(1, "a");
-    skipList.Add(2, "b");
-    ASSERT_EQ(1, skipList.GetMinKey());
+    skip_list_.Add(1, "a");
+    skip_list_.Add(2, "b");
+    ASSERT_EQ(1, skip_list_.GetMinKey());
 
-    skipList.Add(3, "d");
-    ASSERT_EQ(1, skipList.GetMinKey());
+    skip_list_.Add(3, "d");
+    ASSERT_EQ(1, skip_list_.GetMinKey());
 
-    skipList.Add(0, "c");
-    ASSERT_EQ(0, skipList.GetMinKey());
+    skip_list_.Add(0, "c");
+    ASSERT_EQ(0, skip_list_.GetMinKey());
 
-    skipList.Peek();
+    skip_list_.Peek();
 
-    ASSERT_EQ(1, skipList.GetMinKey());
-    while (!skipList.IsEmpty()) {
-        skipList.Peek();
+    ASSERT_EQ(1, skip_list_.GetMinKey());
+    while (!skip_list_.IsEmpty()) {
+        skip_list_.Peek();
     }
 
-    skipList.Add(100, "c");
-    ASSERT_EQ(100, skipList.GetMinKey());
+    skip_list_.Add(100, "c");
+    ASSERT_EQ(100, skip_list_.GetMinKey());
 }
 
 TEST_F(SkipListTest, maxKey) {
-    ASSERT_THROW(skipList.GetMaxKey(), std::runtime_error);
+    ASSERT_THROW(skip_list_.GetMaxKey(), std::runtime_error);
 
-    skipList.Add(1, "a");
-    skipList.Add(2, "b");
-    ASSERT_EQ(2, skipList.GetMaxKey());
+    skip_list_.Add(1, "a");
+    skip_list_.Add(2, "b");
+    ASSERT_EQ(2, skip_list_.GetMaxKey());
 
-    skipList.Add(0, "c");
-    ASSERT_EQ(2, skipList.GetMaxKey());
+    skip_list_.Add(0, "c");
+    ASSERT_EQ(2, skip_list_.GetMaxKey());
 
-    skipList.Add(3, "d");
-    ASSERT_EQ(3, skipList.GetMaxKey());
+    skip_list_.Add(3, "d");
+    ASSERT_EQ(3, skip_list_.GetMaxKey());
 
-    skipList.Peek();
+    skip_list_.Peek();
 
-    ASSERT_EQ(3, skipList.GetMaxKey());
+    ASSERT_EQ(3, skip_list_.GetMaxKey());
 
-    while (!skipList.IsEmpty()) {
-        skipList.Peek();
+    while (!skip_list_.IsEmpty()) {
+        skip_list_.Peek();
     }
 
-    skipList.Add(1, "a");
-    ASSERT_EQ(1, skipList.GetMaxKey());
+    skip_list_.Add(1, "a");
+    ASSERT_EQ(1, skip_list_.GetMaxKey());
 }
 
 TEST_F(SkipListTest, insertAndPeek) {
@@ -76,23 +76,23 @@ TEST_F(SkipListTest, insertAndPeek) {
     for (int i = 1; i <= size; i++) {
         std::ostringstream os;
         os << i;
-        skipList.Add(i, os.str());
-        ASSERT_FALSE(skipList.IsEmpty());
-        ASSERT_EQ(i, skipList.Size());
+        skip_list_.Add(i, os.str());
+        ASSERT_FALSE(skip_list_.IsEmpty());
+        ASSERT_EQ(i, skip_list_.Size());
     }
 
-    ASSERT_EQ(1000, skipList.KeysOnSpecificLevel(0));
+    ASSERT_EQ(1000, skip_list_.KeysOnSpecificLevel(0));
 
     // find and delete
     for (int i = 1; i <= size; i++) {
         std::ostringstream os;
         os << i;
-        ASSERT_FALSE(skipList.IsEmpty());
-        ASSERT_EQ(skipList.Peek(), os.str());
-        ASSERT_EQ(size - i, skipList.Size());
+        ASSERT_FALSE(skip_list_.IsEmpty());
+        ASSERT_EQ(skip_list_.Peek(), os.str());
+        ASSERT_EQ(size - i, skip_list_.Size());
     }
-    ASSERT_TRUE(skipList.IsEmpty());
-    EXPECT_THROW(skipList.Peek(), std::runtime_error);
+    ASSERT_TRUE(skip_list_.IsEmpty());
+    EXPECT_THROW(skip_list_.Peek(), std::runtime_error);
 }
 
 TEST_F(SkipListTest, updateValues) {
@@ -102,36 +102,36 @@ TEST_F(SkipListTest, updateValues) {
     for (int i = 1; i <= size; i++) {
         std::ostringstream os;
         os << i;
-        skipList.Add(i, os.str());
-        ASSERT_FALSE(skipList.IsEmpty());
-        ASSERT_EQ(i, skipList.Size());
+        skip_list_.Add(i, os.str());
+        ASSERT_FALSE(skip_list_.IsEmpty());
+        ASSERT_EQ(i, skip_list_.Size());
     }
 
     // update values
     for (int i = 1; i <= size; i++) {
         std::ostringstream os;
         os << i;
-        skipList.Add(i, os.str());
-        ASSERT_FALSE(skipList.IsEmpty());
-        ASSERT_EQ(size, skipList.Size());
+        skip_list_.Add(i, os.str());
+        ASSERT_FALSE(skip_list_.IsEmpty());
+        ASSERT_EQ(size, skip_list_.Size());
     }
 
     // find and delete
     for (int i = 1; i <= size; i++) {
         std::ostringstream os;
         os << i;
-        ASSERT_FALSE(skipList.IsEmpty());
-        ASSERT_EQ(skipList.Peek(), os.str());
-        ASSERT_EQ(size - i, skipList.Size());
+        ASSERT_FALSE(skip_list_.IsEmpty());
+        ASSERT_EQ(skip_list_.Peek(), os.str());
+        ASSERT_EQ(size - i, skip_list_.Size());
     }
-    ASSERT_TRUE(skipList.IsEmpty());
-    EXPECT_THROW(skipList.Peek(), std::runtime_error);
+    ASSERT_TRUE(skip_list_.IsEmpty());
+    EXPECT_THROW(skip_list_.Peek(), std::runtime_error);
 }
 
 TEST_F(SkipListTest, EmptyList) {
-    ASSERT_TRUE(skipList.IsEmpty());
-    ASSERT_EQ(0, skipList.Size());
-    EXPECT_THROW(skipList.Peek(), std::runtime_error);
+    ASSERT_TRUE(skip_list_.IsEmpty());
+    ASSERT_EQ(0, skip_list_.Size());
+    EXPECT_THROW(skip_list_.Peek(), std::runtime_error);
 }
 
 TEST_F(SkipListTest, SearchAndErase) {
@@ -140,12 +140,12 @@ TEST_F(SkipListTest, SearchAndErase) {
     for (int i = 1; i <= size; i++) {
         std::ostringstream os;
         os << i;
-        skipList.Add(i, os.str());
-        ASSERT_FALSE(skipList.IsEmpty());
-        ASSERT_EQ(i, skipList.Size());
+        skip_list_.Add(i, os.str());
+        ASSERT_FALSE(skip_list_.IsEmpty());
+        ASSERT_EQ(i, skip_list_.Size());
     }
 
-    ASSERT_TRUE(skipList.Search(999));
-    ASSERT_TRUE(skipList.Erase(999));
-    ASSERT_FALSE(skipList.Search(999));
+    ASSERT_TRUE(skip_list_.Search(999));
+    ASSERT_TRUE(skip_list_.Erase(999));
+    ASSERT_FALSE(skip_list_.Search(999));
 }
