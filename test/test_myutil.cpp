@@ -68,6 +68,10 @@ TEST(MyUtil, test_singleton) {
   EXPECT_NE(*same_para_ptr, "456");
   para_ptr = nullptr;
   same_para_ptr = nullptr;
+
+  std::string* para_ptr_atomic = SingletonAtom<std::string>::getInstance();
+  std::string* same_para_ptr_atomic = SingletonAtom<std::string>::getInstance();
+  EXPECT_EQ(para_ptr_atomic, same_para_ptr_atomic);
 }
 
 TEST(MyUtil, DISABLED_test_thread) {
