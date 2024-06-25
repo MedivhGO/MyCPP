@@ -7,7 +7,8 @@
 #define MYCPPIMPLEMENT_MYALLOCATOR_H
 
 #include <cstdint>
-
+// implement below paper
+// http://www.thinkmind.org/index.php?view=article&articleid=computation_tools_2012_1_10_80006
 template<typename T>
 class MemPool {
 public:
