@@ -71,6 +71,13 @@ to check memory leak, you can use blow command.
  measure(function_name, param1, param2).count()
 ```
 
+## doctest
+
+The fastest feature-rich C++11/14/17/20/23 single-header testing framework
+
+## nanobench
+
+Simple, fast, accurate single-header microbenchmarking functionality for C++11/14/17/20
 
 ## References
 
