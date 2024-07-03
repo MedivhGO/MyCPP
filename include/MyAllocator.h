@@ -40,7 +40,7 @@ private:
 template<typename T>
 MemPool<T>::MemPool()
         : cell_size_(sizeof(T)), num_cells_(0), num_free_cells_(0), num_init_(0), mem_beg_(nullptr), next_(nullptr) {
-    static_assert(sizeof(uint32_t) <= sizeof(T), "sizeof( T ) must be equal or greater than sizeof( uint32_t )");
+    static_assert(sizeof(uint32_t) <= sizeof(T), "sizeof(T) must be equal or greater than sizeof(uint32_t)");
 }
 
 template<typename T>
@@ -65,17 +65,17 @@ void MemPool<T>::DestroyPool() {
 template<typename T>
 T *MemPool<T>::Allocate() {
     if (num_init_ < num_cells_) {
-        uint32_t *p = reinterpret_cast<uint32_t *>( AddrFromIndex(num_init_));
+        uint32_t *p = reinterpret_cast<uint32_t *>(AddrFromIndex(num_init_));
         *p = ++num_init_;
     }
 
     T *res = nullptr;
 
     if (num_free_cells_ > 0) {
-        res = reinterpret_cast<T *>( next_ );
+        res = reinterpret_cast<T *>(next_);
 
         if (--num_free_cells_ > 0) {
-            next_ = AddrFromIndex(*reinterpret_cast<uint32_t *>( next_ ));
+            next_ = AddrFromIndex(*reinterpret_cast<uint32_t *>(next_));
         } else {
             next_ = nullptr;
         }
@@ -86,8 +86,8 @@ T *MemPool<T>::Allocate() {
 
 template<typename T>
 void MemPool<T>::Deallocate(void *p) {
-    *static_cast<uint32_t *>( p ) = next_ == nullptr ? num_cells_ : IndexFromAddr(next_);
-    next_ = static_cast<uint8_t *>( p );
+    *static_cast<uint32_t *>(p) = next_ == nullptr ? num_cells_ : IndexFromAddr(next_);
+    next_ = static_cast<uint8_t *>(p);
     ++num_free_cells_;
 }
 
@@ -98,24 +98,22 @@ uint8_t *MemPool<T>::AddrFromIndex(uint32_t i) const {
 
 template<typename T>
 uint32_t MemPool<T>::IndexFromAddr(const uint8_t *p) const {
-    return static_cast<uint32_t>( p - mem_beg_ ) / cell_size_;
+    return static_cast<uint32_t>(p - mem_beg_) / cell_size_;
 }
 
 //#include <malloc.h>
 //#include <stdlib.h>
 //
-//#include "MyLog.h"
-//
 //typedef void (*ALLOC_FUN)();
 //
-//template<int inst> // 非类型模板参数
-//class MallocAllocTemplate // 一级空间配置器(malloc, free, realloc)
-//{
+//template<int inst>          // 非类型模板参数
+//class MallocAllocTemplate { // 一级空间配置器(malloc, free, realloc)
 //public:
 //    static void *Allocate(size_t n) {
 //        void *ret = malloc(n);
-//        if (0 == ret)
+//        if (0 == ret) {
 //            ret = OomMalloc(n);
+//        }
 //        return ret;
 //    }
 //
@@ -131,7 +129,7 @@ uint32_t MemPool<T>::IndexFromAddr(const uint8_t *p) const {
 //    }
 //
 //private:
-//    static void *OomMalloc(size_t n) {  // 调用自定义的句柄处理函数释放并分配内存
+//    static void *OomMalloc(size_t n) { // 调用自定义的句柄处理函数释放并分配内存
 //        ALLOC_FUN handler;
 //        void *ret;
 //        while (1) {
@@ -154,7 +152,6 @@ uint32_t MemPool<T>::IndexFromAddr(const uint8_t *p) const {
 //        while (1) {
 //            handler = MallocAllocHandler;
 //            if (0 == handler) {
-//                LOG_WARN("Out of memory");
 //                exit(-1);
 //            }
 //            handler();
@@ -170,6 +167,6 @@ uint32_t MemPool<T>::IndexFromAddr(const uint8_t *p) const {
 //};
 //
 //template<int inst>
-//ALLOC_FUN MallocAllocTemplate<inst>::MallocAllocHandler = 0; // 句柄函数初始化为0
+//ALLOC_FUN MallocAllocTemplate<inst>::MallocAllocHandler = 0; // 句柄函数初始化为 0
 
 #endif //MYCPPIMPLEMENT_MYALLOCATOR_H
