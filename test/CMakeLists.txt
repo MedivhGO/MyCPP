@@ -1,4 +1,12 @@
+cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+#set(CXX_TEST_CODE "std::counting_semaphore<1> sem(1);")
+#check_cxx_source_compiles("$(XCC_TEST_CODE" HAS_CXX20_semaphore)
+#if (!HAS_CXX20_semaphore)
+#  message("Compiler does not support C++20 semaphore")
+#endif()
 
 add_executable(
   ${PROJECT_NAME}.test
@@ -14,8 +22,9 @@ add_executable(
   test_myvec.cpp
   test_myskiplist.cpp
   test_topn.cpp
-  test_mock.cpp FixedThreadPoolTest.cpp
-        test_memorypool.cpp)
+  test_mock.cpp
+  FixedThreadPoolTest.cpp
+  test_memorypool.cpp)
 
 target_link_libraries(${PROJECT_NAME}.test ${PROJECT_NAME} gtest pthread gmock) 
 

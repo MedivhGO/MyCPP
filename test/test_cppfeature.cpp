@@ -13,6 +13,9 @@
 #include <string_view>
 #include <cstddef>
 #include <algorithm>
+#include <thread>
+#include <semaphore>
+#include <chrono>
 
 // https://stackoverflow.com/questions/49503152/is-using-namespace-stdliterals-safe
 using namespace std::literals;
@@ -402,3 +405,21 @@ TEST(MyCppFeatureTest, test32) {
   PersonToString(p);
   PersonDestory(&p);
 }
+
+// std::counting_semaphore<1> sem(1);
+
+// void thread_function() {
+//  sem.acquire();
+//  std::cout << "Thread " << std::this_thread::get_id()
+//      << " is accessing the shared resource." << std::endl;
+//  std::this_thread::sleep_for(std::chrono::seconds(1));
+//  sem.release();
+//}
+
+// TEST(MyCppFeatureTest, test33) {
+//  std::thread t1(thread_function);
+//  std::thread t2(thread_function);
+
+//  t1.join();
+//  t2.join();
+//}
