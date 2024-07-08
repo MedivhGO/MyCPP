@@ -21,3 +21,8 @@ TEST(MyCppConcurrency, test1) {
   t.join();
 }
 
+TEST(MyCppConcurrency, test2) {
+    auto now = std::chrono::system_clock::now();
+    std::cout << "Current time: " << now.time_since_epoch().count() << " milliseconds since epoch" << std::endl;
+}
+
