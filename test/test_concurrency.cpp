@@ -9,15 +9,16 @@
 //#include <semaphore>
 #include <chrono>
 #include <iostream>
+#include <atomic>
 
 void hello() {
-  std::cout << "Hello Concurrent World!\n" << std::this_thread::get_id() << std::endl;
+    std::cout << "Hello Concurrent World!\n" << std::this_thread::get_id() << std::endl;
 }
 
 TEST(MyCppConcurrency, test1) {
-  std::thread t(hello);
-  std::cout << t.get_id() << std::endl;
-  t.join();
+    std::thread t(hello);
+    std::cout << t.get_id() << std::endl;
+    t.join();
 }
 
 TEST(MyCppConcurrency, test2) {
@@ -27,16 +28,20 @@ TEST(MyCppConcurrency, test2) {
 
 class thread_guard {
 public:
-    explicit thread_guard(std::thread& t) : t_(t) {}
+    explicit thread_guard(std::thread &t) : t_(t) {}
+
     ~thread_guard() {
         if (t_.joinable()) {
             t_.join();
         }
     }
-    thread_guard(const thread_guard&) = delete;
-    thread_guard& operator=(const thread_guard&) = delete;
+
+    thread_guard(const thread_guard &) = delete;
+
+    thread_guard &operator=(const thread_guard &) = delete;
+
 private:
-    std::thread& t_;
+    std::thread &t_;
 };
 
 TEST(MyCppConcurrency, test3) {
@@ -98,7 +103,7 @@ TEST(MyCppConcurrency, test6) {
     EXPECT_EQ(result_future.get(), 42);
 }
 
-void accm(int& count) {
+void accm(int &count) {
     count++;
 }
 
@@ -123,6 +128,67 @@ TEST(MyCppConcurrency, test8) {
         thread_guard g(t);
     }
     EXPECT_EQ(a, 10);
+}
+
+class interrupt_flag {
+public:
+    void set() { flag = true; };
+
+    bool is_set() const { return flag.load(); }
+
+private:
+    std::atomic<bool> flag{false};
+};
+
+thread_local interrupt_flag this_thread_interrupt_flag;
+
+class interruptible_thread {
+private:
+    std::thread internal_thread;
+    interrupt_flag* flag;
+public:
+    template<typename FunctionType>
+    interruptible_thread(FunctionType f) {
+        std::promise<interrupt_flag *> p;
+        internal_thread = std::thread([f, &p] {
+            p.set_value(&this_thread_interrupt_flag);
+            try {
+                f();
+            } catch (int e) {
+                std::cout << "catch exception: " << e << std::endl;
+            }
+        });
+        flag = p.get_future().get();
+    }
+
+    ~interruptible_thread() {
+        if (internal_thread.joinable()) {
+            internal_thread.join();
+        }
+    }
+
+    void interrupt() {
+        if (flag) {
+            flag->set();
+        }
+    }
+};
+
+int thread_interrupted() {
+    std::cout << "thread interrupted!" << std::endl;
+    return -1;
+}
+
+TEST(MyCppConcurrency, test9) {
+    interruptible_thread int_thread([]() {
+        while(true) {
+            if (this_thread_interrupt_flag.is_set()) {
+                std::cout << "flag is set" << std::endl;
+                throw thread_interrupted();
+            }
+        }
+    });
+    int_thread.interrupt();
 }
 
 
