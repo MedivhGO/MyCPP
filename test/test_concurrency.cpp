@@ -111,5 +111,19 @@ TEST(MyCppConcurrency, test7) {
     EXPECT_EQ(count, 1);
 }
 
+TEST(MyCppConcurrency, test8) {
+    thread_local int a = 10;
+    auto count_func = [&](int id) {
+        std::cout << "Thread " << id << " starting." << std::endl;
+        a++;
+        std::cout << "Thread " << id << " counter: " << a << std::endl;
+    };
+    for (int i = 0; i < 10; ++i) {
+        std::thread t(count_func, i);
+        thread_guard g(t);
+    }
+    EXPECT_EQ(a, 10);
+}
+
 
 
