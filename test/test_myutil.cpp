@@ -18,6 +18,7 @@
 #include "MySingleton.h"
 #include "MyString.h"
 #include "MyThread.h"
+#include "MyJsonParser.h"
 
 using std::cout;
 using std::endl;
@@ -216,4 +217,11 @@ TEST(MyUtil, TotalMem) {
   ASSERT_NE(0, mem_num);
   std::cout << mem_num << " KB";
   delete[] p;
+}
+
+TEST(MyUtil, JsonParser) {
+  std::string_view json_str = "{\"key\": 11}";
+  auto [obj, eaten] = parse(json_str);
+  JSONDict meta = obj.get<JSONDict>();
+  EXPECT_EQ(meta["key"]->get<int>(), 11);
 }
