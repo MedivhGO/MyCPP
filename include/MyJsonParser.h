@@ -42,15 +42,15 @@ struct JSONObject {
 
 char unescaped_char(char c) {
     switch (c) {
-    case 'n': return '\n';
-    case 'r': return '\r';
-    case '0': return '\0';
-    case 't': return '\t';
-    case 'v': return '\v';
-    case 'f': return '\f';
-    case 'b': return '\b';
-    case 'a': return '\a';
-    default: return c;
+        case 'n': return '\n';
+        case 'r': return '\r';
+        case '0': return '\0';
+        case 't': return '\t';
+        case 'v': return '\v';
+        case 'f': return '\f';
+        case 'b': return '\b';
+        case 'a': return '\a';
+        default: return c;
     }
 }
 
@@ -147,6 +147,3 @@ std::pair<JSONObject, size_t> parse(std::string_view json) {
     }
     return {JSONObject{std::nullptr_t{}}, 0};
 }
-
-
-
