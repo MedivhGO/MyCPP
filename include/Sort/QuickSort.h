@@ -60,59 +60,40 @@ void QuickSort(std::vector<int> &data, int left, int right) {
  */
 
 // median of three element 划分
+// 我们可以在数组中选取三个候选元素（通常为数组的首、尾、中点元素），并将这三个候选元素的中位数作为基准数
 
-int medianOfThree(std::vector<int> &data, int left, int right) {
-  if (right <= left || data.empty() || right >= data.size() || left < 0) {
-    return -1;
+int medianOfThree(std::vector<int> &data, int left, int mid, int right) {
+  int l = nums[left], m = nums[mid], r = nums[right];
+  if ((l <= m && m <= r) || (r <= m && m <= l)) {
+    return mid;
   }
-  int middle = (left + right) / 2;
-  if (left == middle && data[left] > data[right]) {
-    swap(data[left], data[right]);
-    return middle;
+  if ((m <= l && l <= r) || (r <= l && l <= m)) {
+    return left;
   }
-  vector<int> tmp;
-  tmp.push_back(data[left]);
-  tmp.push_back(data[right]);
-  tmp.push_back(data[middle]);
-  BubbleSort(tmp, 3);
-  data[left] = tmp[0];
-  data[middle] = tmp[1];
-  data[right] = tmp[2];
-  return middle;
+  return right;
 }
 
-int partition(std::vector<int> &data, int left, int right, int pivotIndex) {
-  if (data.empty() || left < 0 || right <= left || right >= data.size() || pivotIndex < left || pivotIndex > right) {
-    return -1;
-  }
-  swap(data[left], data[pivotIndex]);
-  int pivot = data[left];
-  int up = left + 1;
-  int down = right;
-  while (up < down) {
-    while (up <= right && data[up] <= pivot) {
-      up++;
+int partition(std::vector<int> &data, int left, int right) {
+  int mid = medianOfThree(nums, left, (left + right) / 2, right);
+  int pivot = nums[mid];
+  swap(nums[left], nums[mid]);
+  while (left < right) {
+    while (left < right && nums[right] >= pivot) {
+      right--;
     }
-    while (down >= left && data[down] > pivot) {
-      down--;
+    nums[left] = nums[right];
+    while (left < right && nums[left] < pivot) {
+      left++;
     }
-    if (up < down) {
-      swap(data[up], data[down]);
-    }
+    nums[right] = nums[left];
   }
-  if (down < 0) {
-    return -1;
-  }
-  if (right - left > 1) {
-    swap(data[left], data[down]);
-  }
-  return down;
+  nums[left] = pivot;
+  return left;
 }
 
 void QuickSortMOT(std::vector<int> &data, int left, int right) {
   if (right - left > 1) {
-    int pivot_index = medianOfThree(data, left, right - 1);
-    int part = partition(data, left, right - 1, pivot_index);
+    int part = partition(data, left, right - 1);
     QuickSortMOT(data, left, part);
     QuickSortMOT(data, part + 1, right);
   }
