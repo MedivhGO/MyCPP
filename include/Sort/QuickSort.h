@@ -62,7 +62,7 @@ void QuickSort(std::vector<int> &data, int left, int right) {
 // median of three element 划分
 // 我们可以在数组中选取三个候选元素（通常为数组的首、尾、中点元素），并将这三个候选元素的中位数作为基准数
 
-int medianOfThree(std::vector<int> &data, int left, int mid, int right) {
+int MedianOfThree(std::vector<int> &data, int left, int mid, int right) {
   int l = nums[left], m = nums[mid], r = nums[right];
   if ((l <= m && m <= r) || (r <= m && m <= l)) {
     return mid;
@@ -73,8 +73,8 @@ int medianOfThree(std::vector<int> &data, int left, int mid, int right) {
   return right;
 }
 
-int partition(std::vector<int> &data, int left, int right) {
-  int mid = medianOfThree(nums, left, (left + right) / 2, right);
+int PartitionMOT(std::vector<int> &data, int left, int right) {
+  int mid = MedianOfThree(nums, left, (left + right) / 2, right);
   int pivot = nums[mid];
   swap(nums[left], nums[mid]);
   while (left < right) {
@@ -93,7 +93,7 @@ int partition(std::vector<int> &data, int left, int right) {
 
 void QuickSortMOT(std::vector<int> &data, int left, int right) {
   if (right - left > 1) {
-    int part = partition(data, left, right - 1);
+    int part = PartitionMOT(data, left, right - 1);
     QuickSortMOT(data, left, part);
     QuickSortMOT(data, part + 1, right);
   }
