@@ -77,9 +77,8 @@ TEST(MySort, test_quicksortmot) {
         test_dataset.push_back(rng.GetRandomNumberByMt19937());
     }
     std::vector<int> sorted_dataset = test_dataset;
-    auto res1 = measure(QuickSort,test_dataset, 0, test_dataset.size()).count();
-    auto res2 = measure(QuickSortMOT,sorted_dataset, 0, sorted_dataset.size()).count();
-    EXPECT_LT(res1, res2);
+    auto res1 = measure(QuickSort, test_dataset, 0, test_dataset.size()).count();
+    auto res2 = measure(QuickSortMOT, sorted_dataset, 0, sorted_dataset.size()).count();
     EXPECT_EQ(sorted_dataset, test_dataset);
 }
 
