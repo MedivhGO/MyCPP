@@ -31,8 +31,8 @@ public:
     constexpr MyVector(const MyVector &rhs) {
         size_type rhs_size = rhs.Size();
         Reserve(rhs_size);
-        for (const auto &x: rhs) {
-            PushBack(x);
+        for (size_type i = 0; i < rhs_size; ++i) {
+            PushBack(rhs[i]);
         }
     }
 
@@ -47,10 +47,12 @@ public:
 
     constexpr auto operator=(const MyVector &rhs) -> MyVector & {
         if (&rhs != this) {
-            DestroyElements(first_, last_);
-            Reserve(rhs.size());
-            for (const auto &x: rhs) {
-                PushBack(x);
+            DestroyElements(0, Size());
+            last_ = first_;
+            const size_type rhs_size = rhs.Size();
+            Reserve(rhs_size);
+            for (size_type i = 0; i < rhs_size; ++i) {
+                PushBack(rhs[i]);
             }
         }
         return *this;
@@ -79,6 +81,11 @@ public:
     [[nodiscard]] constexpr auto Capacity() const -> size_type { return end_ - first_; }
 
     [[nodiscard]] constexpr auto Size() const -> size_type { return last_ - first_; }
+
+    [[nodiscard]] constexpr auto begin() const -> const_iterator { return first_; }
+    [[nodiscard]] constexpr auto end() const -> const_iterator { return last_; }
+    [[nodiscard]] constexpr auto begin() -> iterator { return first_; }
+    [[nodiscard]] constexpr auto end() -> iterator { return last_; }
 
     constexpr auto Insert(const T &element, size_type position) -> void {
 

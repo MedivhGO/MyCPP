@@ -10,6 +10,7 @@
 #include <iomanip>              // for setw, setprecision, setfill, right
 #include <sstream>              // for istringstream
 #include <vector>
+#include <algorithm>            // for find_if, is_permutation
 
 #include "hashmap_iterator.h"
 
@@ -903,7 +904,9 @@ M& HashMap<K, M, H>::operator[](const K& key) {
 
 template <typename K, typename M, typename H>
 bool operator==(const HashMap<K, M, H>& lhs, const HashMap<K, M, H>& rhs) {
-    return lhs.size() == rhs.size() && std::is_permutation(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    // Note: the 4-argument overload of std::is_permutation was removed in C++20;
+    // sizes are checked equal above, so the 3-argument form is sufficient.
+    return lhs.size() == rhs.size() && std::is_permutation(lhs.begin(), lhs.end(), rhs.begin());
 }
 
 template <typename K, typename M, typename H>
