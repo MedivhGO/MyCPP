@@ -11,21 +11,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(
   ${PROJECT_NAME}.test
   AllTests.cpp
-  test_mystr.cpp
-  test_mysp.cpp
-  test_mymat.cpp
-  test_myutil.cpp
-  test_myds.cpp
-  test_cppfeature.cpp
-  test_mysort.cpp
-  test_mybst.cpp
-  test_myvec.cpp
-  test_myskiplist.cpp
-  test_topn.cpp
-  test_mock.cpp
-  FixedThreadPoolTest.cpp
-  test_concurrency.cpp
-  test_memorypool.cpp)
+  container/test_myvec.cpp
+  container/test_mystr.cpp
+  container/test_mybst.cpp
+  container/test_myds.cpp
+  container/test_myskiplist.cpp
+  memory/test_mysp.cpp
+  memory/test_memorypool.cpp
+  thread/FixedThreadPoolTest.cpp
+  thread/test_concurrency.cpp
+  sort/test_mysort.cpp
+  util/test_myutil.cpp
+  util/test_mymat.cpp
+  util/test_topn.cpp
+  util/test_mock.cpp
+  util/test_cppfeature.cpp)
 
 target_link_libraries(${PROJECT_NAME}.test ${PROJECT_NAME} gtest pthread gmock) 
 
