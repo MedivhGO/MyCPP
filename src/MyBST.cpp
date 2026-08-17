@@ -2,7 +2,7 @@
 // Created by Lee on 2023/1/11.
 //
 
-#include "MyBST.h"
+#include "container/MyBST.h"
 
 BST::Node::Node(int _value, Node *_left, Node *_right) : value_{_value}, left_{_left}, right_{_right} {}
 

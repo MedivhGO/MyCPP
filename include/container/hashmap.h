@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>            // for find_if, is_permutation
 
-#include "hashmap_iterator.h"
+#include "container/hashmap_iterator.h"
 
 // add any other includes that are necessary
 
@@ -602,7 +602,7 @@ private:
 *      TODO: write a comment here.
 */
 
-// #include "hashmap.h"
+// #include "container/hashmap.h"
 
 template <typename K, typename M, typename H>
 HashMap<K, M, H>::HashMap() :

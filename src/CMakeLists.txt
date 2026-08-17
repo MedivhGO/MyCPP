@@ -1,12 +1,12 @@
 set(CMAKE_CXX_STANDARD 20)
 set(header_path "${${PROJECT_NAME}_SOURCE_DIR}/include")
-set(header ${header_path}/MyString.h)
+set(header ${header_path}/container/MyString.h)
 set(src MyString.cpp)
 
-set(head_bst ${header_path}/MyBST.h)
+set(head_bst ${header_path}/container/MyBST.h)
 set(src_bst MyBST.cpp)
 
-set(head_threadpool ${header_path}/FixedThreadPool.h)
+set(head_threadpool ${header_path}/thread/FixedThreadPool.h)
 set(src_threadpool FixedThreadPool.cpp)
 
 add_library(${PROJECT_NAME} SHARED ${header} ${src} ${head_bst} ${src_bst} ${head_threadpool} ${src_threadpool})

@@ -4,15 +4,15 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 
-#include "Sort/BubbleSort.h"
-#include "Sort/HeapSort.h"
-#include "Sort/InsertSort.h"
-#include "Sort/MergeSort.h"
-#include "Sort/QuickSort.h"
-#include "Sort/SelectSort.h"
-#include "Sort/BinarySearch.h"
-#include "MyRandom.h"
-#include "MyProfile.h"
+#include "sort/BubbleSort.h"
+#include "sort/HeapSort.h"
+#include "sort/InsertSort.h"
+#include "sort/MergeSort.h"
+#include "sort/QuickSort.h"
+#include "sort/SelectSort.h"
+#include "sort/BinarySearch.h"
+#include "util/MyRandom.h"
+#include "util/MyProfile.h"
 
 TEST(MySort, test_bubblesort) {
     std::vector<int> ivec = {4, 3, 2, 1, 5};

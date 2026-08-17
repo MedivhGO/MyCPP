@@ -4,8 +4,8 @@
 #include <cstring>
 #include <vector>
 
-#include "MyLog.h"
-#include "MyString.h"
+#include "util/MyLog.h"
+#include "container/MyString.h"
 
 // 空实参初始化的时候需要将s_data_指向一个空字符。用一个字符数组初始化时，复制该数组。
 MyString::MyString(const char *str) {

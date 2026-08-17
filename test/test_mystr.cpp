@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "MyProfile.h"
-#include "MyString.h"
+#include "util/MyProfile.h"
+#include "container/MyString.h"
 
 TEST(MyStringTest, test1) {
   MyString a;

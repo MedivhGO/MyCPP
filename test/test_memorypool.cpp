@@ -2,8 +2,8 @@
 // Created by Lee on 2024/6/19.
 //
 #include <gtest/gtest.h>
-#include "MyAllocator.h"
-#include "MemoryPoolProfiler.h"
+#include "memory/MyAllocator.h"
+#include "memory/MemoryPoolProfiler.h"
 
 TEST(MyMemoryPool, test_random) {
     MemPool<uint32_t> mp;

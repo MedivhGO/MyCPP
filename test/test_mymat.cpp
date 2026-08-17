@@ -3,8 +3,8 @@
 //
 #include <gtest/gtest.h>
 
-#include "MyMatrix.h"
-#include "MyProfile.h"
+#include "util/MyMatrix.h"
+#include "util/MyProfile.h"
 
 TEST(MyMatrixTest, init) {
     MyMatrix<int> m(5, 5);

@@ -2,7 +2,7 @@
 // Created by Lee on 2022/9/28.
 //
 #include <algorithm>
-#include "MyBST.h"
+#include "container/MyBST.h"
 #include "gtest/gtest.h"
 
 TEST(MyBST, TEST1) {

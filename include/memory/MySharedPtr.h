@@ -7,8 +7,8 @@
 
 #include <utility>
 
-#include "MyUniquePtr.h"
-#include "MyError.h"
+#include "memory/MyUniquePtr.h"
+#include "util/MyError.h"
 
 template<typename T>
 class MyUniquePtr;

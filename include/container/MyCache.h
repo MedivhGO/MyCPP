@@ -9,7 +9,7 @@
 #include <thread>
 #include <memory>
 
-#include "MutexLock.h"
+#include "thread/MutexLock.h"
 
 template<typename T>
 class Cache {

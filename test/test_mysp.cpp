@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
 #include <iostream>
-#include "MySharedPtr.h"
-#include "MyUniquePtr.h"
-#include "MyString.h"
+#include "memory/MySharedPtr.h"
+#include "memory/MyUniquePtr.h"
+#include "container/MyString.h"
 
 TEST(MySmartPtrTest, TEST1) {
     MyUniquePtr<int> ptr1{new int{10}};

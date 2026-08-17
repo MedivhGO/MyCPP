@@ -1,7 +1,7 @@
 #ifndef PC_CPP_INTEGRAL_IMAGE_THREADPOOL_H
 #define PC_CPP_INTEGRAL_IMAGE_THREADPOOL_H
 
-#include "Runnable.h"
+#include "thread/Runnable.h"
 #include <vector>
 #include <queue>
 #include <thread>

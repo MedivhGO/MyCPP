@@ -7,18 +7,18 @@
 #include <string>
 #include <vector>
 
-#include "MyCache.h"
-#include "MyError.h"
-#include "MyFileReader.h"
-#include "MyFileWriter.h"
-#include "MyLog.h"
-#include "MyProfile.h"
+#include "container/MyCache.h"
+#include "util/MyError.h"
+#include "util/MyFileReader.h"
+#include "util/MyFileWriter.h"
+#include "util/MyLog.h"
+#include "util/MyProfile.h"
 #include "../resource/MyProjectPath.h"
-#include "MyRandom.h"
-#include "MySingleton.h"
-#include "MyString.h"
-#include "MyThread.h"
-#include "MyJsonParser.h"
+#include "util/MyRandom.h"
+#include "util/MySingleton.h"
+#include "container/MyString.h"
+#include "thread/MyThread.h"
+#include "util/MyJsonParser.h"
 
 using std::cout;
 using std::endl;
