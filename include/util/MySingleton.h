@@ -12,7 +12,7 @@
 
 // 统一约定:
 // - public 内先放 deleted 拷贝成员(报错清晰), 再放唯一公开 API getInstance();
-// - private 内放默认构造、内部辅助类/函数和静态成员;
+// - private 内放默认构造、默认析构、内部辅助类/函数和静态成员;
 // - 静态成员统一命名为 instance_ / s_flag_ / mutex_.
 
 // implement1: shared_ptr + std::call_once
@@ -27,6 +27,8 @@ class SingleDemo {
 
  private:
   SingleDemo() = default;
+
+  ~SingleDemo() = default;
 
   static void Init() { instance_ = std::make_shared<T>(); }
 
@@ -76,12 +78,12 @@ class OnceSingle {
 
   OnceSingle &operator=(const OnceSingle &) = delete;
 
-  ~OnceSingle() = default;
-
   static T *getInstance();
 
  private:
   OnceSingle() = default;
+
+  ~OnceSingle() = default;
 
   class CGFunctionClass {
    public:
@@ -122,8 +124,6 @@ class OnceSingleWithArgs final {
 
   OnceSingleWithArgs &operator=(const OnceSingleWithArgs &) = delete;
 
-  ~OnceSingleWithArgs() = default;
-
   template <typename... Args>
   static T *getInstance(Args &&...args) {
     std::call_once(s_flag_, &InitPtr<Args...>, std::forward<Args>(args)...);
@@ -132,6 +132,8 @@ class OnceSingleWithArgs final {
 
  private:
   OnceSingleWithArgs() = default;
+
+  ~OnceSingleWithArgs() = default;
 
   class CGFunctionClass {
    public:
@@ -171,6 +173,8 @@ class SingletonAtom {
 
  private:
   SingletonAtom() = default;
+
+  ~SingletonAtom() = default;
 
   class CGFunctionClass {
    public:

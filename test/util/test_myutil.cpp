@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -44,6 +45,30 @@ struct SingletonPoint {
 
   SingletonPoint(int x_, int y_, const std::string &name_) : x(x_), y(y_), name(name_) {}
 };
+
+// 退出清理验证类型: 析构时向 stderr 打印标记 (死亡测试子进程的 stderr 可被捕获)
+struct ExitCleanupType {
+  static int destroyed;
+
+  ~ExitCleanupType() {
+    ++destroyed;
+    std::cerr << "SINGLETON_CLEANED\n";
+  }
+};
+int ExitCleanupType::destroyed = 0;
+
+struct ExitCleanupArg {
+  static int destroyed;
+  int value;
+
+  explicit ExitCleanupArg(int v) : value(v) {}
+
+  ~ExitCleanupArg() {
+    ++destroyed;
+    std::cerr << "SINGLETON_CLEANED\n";
+  }
+};
+int ExitCleanupArg::destroyed = 0;
 
 TEST(MyUtil, test_random) {
   RandomNumberGenerator rg(10, 2000);
@@ -158,6 +183,21 @@ TEST(MyUtil, test_singleton_state_persists) {
 
   SingletonAtom<SingletonCounted>::getInstance()->value = 44;
   EXPECT_EQ(SingletonAtom<SingletonCounted>::getInstance()->value, 44);
+}
+
+TEST(MyUtil, test_singleton_cleanup_at_exit) {
+  // 死亡测试: 子进程创建三个裸指针单例后正常退出, 验证 CGFunctionClass 守卫
+  // 在退出时确实 delete 了实例 (析构打印标记) 且清理过程不崩溃。
+  ExitCleanupType::destroyed = 0;
+  ExitCleanupArg::destroyed = 0;
+  EXPECT_EXIT(
+      {
+        OnceSingle<ExitCleanupType>::getInstance();
+        OnceSingleWithArgs<ExitCleanupArg>::getInstance(42);
+        SingletonAtom<ExitCleanupType>::getInstance();
+        std::exit(0);
+      },
+      ::testing::ExitedWithCode(0), "SINGLETON_CLEANED");
 }
 
 TEST(MyUtil, test_singleton_value) {
