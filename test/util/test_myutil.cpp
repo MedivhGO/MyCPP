@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
+#include <thread>
+#include <type_traits>
 #include <vector>
 
 #include "MyProjectPath.h"
@@ -22,6 +24,26 @@
 
 using std::cout;
 using std::endl;
+
+// 单例测试辅助类型: 记录构造次数, 支持默认构造(带虚析构以便用于 Singleton)
+struct SingletonCounted {
+  static int constructions;
+  int value;
+
+  explicit SingletonCounted(int v = 0) : value(v) { ++constructions; }
+
+  virtual ~SingletonCounted() = default;
+};
+int SingletonCounted::constructions = 0;
+
+// 无默认构造的类型, 用于验证 OnceSingleWithArgs 的参数转发
+struct SingletonPoint {
+  int x;
+  int y;
+  std::string name;
+
+  SingletonPoint(int x_, int y_, const std::string &name_) : x(x_), y(y_), name(name_) {}
+};
 
 TEST(MyUtil, test_random) {
   RandomNumberGenerator rg(10, 2000);
@@ -73,6 +95,190 @@ TEST(MyUtil, test_singleton) {
   std::string *para_ptr_atomic = SingletonAtom<std::string>::getInstance();
   std::string *same_para_ptr_atomic = SingletonAtom<std::string>::getInstance();
   EXPECT_EQ(para_ptr_atomic, same_para_ptr_atomic);
+}
+
+TEST(MyUtil, test_singleton_copy_disabled) {
+  // 编译期验证: 五个单例均不可拷贝、不可从外部默认构造
+  static_assert(!std::is_copy_constructible_v<SingleDemo<int>>);
+  static_assert(!std::is_copy_assignable_v<SingleDemo<int>>);
+  static_assert(!std::is_default_constructible_v<SingleDemo<int>>);
+
+  static_assert(!std::is_copy_constructible_v<Singleton<MyString>>);
+  static_assert(!std::is_copy_assignable_v<Singleton<MyString>>);
+  static_assert(!std::is_default_constructible_v<Singleton<MyString>>);
+
+  static_assert(!std::is_copy_constructible_v<OnceSingle<int>>);
+  static_assert(!std::is_copy_assignable_v<OnceSingle<int>>);
+  static_assert(!std::is_default_constructible_v<OnceSingle<int>>);
+
+  static_assert(!std::is_copy_constructible_v<OnceSingleWithArgs<int>>);
+  static_assert(!std::is_copy_assignable_v<OnceSingleWithArgs<int>>);
+  static_assert(!std::is_default_constructible_v<OnceSingleWithArgs<int>>);
+
+  static_assert(!std::is_copy_constructible_v<SingletonAtom<int>>);
+  static_assert(!std::is_copy_assignable_v<SingletonAtom<int>>);
+  static_assert(!std::is_default_constructible_v<SingletonAtom<int>>);
+}
+
+TEST(MyUtil, test_singleton_initialized_once) {
+  // 无论此前是否已构造, 多次调用只新增一次构造
+  const int before = SingletonCounted::constructions;
+  SingletonCounted *first = OnceSingle<SingletonCounted>::getInstance();
+  EXPECT_EQ(SingletonCounted::constructions, before + 1);
+  EXPECT_EQ(first->value, 0);
+
+  SingletonCounted *second = OnceSingle<SingletonCounted>::getInstance();
+  EXPECT_EQ(second, first);
+  EXPECT_EQ(SingletonCounted::constructions, before + 1);
+}
+
+TEST(MyUtil, test_singleton_with_args) {
+  // 多参数 + 不同类型参数转发 (修复前 getInstance(3, 4, "origin") 无法编译)
+  SingletonPoint *p = OnceSingleWithArgs<SingletonPoint>::getInstance(3, 4, "origin");
+  EXPECT_EQ(p->x, 3);
+  EXPECT_EQ(p->y, 4);
+  EXPECT_EQ(p->name, "origin");
+
+  SingletonPoint *q = OnceSingleWithArgs<SingletonPoint>::getInstance(9, 9, "other");
+  EXPECT_EQ(q, p);
+  EXPECT_EQ(q->x, 3);  // 首次调用参数生效
+  EXPECT_EQ(q->name, "origin");
+}
+
+TEST(MyUtil, test_singleton_state_persists) {
+  // 同一实例共享状态: 修改后再次获取能看到修改
+  SingleDemo<SingletonCounted>::getInstance()->value = 11;
+  EXPECT_EQ(SingleDemo<SingletonCounted>::getInstance()->value, 11);
+
+  Singleton<SingletonCounted>::getInstance().value = 22;
+  EXPECT_EQ(Singleton<SingletonCounted>::getInstance().value, 22);
+
+  OnceSingle<SingletonCounted>::getInstance()->value = 33;
+  EXPECT_EQ(OnceSingle<SingletonCounted>::getInstance()->value, 33);
+
+  SingletonAtom<SingletonCounted>::getInstance()->value = 44;
+  EXPECT_EQ(SingletonAtom<SingletonCounted>::getInstance()->value, 44);
+}
+
+TEST(MyUtil, test_singleton_value) {
+  // implement1: 默认构造的值初始化
+  EXPECT_EQ(*SingleDemo<int>::getInstance(), 0);
+
+  // implement3: 默认构造的值初始化
+  EXPECT_EQ(*OnceSingle<int>::getInstance(), 0);
+
+  // implement5: 默认构造的值初始化
+  EXPECT_EQ(*SingletonAtom<int>::getInstance(), 0);
+
+  // implement4: 首次调用传入的参数生效，之后调用不再改变实例
+  // （使用 vector<int> 避免与 test_singleton 中已初始化的 string 实例互相干扰）
+  std::vector<int> *para_ptr = OnceSingleWithArgs<std::vector<int>>::getInstance(3, 7);
+  EXPECT_EQ(para_ptr->size(), 3u);
+  EXPECT_EQ((*para_ptr)[0], 7);
+  std::vector<int> *same_para_ptr = OnceSingleWithArgs<std::vector<int>>::getInstance(2, 9);
+  EXPECT_EQ(para_ptr, same_para_ptr);
+  EXPECT_EQ(same_para_ptr->size(), 3u);
+  EXPECT_EQ((*same_para_ptr)[0], 7);
+}
+
+TEST(MyUtil, test_singleton_thread_safety) {
+  constexpr int kThreads = 16;
+  constexpr int kIterations = 100;
+
+  // implement1: SingleDemo（shared_ptr + 双重检查锁）
+  {
+    std::vector<std::shared_ptr<MyString>> results(kThreads);
+    std::vector<std::thread> threads;
+    for (int i = 0; i < kThreads; ++i) {
+      threads.emplace_back([&results, i]() {
+        for (int j = 0; j < kIterations; ++j) {
+          results[i] = SingleDemo<MyString>::getInstance();
+        }
+      });
+    }
+    for (auto &t : threads) {
+      t.join();
+    }
+    for (int i = 1; i < kThreads; ++i) {
+      EXPECT_EQ(results[0], results[i]);
+    }
+  }
+
+  // implement2: Singleton（Meyers 魔法静态）
+  {
+    std::vector<MyString *> results(kThreads);
+    std::vector<std::thread> threads;
+    for (int i = 0; i < kThreads; ++i) {
+      threads.emplace_back([&results, i]() {
+        for (int j = 0; j < kIterations; ++j) {
+          results[i] = &Singleton<MyString>::getInstance();
+        }
+      });
+    }
+    for (auto &t : threads) {
+      t.join();
+    }
+    for (int i = 1; i < kThreads; ++i) {
+      EXPECT_EQ(results[0], results[i]);
+    }
+  }
+
+  // implement3: OnceSingle（call_once + 原始指针）
+  {
+    std::vector<std::string *> results(kThreads);
+    std::vector<std::thread> threads;
+    for (int i = 0; i < kThreads; ++i) {
+      threads.emplace_back([&results, i]() {
+        for (int j = 0; j < kIterations; ++j) {
+          results[i] = OnceSingle<std::string>::getInstance();
+        }
+      });
+    }
+    for (auto &t : threads) {
+      t.join();
+    }
+    for (int i = 1; i < kThreads; ++i) {
+      EXPECT_EQ(results[0], results[i]);
+    }
+  }
+
+  // implement4: OnceSingleWithArgs（call_once + 带参构造）
+  {
+    std::vector<std::string *> results(kThreads);
+    std::vector<std::thread> threads;
+    for (int i = 0; i < kThreads; ++i) {
+      threads.emplace_back([&results, i]() {
+        for (int j = 0; j < kIterations; ++j) {
+          results[i] = OnceSingleWithArgs<std::string>::getInstance("shared");
+        }
+      });
+    }
+    for (auto &t : threads) {
+      t.join();
+    }
+    for (int i = 1; i < kThreads; ++i) {
+      EXPECT_EQ(results[0], results[i]);
+    }
+  }
+
+  // implement5: SingletonAtom（原子指针 + 双重检查锁）
+  {
+    std::vector<std::string *> results(kThreads);
+    std::vector<std::thread> threads;
+    for (int i = 0; i < kThreads; ++i) {
+      threads.emplace_back([&results, i]() {
+        for (int j = 0; j < kIterations; ++j) {
+          results[i] = SingletonAtom<std::string>::getInstance();
+        }
+      });
+    }
+    for (auto &t : threads) {
+      t.join();
+    }
+    for (int i = 1; i < kThreads; ++i) {
+      EXPECT_EQ(results[0], results[i]);
+    }
+  }
 }
 
 TEST(MyUtil, DISABLED_test_thread) {
