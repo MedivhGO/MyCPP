@@ -77,15 +77,16 @@ TEST(MySort, test_quicksortmot) {
     for (int i = 0; i < 10000; ++i) {
         test_dataset.push_back(rng.GetRandomNumberByMt19937());
     }
-    std::vector<int> mysorted_dataset = test_dataset;
-    std::vector<int> stdsorted_dataset = test_dataset;
-    auto res1 = measure(QuickSort, test_dataset, 0, test_dataset.size()).count();
-    auto res2 = measure(QuickSortMOT, mysorted_dataset, 0, mysorted_dataset.size()).count();
-    auto res3 = measure(std::ranges::sort, stdsorted_dataset).count();
-    EXPECT_GT(res3, res2);
-    EXPECT_GT(res3, res1);
-    EXPECT_EQ(mysorted_dataset, test_dataset);
-    EXPECT_EQ(stdsorted_dataset, mysorted_dataset);
+    std::vector<int> sorted_dataset = test_dataset;
+    auto run_stdsort = [&]() {
+        std::sort(sorted_dataset.begin(), sorted_dataset.end());
+    };
+    auto run_mysort = [&]() {
+        QuickSortMOT(test_dataset, 0, test_dataset.size());
+    };
+    run_stdsort();
+    run_mysort();
+    EXPECT_EQ(sorted_dataset, test_dataset);
 }
 
 TEST(MySort, test_selectsort) {

@@ -7,6 +7,8 @@
 
 #include <cerrno>
 #include <cstring>
+#include <exception>
+#include <stdexcept>
 #include <string>
 
 class MyError : public std::exception {

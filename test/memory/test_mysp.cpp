@@ -145,7 +145,10 @@ TEST(MySmartPtrTest, TEST15) {
         EXPECT_EQ(ptr3.use_count(), 2);
     }
     EXPECT_EQ(ptr1.use_count(), 1);
-    ptr1.~MySharedPtr();
+    // 不要直接调用析构函数：对象生命周期结束后再读取 use_count()/get()
+    // 属于未定义行为，-O3 下编译器会因此产生错误结果并破坏堆内存。
+    // reset() 以合法方式释放最后一个引用，语义与析构一致。
+    ptr1.reset();
     EXPECT_EQ(ptr1.use_count(), 0);
     EXPECT_EQ(ptr1.get(), nullptr);
 }
@@ -285,4 +288,3 @@ TEST(MySmartPtrTest, TEST27) {
     // 内存泄漏了
     // 使用 weakptr 解决
 }
-
