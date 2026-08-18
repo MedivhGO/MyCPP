@@ -1,85 +1,158 @@
-# 用 C++ 实现常用的数据结构和算法
+# MyCPP
 
-## TODO
+用 C++20 实现常用数据结构与算法的学习项目。所有组件均为手写实现，使用 googletest 编写单元测试，并支持 AddressSanitizer 内存检测。
 
-- [x] 实现MyString
-- [x] 实现MySharedPtr
-- [x] 实现MyWeakPtr
-- [x] 实现MyUniquePtr
-- [x] 实现MutexLock
-- [x] 实现MyMatrix(strassen实现矩阵乘法)
-- [x] 实现Singleton
-- [x] 实现MyBST(binary search tree)
-- [x] 实现MyError
-- [x] 实现MyHashMap
-- [x] 实现常见的排序算法以及二分查找
-- [x] 实现MyFileReader
-- [x] 实现MyFileWriter
-- [x] 实现MyRBTree
-- [x] 实现MyProfiler
-- [x] 实现MyVector
-- [x] 实现MySkipList
-- [x] 实现MyThreadPool
-- [x] 实现MyMemoryPool
-- [x] 实现MyJsonParser
-- [ ] 实现多线程相关 Demo
+## 已实现
 
-## dependencies
+- 字符串与容器：`MyString`、`MyVector`、`MyHashMap`
+- 智能指针与内存管理：`MySharedPtr`、`MyWeakPtr`、`MyUniquePtr`、`MyMemoryPool`
+- 树与跳表：`MyBST`（二叉搜索树）、`MyRBTree`（红黑树）、`MySkipList`
+- 排序与查找：冒泡/堆/插入/归并/快排/选择排序、二分查找
+- 工具类：`MyJsonParser`、`MyFileReader`、`MyFileWriter`、`MyMatrix`（Strassen 矩阵乘法）、`MyProfiler`、`MyError`、`MySingleton`、`MyLog`
+- 并发：`MutexLock`、`MyThreadPool`（线程池）
 
-to support C++ 20 feature
+## 环境要求
 
-- required gcc-10 g++-10 or higher
-- required cmake 3.21 or higher
+- C++20 编译器：GCC 10+ / Clang 12+
+- CMake 3.16+
+- Ninja（可选，推荐，构建更快）
+- Git（用于克隆仓库和子模块）
 
-## build
+## 获取代码
 
-```shell
-git clone https://github.com/MedivhGO/MyCPP.git
+仓库使用 git submodule 引入第三方依赖，克隆后需要初始化子模块：
+
+```bash
+git clone --recurse-submodules https://github.com/MedivhGO/MyCPP.git
 cd MyCPP
-mkdir build
+```
+
+如果已经克隆，可单独补初始化：
+
+```bash
+cd MyCPP
+git submodule update --init --recursive
+```
+
+## 构建
+
+```bash
+cmake -S . -B build         # 配置
+cmake --build build         # 构建
+```
+
+推荐使用 Ninja 生成器并指定构建类型：
+
+```bash
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build
+```
+
+常用配置选项：
+
+| 选项 | 说明 | 默认值 |
+|---|---|---|
+| `-DCMAKE_BUILD_TYPE=Debug/Release` | 构建类型 | 空 |
+| `-DBUILD_TESTING=OFF` | 关闭测试构建（googletest 也不会编译） | ON |
+| `-DMYCPP_ENABLE_ASAN=ON` | 开启 AddressSanitizer 内存检测 | OFF |
+
+## 运行测试
+
+测试使用 googletest，并通过 CTest 集成，每个用例独立注册：
+
+```bash
 cd build
-cmake ..
-make
+ctest                       # 运行全部用例
+ctest --output-on-failure   # 失败时打印详细输出
+ctest -R "SkipList"         # 只跑名字匹配的用例
 ```
 
-modify test/CMakeList.txt file to generate correspond single unit test executable file.
+也可以直接运行测试程序：
 
-add below code:
-
-- add_executable
-
-- target_link_libraries
-
-## run
-
-```shell
-cd build/test
-./test_case.test
+```bash
+./build/test/MyCpp.test                                # 全部用例
+./build/test/MyCpp.test --gtest_filter=SkipListTest.*  # 只跑某个用例组
+./build/test/MyCpp.test --gtest_also_run_disabled_tests  # 强制运行禁用用例
 ```
 
-## valgrind
+### 单独编译一个测试文件
 
-to check memory leak, you can use blow command.
+在 `test/CMakeLists.txt` 中按需添加单测目标：
 
-```shell
-/usr/bin/valgrind --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ./build/test/MyCpp.test
+```cmake
+add_executable(test_myskiplist.test AllTests.cpp container/test_myskiplist.cpp)
+target_link_libraries(test_myskiplist.test PRIVATE ${PROJECT_NAME} GTest::gmock)
 ```
 
-## profiler
+然后构建并运行：
 
-```C++
-// use MyProfile.h measure function to get runtime data
-// example
- measure(function_name, param1, param2).count()
+```bash
+cmake --build build --target test_myskiplist.test
+./build/test/test_myskiplist.test
 ```
 
-## doctest
+## 内存检测（AddressSanitizer）
 
-The fastest feature-rich C++11/14/17/20/23 single-header testing framework
+推荐使用独立的构建目录，避免与普通构建互相污染：
 
-## nanobench
+```bash
+cmake -S . -B build-asan -G Ninja -DCMAKE_BUILD_TYPE=Debug -DMYCPP_ENABLE_ASAN=ON
+cmake --build build-asan
+cd build-asan && ./test/MyCpp.test
+```
 
-Simple, fast, accurate single-header microbenchmarking functionality for C++11/14/17/20
+运行时会检测越界读写、use-after-free、双重释放、ODR 违规等问题，出错立即终止并打印调用栈。
+
+## 内存泄漏检查（valgrind）
+
+```bash
+valgrind --leak-check=full --leak-resolution=med --track-origins=yes ./build/test/MyCpp.test
+```
+
+## 性能分析
+
+使用 `util/MyProfile.h` 中的 `measure` 函数测量函数运行时间：
+
+```c++
+auto elapsed = measure(function_name, param1, param2).count();
+```
+
+## 安装（可选）
+
+```bash
+cmake --install build --prefix /your/install/prefix
+```
+
+默认安装到 `/usr/local`，产物布局：
+
+```
+<prefix>/
+├── lib/libMyCpp.so
+├── bin/MyCpp.info
+└── include/          # 全部公共头文件
+```
+
+## 目录结构
+
+```
+├── CMakeLists.txt   # 顶层构建配置
+├── include/         # 公共头文件（声明）
+│   ├── container/   # 容器与数据结构
+│   ├── memory/      # 智能指针与内存管理
+│   ├── sort/        # 排序算法
+│   ├── thread/      # 并发组件
+│   └── util/        # 工具类
+├── src/             # 实现
+├── test/            # googletest 单元测试
+├── resource/        # 资源与配置模板
+└── third_party/     # 第三方依赖（git submodule）
+```
+
+## 第三方依赖
+
+- [googletest](https://github.com/google/googletest) — 单元测试框架
+- [doctest](https://github.com/doctest/doctest) — 单头文件测试框架
+- [nanobench](https://github.com/martinus/nanobench) — 微基准测试
 
 ## References
 
