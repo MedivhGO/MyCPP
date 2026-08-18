@@ -2,7 +2,7 @@
 // Created by Lee on 2024/6/19.
 //
 #include <gtest/gtest.h>
-#include "memory/MemoryPoolProfiler.h"
+#include "memory/MyMemoryPoolProfiler.h"
 #include "memory/MyAllocator.h"
 
 TEST(MyMemoryPool, test_random) {

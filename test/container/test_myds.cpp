@@ -5,7 +5,7 @@
 
 #include "container/MyRBTree.h"
 #include "container/MySkipList.h"
-#include "container/hashmap.h"
+#include "container/MyHashMap.h"
 #include "util/MyRandom.h"
 
 template <typename KeyType, typename MappedTyped>
