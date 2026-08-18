@@ -1,36 +1,29 @@
-set(CMAKE_CXX_STANDARD 20)
-set(header_path "${${PROJECT_NAME}_SOURCE_DIR}/include")
-set(header ${header_path}/container/MyString.h)
-set(src MyString.cpp)
+set(MYCPP_SOURCES
+  MyString.cpp
+  MyBST.cpp
+  FixedThreadPool.cpp
+  MySkipList.cpp
+  MyLog.cpp)
 
-set(head_bst ${header_path}/container/MyBST.h)
-set(src_bst MyBST.cpp)
 
-set(head_threadpool ${header_path}/thread/FixedThreadPool.h)
-set(src_threadpool FixedThreadPool.cpp)
+add_library(${PROJECT_NAME} SHARED ${MYCPP_SOURCES})
 
-set(head_skiplist ${header_path}/container/MySkipList.h)
-set(src_skiplist MySkipList.cpp)
-
-add_library(
-  ${PROJECT_NAME} SHARED ${header} ${src} ${head_bst} ${src_bst} ${head_threadpool}
-  ${src_threadpool} ${head_skiplist} ${src_skiplist})
+find_package(Threads REQUIRED)
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
-                         ${${PROJECT_NAME}_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} pthread)
+  ${PROJECT_SOURCE_DIR}/include)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
 
 add_executable(${PROJECT_NAME}.info main.cpp)
-target_include_directories(
-  ${PROJECT_NAME}.info PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
-                              ${${PROJECT_NAME}_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME}.info ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}.info PRIVATE ${PROJECT_NAME})
 
-install(
-  TARGETS ${PROJECT_NAME}
-  LIBRARY DESTINATION "${lib_dest}"
-  ARCHIVE DESTINATION "${lib_dest}" COMPONENT library)
-install(TARGETS ${PROJECT_NAME}.info RUNTIME DESTINATION "${tool_dest}"
-                                             COMPONENT library)
-install(FILES ${header} DESTINATION "${include_dest}")
+install(TARGETS ${PROJECT_NAME}
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+)
+
+install(TARGETS ${PROJECT_NAME}.info RUNTIME DESTINATION bin)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION include)
