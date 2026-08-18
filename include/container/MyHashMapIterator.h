@@ -6,8 +6,8 @@
  * For bug reports please email your current CS 106L lecturer.
  */
 
-#ifndef HASHMAPITERATOR_H
-#define HASHMAPITERATOR_H
+#ifndef MYCPPIMPLEMENT_MYHASHMAPITERATOR_H
+#define MYCPPIMPLEMENT_MYHASHMAPITERATOR_H
 
 #include <functional>  // for std::conditional_t
 #include <iterator>    // for std::forward_iterator_tag
@@ -218,4 +218,4 @@ bool operator!=(const HashMapIterator<Map, IsConst> &lhs, const HashMapIterator<
   return !(lhs == rhs);
 }
 
-#endif  // HASHMAPITERATOR_H
+#endif  // MYCPPIMPLEMENT_MYHASHMAPITERATOR_H

@@ -1,7 +1,7 @@
 set(MYCPP_SOURCES
   MyString.cpp
   MyBST.cpp
-  FixedThreadPool.cpp
+  MyFixedThreadPool.cpp
   MySkipList.cpp
   MyLog.cpp)
 

@@ -1,5 +1,5 @@
-#ifndef PC_CPP_INTEGRAL_IMAGE_THREADPOOL_H
-#define PC_CPP_INTEGRAL_IMAGE_THREADPOOL_H
+#ifndef MYCPPIMPLEMENT_MYFIXEDTHREADPOOL_H
+#define MYCPPIMPLEMENT_MYFIXEDTHREADPOOL_H
 
 #include <condition_variable>
 #include <future>
@@ -7,7 +7,7 @@
 #include <queue>
 #include <thread>
 #include <vector>
-#include "thread/Runnable.h"
+#include "thread/MyRunnable.h"
 
 class FixedThreadPool {
  private:
@@ -110,4 +110,4 @@ std::future<T> FixedThreadPool::submit(Runnable *task, T result) {
   return fut_ptr->get_future();
 }
 
-#endif  // PC_CPP_INTEGRAL_IMAGE_THREADPOOL_H
+#endif  // MYCPPIMPLEMENT_MYFIXEDTHREADPOOL_H

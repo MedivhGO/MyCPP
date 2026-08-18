@@ -3,8 +3,8 @@
 // Modify time 2022年9月2日01:25:35
 //
 
-#ifndef MUTEXLOCK_H
-#define MUTEXLOCK_H
+#ifndef MYCPPIMPLEMENT_MYMUTEXLOCK_H
+#define MYCPPIMPLEMENT_MYMUTEXLOCK_H
 
 #include <cstdio>
 
@@ -44,4 +44,4 @@ class MutexLockGuard {
   MutexLock &m_;
 };
 
-#endif  // MUTEXLOCK_H
+#endif  // MYCPPIMPLEMENT_MYMUTEXLOCK_H

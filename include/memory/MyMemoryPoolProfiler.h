@@ -2,8 +2,8 @@
 // Created by Lee on 2024/6/19.
 //
 
-#ifndef MYCPP_MEMORYPOOLPROFILER_H
-#define MYCPP_MEMORYPOOLPROFILER_H
+#ifndef MYCPPIMPLEMENT_MYMEMORYPOOLPROFILER_H
+#define MYCPPIMPLEMENT_MYMEMORYPOOLPROFILER_H
 
 #include <chrono>
 #include <iostream>
@@ -96,4 +96,4 @@ std::size_t MemoryPoolProfiler::currentMilli() const {
   return static_cast<std::size_t>(std::chrono::duration_cast<std::chrono::milliseconds>(tick - tick_).count());
 }
 
-#endif  // MYCPP_MEMORYPOOLPROFILER_H
+#endif  // MYCPPIMPLEMENT_MYMEMORYPOOLPROFILER_H

@@ -1,4 +1,4 @@
-#include "thread/FixedThreadPool.h"
+#include "thread/MyFixedThreadPool.h"
 
 FixedThreadPool::FixedThreadPool(unsigned int n_threads) {
   for (int i = 0; i < n_threads; i++) {

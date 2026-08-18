@@ -3,8 +3,8 @@
  *      TODO: write a comment here.
  */
 
-#ifndef HASHMAP_H
-#define HASHMAP_H
+#ifndef MYCPPIMPLEMENT_MYHASHMAP_H
+#define MYCPPIMPLEMENT_MYHASHMAP_H
 
 #include <algorithm>  // for find_if, is_permutation
 #include <iomanip>    // for setw, setprecision, setfill, right
@@ -12,7 +12,7 @@
 #include <sstream>    // for istringstream
 #include <vector>
 
-#include "container/hashmap_iterator.h"
+#include "container/MyHashMapIterator.h"
 
 // add any other includes that are necessary
 
@@ -600,7 +600,7 @@ class HashMap {
  *      TODO: write a comment here.
  */
 
-// #include "container/hashmap.h"
+// #include "container/MyHashMap.h"
 
 template <typename K, typename M, typename H>
 HashMap<K, M, H>::HashMap() : HashMap{kDefaultBuckets} {}
@@ -919,4 +919,4 @@ std::ostream &operator<<(std::ostream &os, const HashMap<K, M, H> &rhs) {
 
 /* end student code */
 
-#endif  // HASHMAP_H
+#endif  // MYCPPIMPLEMENT_MYHASHMAP_H
