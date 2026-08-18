@@ -4,9 +4,9 @@
 #include <gtest/gtest.h>
 
 #include "container/MyRBTree.h"
-#include "util/MyRandom.h"
 #include "container/MySkipList.h"
 #include "container/hashmap.h"
+#include "util/MyRandom.h"
 
 template <typename KeyType, typename MappedTyped>
 auto FindKeys(const HashMap<KeyType, MappedTyped> &map) -> std::set<KeyType> {

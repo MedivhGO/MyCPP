@@ -7,18 +7,18 @@
 #include <string>
 #include <vector>
 
+#include "MyProjectPath.h"
 #include "container/MyCache.h"
+#include "container/MyString.h"
+#include "thread/MyThread.h"
 #include "util/MyError.h"
 #include "util/MyFileReader.h"
 #include "util/MyFileWriter.h"
+#include "util/MyJsonParser.h"
 #include "util/MyLog.h"
 #include "util/MyProfile.h"
-#include "MyProjectPath.h"
 #include "util/MyRandom.h"
 #include "util/MySingleton.h"
-#include "container/MyString.h"
-#include "thread/MyThread.h"
-#include "util/MyJsonParser.h"
 
 using std::cout;
 using std::endl;
@@ -70,8 +70,8 @@ TEST(MyUtil, test_singleton) {
   para_ptr = nullptr;
   same_para_ptr = nullptr;
 
-  std::string* para_ptr_atomic = SingletonAtom<std::string>::getInstance();
-  std::string* same_para_ptr_atomic = SingletonAtom<std::string>::getInstance();
+  std::string *para_ptr_atomic = SingletonAtom<std::string>::getInstance();
+  std::string *same_para_ptr_atomic = SingletonAtom<std::string>::getInstance();
   EXPECT_EQ(para_ptr_atomic, same_para_ptr_atomic);
 }
 
@@ -203,16 +203,16 @@ TEST(MyUtil, test_file_wandr) {
   fr.Close();
 }
 
-void NormalFunction(const int &x) { std::cout << "Call Normal Function" << std::endl; };
+void NormalFunction(const int &x) { std::cout << "Call Normal Function" << '\n'; };
 
-void NormalFunction(int &&x) { std::cout << "Call RightRef Function" << std::endl; };
+void NormalFunction(int &&x) { std::cout << "Call RightRef Function" << '\n'; };
 
 TEST(MyUtil, test_rightref) {
   NormalFunction(10);  // 右值优先绑定到右值引用的函数上
 }
 
 TEST(MyUtil, TotalMem) {
-  auto p = new uint64_t[1024*1024];
+  auto p = new uint64_t[1024 * 1024];
   size_t mem_num = MemProfiler::memory();
   ASSERT_NE(0, mem_num);
   std::cout << mem_num << " KB";

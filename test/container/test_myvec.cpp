@@ -53,8 +53,8 @@ class Pigeon {
 // Fixtures
 class MyVecTest : public ::testing::Test {
  protected:
-  virtual void SetUp() override { DestructorType::destruction_count = 0; }
-  virtual void TearDown() override { PigeonManager::mPigeons.clear(); }
+  void SetUp() override { DestructorType::destruction_count = 0; }
+  void TearDown() override { PigeonManager::mPigeons.clear(); }
 
   MyVector<int> v;
   MyVector<char> vc;
@@ -157,7 +157,7 @@ TEST_F(MyVecTest, DISABLED_Alignment) {
   misalignment = reinterpret_cast<uintptr_t>(&vc[0]) & misalignment_mask;
   EXPECT_EQ(misalignment, 0);
 
-  vf.PushBack(1.0f);
+  vf.PushBack(1.0F);
   required_alignment = alignof(float);
   EXPECT_EQ(required_alignment, 4);
   misalignment_mask = required_alignment - 1;

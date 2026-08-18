@@ -4,8 +4,8 @@
 #include <cstring>
 #include <vector>
 
-#include "util/MyLog.h"
 #include "container/MyString.h"
+#include "util/MyLog.h"
 
 // 空实参初始化的时候需要将s_data_指向一个空字符。用一个字符数组初始化时，复制该数组。
 MyString::MyString(const char *str) {
@@ -104,7 +104,7 @@ auto operator>>(std::istream &is, MyString &str) -> std::istream & {
   return is;
 }
 
-auto operator<=>(const MyString &lhs, const MyString& rhs) -> std::partial_ordering {
+auto operator<=>(const MyString &lhs, const MyString &rhs) -> std::partial_ordering {
   if (strcmp(lhs.Get(), rhs.Get()) < 0) {
     return std::partial_ordering::less;
   }
@@ -115,9 +115,7 @@ auto operator<=>(const MyString &lhs, const MyString& rhs) -> std::partial_order
 }
 
 // 还需要实现 ==
-auto operator==(const MyString &lhs, const MyString& rhs) -> bool {
-  return (lhs<=>rhs) == 0;
-}
+auto operator==(const MyString &lhs, const MyString &rhs) -> bool { return (lhs <=> rhs) == 0; }
 
 void Swap(MyString &lhs, MyString &rhs) {
   char *t = lhs.s_data_;

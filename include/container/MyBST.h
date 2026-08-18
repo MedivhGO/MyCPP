@@ -20,23 +20,23 @@ class BST {
     explicit Node(int value, Node *left = nullptr, Node *right = nullptr);
     Node();                  // Default Constructor
     Node(const Node &node);  // Copy Constructor
-    Node(int _value); // NOLINT
-    auto operator==(const Node &) const -> bool;
-    auto operator<=>(const Node &) const -> std::partial_ordering;
-    friend auto operator<<(std::ostream &, const BST::Node &) -> std::ostream &;
+    Node(int _value);        // NOLINT
+    auto operator==(const Node & /*_node*/) const -> bool;
+    auto operator<=>(const Node & /*_node*/) const -> std::partial_ordering;
+    friend auto operator<<(std::ostream & /*output_*/, const BST::Node & /*_node*/) -> std::ostream &;
 
     int value_;
     Node *left_;
     Node *right_;
   };
 
-  BST();                                     // Default Constructor
-  BST(const BST &bst);                       // Copy Constructor
-  ~BST();                                    // Destructor
-  BST(BST &&source) noexcept;                // Move Constructor
-  BST(std::initializer_list<int>);           // Initializer List Constructor
-  auto operator=(const BST &) -> BST &;      // Copy Version
-  auto operator=(BST &&) noexcept -> BST &;  // Move Version
+  BST();                                              // Default Constructor
+  BST(const BST &bst);                                // Copy Constructor
+  ~BST();                                             // Destructor
+  BST(BST &&source) noexcept;                         // Move Constructor
+  BST(std::initializer_list<int> /*_list*/);          // Initializer List Constructor
+  auto operator=(const BST & /*_bst*/) -> BST &;      // Copy Version
+  auto operator=(BST && /*_bst*/) noexcept -> BST &;  // Move Version
 
   auto GetRoot() -> Node *&;
   void Bfs(const std::function<void(Node *&node)> &func) const;
@@ -48,9 +48,9 @@ class BST {
   auto FindSuccessor(int value) -> Node **;
   auto DeleteNode(int value) -> bool;
 
-  auto operator++() const -> const BST &;   // Left ++
-  auto operator++(int) const -> BST;  // Right ++
-  friend auto operator<<(std::ostream &, const BST &) -> std::ostream &;
+  auto operator++() const -> const BST &;  // Left ++
+  auto operator++(int) const -> BST;       // Right ++
+  friend auto operator<<(std::ostream & /*_output*/, const BST & /*_bst*/) -> std::ostream &;
 
  private:
   Node *root_;

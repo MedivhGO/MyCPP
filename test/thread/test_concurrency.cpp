@@ -6,71 +6,70 @@
 
 #include <future>
 #include <thread>
-//#include <semaphore>
+// #include <semaphore>
+#include <atomic>
 #include <chrono>
 #include <iostream>
-#include <atomic>
 
-void hello() {
-    std::cout << "Hello Concurrent World!\n" << std::this_thread::get_id() << std::endl;
-}
+void hello() { std::cout << "Hello Concurrent World!\n" << std::this_thread::get_id() << '\n'; }
 
 TEST(MyCppConcurrency, test1) {
-    std::thread t(hello);
-    std::cout << t.get_id() << std::endl;
-    t.join();
+  std::thread t(hello);
+  std::cout << t.get_id() << '\n';
+  t.join();
 }
 
 TEST(MyCppConcurrency, test2) {
-    auto now = std::chrono::system_clock::now();
-    std::cout << "Current time: " << now.time_since_epoch().count() << " milliseconds since epoch" << std::endl;
+  auto now = std::chrono::system_clock::now();
+  std::cout << "Current time: " << now.time_since_epoch().count() << " milliseconds since epoch" << '\n';
 }
 
 class thread_guard {
-public:
-    explicit thread_guard(std::thread &t) : t_(t) {}
+ public:
+  explicit thread_guard(std::thread &t) : t_(t) {}
 
-    ~thread_guard() {
-        if (t_.joinable()) {
-            t_.join();
-        }
+  ~thread_guard() {
+    if (t_.joinable()) {
+      t_.join();
     }
+  }
 
-    thread_guard(const thread_guard &) = delete;
+  thread_guard(const thread_guard &) = delete;
 
-    thread_guard &operator=(const thread_guard &) = delete;
+  thread_guard &operator=(const thread_guard &) = delete;
 
-private:
-    std::thread &t_;
+ private:
+  std::thread &t_;
 };
 
 TEST(MyCppConcurrency, test3) {
-    std::thread t(hello);
-    thread_guard g(t);
+  std::thread t(hello);
+  thread_guard g(t);
 }
 
 TEST(MyCppConcurrency, test4) {
-    // std::promise 常配合 std::future 使用。
-    // 其作用是在一个线程中保存一个类型的值，可供相绑定的 std::future 对象在另一个线程中获取。
-    std::packaged_task<int()> task([] { return 7; });
-    std::future<int> f1 = task.get_future();
-    std::thread t(std::move(task));
+  // std::promise 常配合 std::future 使用。
+  // 其作用是在一个线程中保存一个类型的值，可供相绑定的 std::future 对象在另一个线程中获取。
+  std::packaged_task<int()> task([] { return 7; });
+  std::future<int> f1 = task.get_future();
+  std::thread t(std::move(task));
 
-    std::future<int> f2 = std::async(std::launch::async, [] { return 8; });
+  std::future<int> f2 = std::async(std::launch::async, [] { return 8; });
 
-    std::promise<int> p;                  // 声明一个 promise 对象 p，其保存的值的类型为 int。
-    std::future<int> f3 = p.get_future(); // 声明一个 std::future 对象 f3，并通过 std::promise 的 get_future() 函数与 p 绑定。
-    std::thread([&p] { p.set_value_at_thread_exit(9); }).detach();
+  std::promise<int> p;  // 声明一个 promise 对象 p，其保存的值的类型为 int。
+  std::future<int> f3 =
+      p.get_future();  // 声明一个 std::future 对象 f3，并通过 std::promise 的 get_future() 函数与 p 绑定。
+  std::thread([&p] { p.set_value_at_thread_exit(9); }).detach();
 
-    std::cout << "Waiting..." << std::flush;
+  std::cout << "Waiting..." << std::flush;
 
-    f1.wait();
-    f2.wait();
-    f3.wait();
+  f1.wait();
+  f2.wait();
+  f3.wait();
 
-    std::cout << "Done!\n Result are:" << f1.get() << ' ' << f2.get() << ' ' << f3.get() << '\n';
+  std::cout << "Done!\n Result are:" << f1.get() << ' ' << f2.get() << ' ' << f3.get() << '\n';
 
-    t.join();
+  t.join();
 }
 
 // std::counting_semaphore<1> sem(1);
@@ -91,105 +90,99 @@ TEST(MyCppConcurrency, test4) {
 //  t2.join();
 //}
 
-void func(std::promise<int> result_promise) noexcept {
-    result_promise.set_value(42);
-}
+void func(std::promise<int> result_promise) noexcept { result_promise.set_value(42); }
 
 TEST(MyCppConcurrency, test6) {
-    std::promise<int> result_promise;
-    std::future<int> result_future = result_promise.get_future();
-    std::thread t{func, std::move(result_promise)};
-    thread_guard g(t);
-    EXPECT_EQ(result_future.get(), 42);
+  std::promise<int> result_promise;
+  std::future<int> result_future = result_promise.get_future();
+  std::thread t{func, std::move(result_promise)};
+  thread_guard g(t);
+  EXPECT_EQ(result_future.get(), 42);
 }
 
-void accm(int &count) {
-    count++;
-}
+void accm(int &count) { count++; }
 
 TEST(MyCppConcurrency, test7) {
-    int count = 0;
-    std::once_flag of;
-    for (int i = 0; i < 10; ++i) {
-        std::call_once(of, accm, count);
-    }
-    EXPECT_EQ(count, 1);
+  int count = 0;
+  std::once_flag of;
+  for (int i = 0; i < 10; ++i) {
+    std::call_once(of, accm, count);
+  }
+  EXPECT_EQ(count, 1);
 }
 
 TEST(MyCppConcurrency, test8) {
-    thread_local int a = 10;
-    auto count_func = [&](int id) {
-        std::cout << "Thread " << id << " starting." << std::endl;
-        a++;
-        std::cout << "Thread " << id << " counter: " << a << std::endl;
-    };
-    for (int i = 0; i < 10; ++i) {
-        std::thread t(count_func, i);
-        thread_guard g(t);
-    }
-    EXPECT_EQ(a, 10);
+  thread_local int a = 10;
+  auto count_func = [&](int id) {
+    std::cout << "Thread " << id << " starting." << '\n';
+    a++;
+    std::cout << "Thread " << id << " counter: " << a << '\n';
+  };
+  for (int i = 0; i < 10; ++i) {
+    std::thread t(count_func, i);
+    thread_guard g(t);
+  }
+  EXPECT_EQ(a, 10);
 }
 
 class interrupt_flag {
-public:
-    void set() { flag = true; };
+ public:
+  void set() { flag = true; };
 
-    bool is_set() const { return flag.load(); }
+  bool is_set() const { return flag.load(); }
 
-private:
-    std::atomic<bool> flag{false};
+ private:
+  std::atomic<bool> flag{false};
 };
 
 thread_local interrupt_flag this_thread_interrupt_flag;
 
 class interruptible_thread {
-private:
-    std::thread internal_thread;
-    interrupt_flag* flag;
-public:
-    template<typename FunctionType>
-    interruptible_thread(FunctionType f) {
-        std::promise<interrupt_flag *> p;
-        internal_thread = std::thread([f, &p] {
-            p.set_value(&this_thread_interrupt_flag);
-            try {
-                f();
-            } catch (int e) {
-                std::cout << "catch exception: " << e << std::endl;
-            }
-        });
-        flag = p.get_future().get();
-    }
+ private:
+  std::thread internal_thread;
+  interrupt_flag *flag;
 
-    ~interruptible_thread() {
-        if (internal_thread.joinable()) {
-            internal_thread.join();
-        }
-    }
+ public:
+  template <typename FunctionType>
+  explicit interruptible_thread(FunctionType f) {
+    std::promise<interrupt_flag *> p;
+    internal_thread = std::thread([f, &p] {
+      p.set_value(&this_thread_interrupt_flag);
+      try {
+        f();
+      } catch (int e) {
+        std::cout << "catch exception: " << e << '\n';
+      }
+    });
+    flag = p.get_future().get();
+  }
 
-    void interrupt() {
-        if (flag) {
-            flag->set();
-        }
+  ~interruptible_thread() {
+    if (internal_thread.joinable()) {
+      internal_thread.join();
     }
+  }
+
+  void interrupt() {
+    if (flag) {
+      flag->set();
+    }
+  }
 };
 
 int thread_interrupted() {
-    std::cout << "thread interrupted!" << std::endl;
-    return -1;
+  std::cout << "thread interrupted!" << '\n';
+  return -1;
 }
 
 TEST(MyCppConcurrency, test9) {
-    interruptible_thread int_thread([]() {
-        while(true) {
-            if (this_thread_interrupt_flag.is_set()) {
-                std::cout << "flag is set" << std::endl;
-                throw thread_interrupted();
-            }
-        }
-    });
-    int_thread.interrupt();
+  interruptible_thread int_thread([]() {
+    while (true) {
+      if (this_thread_interrupt_flag.is_set()) {
+        std::cout << "flag is set" << '\n';
+        throw thread_interrupted();
+      }
+    }
+  });
+  int_thread.interrupt();
 }
-
-
-

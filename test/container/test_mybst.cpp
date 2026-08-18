@@ -35,13 +35,13 @@ TEST(MyBST, TEST4) {
   BST::Node right{10, nullptr, nullptr};
   BST::Node node{10, &left_, &right};
 
-  std::cout << "address of node: " << &node << std::endl;
-  std::cout << "address of left_: " << &left_ << std::endl;
-  std::cout << "address of right: " << &right << std::endl;
-  std::cout << std::string(80, '*') << std::endl;
-  std::cout << "PRINT A NODE" << std::endl;
-  std::cout << node << std::endl;
-  std::cout << std::string(80, '*') << std::endl;
+  std::cout << "address of node: " << &node << '\n';
+  std::cout << "address of left_: " << &left_ << '\n';
+  std::cout << "address of right: " << &right << '\n';
+  std::cout << std::string(80, '*') << '\n';
+  std::cout << "PRINT A NODE" << '\n';
+  std::cout << node << '\n';
+  std::cout << std::string(80, '*') << '\n';
 }
 
 TEST(MyBST, TEST5) {
@@ -139,8 +139,8 @@ TEST(MyBST, TEST11) {
   bst.AddNode(15);
   bst.AddNode(7);
 
-  std::cout << "PRINT A BINARY SEARCH TREE" << std::endl;
-  std::cout << bst << std::endl;
+  std::cout << "PRINT A BINARY SEARCH TREE" << '\n';
+  std::cout << bst << '\n';
 }
 
 TEST(MyBST, TEST12) {
@@ -180,9 +180,9 @@ TEST(MyBST, TEST14) {
   bst.AddNode(15);
   bst.AddNode(7);
 
-  std::cout << "here" << std::endl;
+  std::cout << "here" << '\n';
   BST::Node **node{bst.FindParrent(15)};
-  std::cout << "here2" << std::endl;
+  std::cout << "here2" << '\n';
   EXPECT_EQ((*node)->value_, 10);
   EXPECT_EQ((*node)->left_->value_, 7);
   EXPECT_EQ((*node)->right_->value_, 15);

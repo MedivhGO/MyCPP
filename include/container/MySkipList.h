@@ -18,8 +18,7 @@ struct Node {
   std::string value_;
   std::vector<std::shared_ptr<Node>> next_;
 
-  Node(int key, std::string value, int max_level)
-      : key_(key), value_(std::move(value)), next_(max_level, nullptr) {}
+  Node(int key, std::string value, int max_level) : key_(key), value_(std::move(value)), next_(max_level, nullptr) {}
 };
 
 class Skiplist {
@@ -44,7 +43,7 @@ class Skiplist {
   auto RandomLevel() -> int;
 
   [[nodiscard]] auto Search(int target) const -> bool;
-  auto Add(int key, const std::string& value) -> void;
+  auto Add(int key, const std::string &value) -> void;
   auto Erase(int num) -> bool;
 
   [[nodiscard]] auto GetMaxLevel() const -> int;

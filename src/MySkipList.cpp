@@ -10,8 +10,7 @@
 
 Skiplist::Skiplist() : Skiplist(DEFAULT_PROBABILITY, DEFAULT_MAX_LEVEL) {}
 
-Skiplist::Skiplist(float probability, int max_level)
-    : probability_(probability), max_level_(max_level) {
+Skiplist::Skiplist(float probability, int max_level) : probability_(probability), max_level_(max_level) {
   head_ = std::make_shared<Node>(std::numeric_limits<int>::min(), HEAD_VALUE, max_level);
   tail_ = std::make_shared<Node>(std::numeric_limits<int>::max(), TAIL_VALUE, max_level);
   std::fill(head_->next_.begin(), head_->next_.end(), tail_);
@@ -43,7 +42,7 @@ auto Skiplist::Search(int target) const -> bool {
   return temp[0]->next_[0] && temp[0]->next_[0]->key_ == target;
 }
 
-auto Skiplist::Add(int key, const std::string& value) -> void {
+auto Skiplist::Add(int key, const std::string &value) -> void {
   if (key > max_key_) {
     max_key_ = key;
   }
@@ -76,9 +75,7 @@ auto Skiplist::Erase(int num) -> bool {
   return true;
 }
 
-auto Skiplist::GetMaxLevel() const -> int {
-  return max_level_;
-}
+auto Skiplist::GetMaxLevel() const -> int { return max_level_; }
 
 auto Skiplist::GetMinKey() const -> int {
   CheckIsNotEmpty();
@@ -90,9 +87,7 @@ auto Skiplist::GetMaxKey() const -> int {
   return max_key_;
 }
 
-auto Skiplist::IsEmpty() const -> bool {
-  return head_->next_[0] == tail_;
-}
+auto Skiplist::IsEmpty() const -> bool { return head_->next_[0] == tail_; }
 
 auto Skiplist::Peek() -> std::string {
   CheckIsNotEmpty();
@@ -117,9 +112,7 @@ auto Skiplist::Size() const -> int {
   return counter;
 }
 
-auto Skiplist::ResetMaxKey() -> void {
-  max_key_ = std::numeric_limits<int>::min();
-}
+auto Skiplist::ResetMaxKey() -> void { max_key_ = std::numeric_limits<int>::min(); }
 
 auto Skiplist::CheckIsNotEmpty() const -> void {
   if (IsEmpty()) {

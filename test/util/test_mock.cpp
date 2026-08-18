@@ -11,8 +11,8 @@ TEST(MockTest, TestMethodCall) {
 
   // 设置期望调用
   EXPECT_CALL(mock, GetNumber())
-      .WillOnce(::testing::Return(10))  // 第一次调用时返回10
-      .WillOnce(::testing::Return(20))  // 第二次调用时返回20
+      .WillOnce(::testing::Return(10))         // 第一次调用时返回10
+      .WillOnce(::testing::Return(20))         // 第二次调用时返回20
       .WillRepeatedly(::testing::Return(30));  // 之后的调用都返回30
 
   // 测试代码

@@ -57,7 +57,7 @@ class FileWriter {
 
   auto WriteVector(const std::vector<std::string> &svec) -> bool {
     for (auto &i : svec) {
-      fout_ << i << std::endl;
+      fout_ << i << '\n';
     }
     return true;
   }
