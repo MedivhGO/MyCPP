@@ -188,6 +188,7 @@ std::vector<int> topKUsingPartitionParallelWithRestrictedMemory(fs::path &p, int
 
   const int numThreads = 8;
   std::vector<std::thread> threads{};
+  threads.reserve(numThreads);
 
   for (int i = 0; i < numThreads; i++) {
     threads.emplace_back(threadFunc, std::ref(allocatedTask), std::ref(finishedTask), std::ref(lock), std::ref(cond),

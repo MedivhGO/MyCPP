@@ -24,6 +24,7 @@ TEST(MySort, test_bubblesort) {
 TEST(MySort, test_heapsort) {
   RandomNumberGenerator rng(-100000, 100000);
   vector<int> test_dataset;
+  test_dataset.reserve(10000);
   for (int i = 0; i < 10000; ++i) {
     test_dataset.push_back(rng.GetRandomNumberByMt19937());
   }
@@ -52,6 +53,7 @@ TEST(MySort, test_mergesort) {
 TEST(MySort, test_quicksort) {
   RandomNumberGenerator rng(-100000, 100000);
   vector<int> test_dataset;
+  test_dataset.reserve(10000);
   for (int i = 0; i < 10000; ++i) {
     test_dataset.push_back(rng.GetRandomNumberByMt19937());
   }
@@ -66,6 +68,7 @@ TEST(MySort, test_quicksort) {
 TEST(MySort, test_quicksortmot) {
   RandomNumberGenerator rng(-100000, 100000);
   vector<int> test_dataset;
+  test_dataset.reserve(10000);
   for (int i = 0; i < 10000; ++i) {
     test_dataset.push_back(rng.GetRandomNumberByMt19937());
   }
