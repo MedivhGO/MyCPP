@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "util/MyProfile.h"
 #include "container/MyString.h"
+#include "util/MyProfile.h"
 
 TEST(MyStringTest, test1) {
   MyString a;
@@ -119,14 +119,16 @@ TEST(MyStringTest, test18) {
 TEST(MyStringTest, test19) {
   MyString a("raw");
   MyString b(std::move(a));
-  EXPECT_EQ(a.Get(), nullptr);
+  EXPECT_EQ(a.Get(), nullptr);  // NOLINT(bugprone-use-after-move, clang-analyzer-cplusplus.Move): moved-from state is
+                                // the point of this test
   EXPECT_STREQ("raw", b.Get());
 }
 
 TEST(MyStringTest, test20) {
   MyString a("raw");
   MyString b = std::move(a);
-  EXPECT_EQ(a.Get(), nullptr);
+  EXPECT_EQ(a.Get(), nullptr);  // NOLINT(bugprone-use-after-move, clang-analyzer-cplusplus.Move): moved-from state is
+                                // the point of this test
   EXPECT_STREQ("raw", b.Get());
 }
 

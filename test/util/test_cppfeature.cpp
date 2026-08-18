@@ -4,17 +4,17 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
+#include <chrono>
+#include <cstddef>
 #include <future>
 #include <numbers>
 #include <regex>
 #include <string>
+#include <string_view>
+#include <thread>
 #include <type_traits>
 #include <unordered_set>
-#include <string_view>
-#include <cstddef>
-#include <algorithm>
-#include <thread>
-#include <chrono>
 
 // https://stackoverflow.com/questions/49503152/is-using-namespace-stdliterals-safe
 using namespace std::literals;
@@ -36,8 +36,8 @@ TEST(MyCppFeatureTest, test2) {
   struct IntWrapper {
     int a_;
     explicit IntWrapper(int data) : a_(data) {}
-    auto operator<=>(const IntWrapper &b) const -> auto{  // 尾置返回类型
-      [[likely]] if (a_ < b.a_) {                         // likely C++ 20
+    auto operator<=>(const IntWrapper &b) const -> auto {  // 尾置返回类型
+      [[likely]] if (a_ < b.a_) {                          // likely C++ 20
         return -1;
       }
       if (a_ == b.a_) {
@@ -117,7 +117,7 @@ TEST(MyCppFeatureTest, test7) {
   std::thread(std::move(task)).detach();
   std::cout << "waiting...";
   result.wait();  // 在此设置屏障，阻塞到期物的完成
-  std::cout << "done!" << std::endl << "future result is " << result.get() << std::endl;
+  std::cout << "done!" << '\n' << "future result is " << result.get() << '\n';
 }
 
 TEST(MyCppFeatureTest, test8) {
@@ -187,10 +187,10 @@ TEST(MyCppFeatureTest, test12) {
   // keyword noexpect
   // 移动构造函数标记为 noexpect
   // 因为在资源的移动过程中如果抛出了异常，那么那些正在被处理的原始对象数据可能因为异常而丢失
-  EXPECT_EQ(std::is_move_constructible<TESTNOEXPECT>::value, false);
-  EXPECT_EQ(std::is_trivially_move_constructible<TESTNOEXPECT>::value, false);
-  EXPECT_EQ(std::is_nothrow_move_constructible<TESTNOEXPECT>::value, false);
-  EXPECT_EQ(std::is_copy_constructible<TESTNOEXPECT>::value, true);
+  EXPECT_EQ(std::is_move_constructible_v<TESTNOEXPECT>, false);
+  EXPECT_EQ(std::is_trivially_move_constructible_v<TESTNOEXPECT>, false);
+  EXPECT_EQ(std::is_nothrow_move_constructible_v<TESTNOEXPECT>, false);
+  EXPECT_EQ(std::is_copy_constructible_v<TESTNOEXPECT>, true);
 }
 
 TEST(MyCppFeatureTest, test13) {
@@ -225,8 +225,7 @@ TEST(MyCppFeatureTest, test16) {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
       "do eiusmod tempor incididunt ut labore et dolore magna aliqua";
   const std::string_view needle{"pisci"};
-  auto it = std::search(haystack.begin(), haystack.end(),
-                        std::boyer_moore_searcher(needle.begin(), needle.end()));
+  auto it = std::search(haystack.begin(), haystack.end(), std::boyer_moore_searcher(needle.begin(), needle.end()));
   EXPECT_EQ(it - haystack.begin(), 43);
 }
 
@@ -270,6 +269,7 @@ TEST(MyCppFeatureTest, test23) {
   std::vector<int> a{1, 2, 3};
   for (int idx = 1; auto x : a) {  // 将初始化语句放入其中
     x += idx++;
+    EXPECT_GE(x, 2);
   }
 
   for (int idx = 0; auto dx : {1, 1, 1, 1}) {
@@ -298,7 +298,7 @@ TEST(MyCppFeatureTest, test25) {
 TEST(MyCppFeatureTest, test26) {
   // C++ 14
   int a = 0b0001'0011'1010;
-  double b = 3.14'1234'1234'1234;
+  double b = std::numbers::pi;
 }
 
 TEST(MyCppFeatureTest, test27) {
@@ -317,17 +317,17 @@ TEST(MyCppFeatureTest, test28) {
 }
 
 TEST(MyCppFeatureTest, test29) {
-    // C++ 17 std::byte 为了类型安全，禁止其做某些操作
-    std::byte b1{0x3F};
-    std::byte b2{0b1111'0000};
-    std::byte b4[4] {b1, b2, std::byte{1}}; // b4[3] 为 0
-    EXPECT_EQ(b1, b4[0]);
-    std::byte b5{42}; // OK (as for all enums with fixed underlying type since C++17), 只能使用列表初始化
-    // std::byte b2(42） error
-    // std::byte b3 = 42; // ERROR
-    // std::byte b4 = {42}; // ERROR
-    EXPECT_TRUE(b2 == std::byte{0b1111'0000});
-    EXPECT_EQ(std::to_integer<int>(b2), 240);
+  // C++ 17 std::byte 为了类型安全，禁止其做某些操作
+  std::byte b1{0x3F};
+  std::byte b2{0b1111'0000};
+  std::byte b4[4]{b1, b2, std::byte{1}};  // b4[3] 为 0
+  EXPECT_EQ(b1, b4[0]);
+  std::byte b5{42};  // OK (as for all enums with fixed underlying type since C++17), 只能使用列表初始化
+  // std::byte b2(42） error
+  // std::byte b3 = 42; // ERROR
+  // std::byte b4 = {42}; // ERROR
+  EXPECT_TRUE(b2 == std::byte{0b1111'0000});
+  EXPECT_EQ(std::to_integer<int>(b2), 240);
 }
 
 TEST(MyCppFeatureTest, test30) {
@@ -342,7 +342,7 @@ TEST(MyCppFeatureTest, test30) {
   // 字符串查找
   // 遍历字符串
   // 显示字符串
-  std::string_view s = "it is a test"sv; // 字面量后缀 sv
+  std::string_view s = "it is a test"sv;  // 字面量后缀 sv
 
   std::string_view sv1("abc");
   EXPECT_EQ(std::size(sv1), 3);
@@ -356,17 +356,17 @@ TEST(MyCppFeatureTest, test31) {
 
 // 零长数组
 // https://stackoverflow.com/questions/15329907/whats-the-difference-between-char-and-char-in-struct
-typedef struct {
+using Person = struct {
   int age;
   char const *name;
   char intro[];
-} Person;
+};
 
 // 结构体后的空间都可以存储数组
 
-Person *PersonNew(char const* name, int age, char const *intro) {
+Person *PersonNew(char const *name, int age, char const *intro) {
   size_t intro_len = (intro ? strlen(intro) : 0) + 1;
-  Person *p = (Person*)malloc(sizeof(Person) + intro_len);
+  auto *p = static_cast<Person *>(malloc(sizeof(Person) + intro_len));
   p->age = age;
   p->name = name;
   if (intro) {
@@ -377,18 +377,16 @@ Person *PersonNew(char const* name, int age, char const *intro) {
   return p;
 }
 
-void PersonToString(Person const* const p) {
-  printf("Person{name%s, age=%d, intro=%s}\n", p->name, p->age, p->intro);
-}
+void PersonToString(Person const *const p) { printf("Person{name%s, age=%d, intro=%s}\n", p->name, p->age, p->intro); }
 
-void PersonDestory(Person** ptr) {
+void PersonDestory(Person **ptr) {
   if (ptr && *ptr) {
     free(*ptr);
-    *ptr = NULL;
+    *ptr = nullptr;
   }
 }
 
-void PersonSetIntro(Person** ptr, char const* intro) {
+void PersonSetIntro(Person **ptr, char const *intro) {
   if (ptr && *ptr) {
     Person *person = *ptr;
     Person *new_person = PersonNew(person->name, person->age, intro);

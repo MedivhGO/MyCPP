@@ -7,17 +7,18 @@
 #define RBTREE_H_
 
 #include <cassert>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <queue>
 #include <vector>
 
-enum color { BLACK, RED };
+enum color : std::uint8_t { BLACK, RED };
 
 // fix warning
 // https://stackoverflow.com/questions/3934933/templated-functions-error-template-id-does-not-match-any-template-declaration
-typedef char* charPtr;
+using charPtr = char *;
 
 template <class K, class T>
 struct RbNode {
@@ -208,7 +209,7 @@ void RbTree<K, T>::RemoveNode(RbNode<K, T> *node) {
     } else {
       // no child
       if (node->parent_ == nullptr) {
-        delete(node);
+        delete (node);
         root_ = nullptr;
         return;
       }
@@ -219,7 +220,7 @@ void RbTree<K, T>::RemoveNode(RbNode<K, T> *node) {
         node->parent_->right_ = nullptr;
       }
 
-      delete(node);
+      delete (node);
     }
   } else {
     if (node->left_ != nullptr && node->right_ != nullptr) {
@@ -250,7 +251,7 @@ void RbTree<K, T>::RemoveNode(RbNode<K, T> *node) {
 
       if (node->parent_ == nullptr) {
         // 'node' is root
-        delete(node);
+        delete (node);
         root_ = nullptr;
         return;
       }
@@ -274,7 +275,7 @@ void RbTree<K, T>::RemoveNode(RbNode<K, T> *node) {
         RightRotate(node->parent_->parent_);
       }
 
-      delete(node);
+      delete (node);
     }
   }
 }
@@ -314,7 +315,7 @@ auto RbTree<K, T>::Cmp(const K &a, const K &b) const -> int {
   return a < b ? -1 : 1;
 }
 
-template<>
+template <>
 auto RbTree<charPtr, charPtr>::Cmp(const charPtr &a, const charPtr &b) const -> int {
   return strcmp(a, b);
 }
@@ -377,7 +378,7 @@ void RbTree<K, T>::RightRotate(RbNode<K, T> *node) {
 // 'node's left_ sub-tree,'node's right_ sub-tree to stdout
 template <class K, class T>
 void RbTree<K, T>::PrintTree() const {
-  std::cout << "----------------" << std::endl;
+  std::cout << "----------------" << '\n';
   std::queue<RbNode<K, T> *> q;
   q.push(root_);
   while (!q.empty()) {
@@ -400,8 +401,7 @@ void RbTree<K, T>::PrintTree() const {
       std::cout << top->left_->key_;
       std::cout << " ";
     } else {
-      std::cout << "NULL"
-                << " ";
+      std::cout << "NULL" << " ";
     }
     if (top->right_ != nullptr) {
       q.push(top->right_);
@@ -413,13 +413,12 @@ void RbTree<K, T>::PrintTree() const {
       std::cout << top->right_->key_;
       std::cout << " ";
     } else {
-      std::cout << "NULL"
-                << " ";
+      std::cout << "NULL" << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
-  std::cout << std::endl;
-  std::cout << "----------------" << std::endl;
+  std::cout << '\n';
+  std::cout << "----------------" << '\n';
 }
 
 // return the number of nodes in this tree

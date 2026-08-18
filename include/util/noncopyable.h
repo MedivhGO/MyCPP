@@ -7,29 +7,28 @@
 #define NONCOPYABLE_H
 
 class noncopyable {
+ protected:
+  noncopyable() = default;
 
-protected:
-    noncopyable() {}
+  ~noncopyable() = default;
 
-    ~noncopyable() {}
+ public:
+  noncopyable(const noncopyable &) = delete;
 
-private:
-    noncopyable(const noncopyable &);
-
-    noncopyable &operator=(const noncopyable &);
+  noncopyable &operator=(const noncopyable &) = delete;
 };
 
 /* C++11 写法 */
 
 class noncopyableCXX11 {
-protected:
-    constexpr noncopyableCXX11() = default;
+ public:
+  constexpr noncopyableCXX11() = default;
 
-    ~noncopyableCXX11() = default;
+  ~noncopyableCXX11() = default;
 
-    noncopyableCXX11(const noncopyable &) = delete;
+  noncopyableCXX11(const noncopyable &) = delete;
 
-    noncopyableCXX11 &operator=(const noncopyableCXX11 &) = delete;
+  noncopyableCXX11 &operator=(const noncopyableCXX11 &) = delete;
 };
 
-#endif //NONCOPYABLE_H
+#endif  // NONCOPYABLE_H

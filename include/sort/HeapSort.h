@@ -7,7 +7,8 @@
 
 #include <vector>
 
-using namespace std;
+using std::swap;
+using std::vector;
 
 /**
  * 堆排序其实是选择排序的优化变种，选择排序是把最大或最小的元素放到最边上，然后不断重复以上过程。
@@ -66,61 +67,58 @@ using namespace std;
  * */
 
 void max_heapify(vector<int> &data, int root, int len) {
-    int lchild = root * 2 + 1;
-    int rchild = root * 2 + 2;
-    if (lchild >= len) {
-        return;
-    }
-    // 有左孩子
-    int next_modify = lchild;
-    // 有右孩子且右孩子大于左孩子
-    if (rchild < len && data[rchild] > data[lchild]) {
-        next_modify = rchild;
-    }
-    if (data[root] > data[next_modify]) {
-        return;
-    }
-    swap(data[root], data[next_modify]);   // 交换这个子树中大小关系不符合堆定义的节点
-    max_heapify(data, next_modify, len); // 对调整过的孩子重新建堆
+  int lchild = root * 2 + 1;
+  int rchild = root * 2 + 2;
+  if (lchild >= len) {
+    return;
+  }
+  // 有左孩子
+  int next_modify = lchild;
+  // 有右孩子且右孩子大于左孩子
+  if (rchild < len && data[rchild] > data[lchild]) {
+    next_modify = rchild;
+  }
+  if (data[root] > data[next_modify]) {
+    return;
+  }
+  swap(data[root], data[next_modify]);  // 交换这个子树中大小关系不符合堆定义的节点
+  max_heapify(data, next_modify, len);  // 对调整过的孩子重新建堆
 }
 
-int getParent(int i) {
-    return (i - 1) / 2;
-}
+int getParent(int i) { return (i - 1) / 2; }
 
 void shiftUp(vector<int> &data, int child) {
-    int par = getParent(child);
-    while (par >= 0) {
-        if (data[par] >= data[child]) {
-            break;
-        } else { // 如果孩子值大于父元素，那么就交换父子值，并继续向上调整
-            swap(data[par], data[child]);
-            child = par;
-            par = getParent(child);
-        }
-    }
+  int par = getParent(child);
+  while (par >= 0) {
+    if (data[par] >= data[child]) {
+      break;
+    }  // 如果孩子值大于父元素，那么就交换父子值，并继续向上调整
+    swap(data[par], data[child]);
+    child = par;
+    par = getParent(child);
+  }
 }
 
 // len 是最后一个元素的index+1
 void HeapSort(vector<int> &data, int len) {
-    if (len == 0) {
-        return;
-    }
-    // 建堆 shiftDown 方法，从最后一个节点的父节点开始调整
-    for (int i = len / 2 - 1; i >= 0; --i) {
-        max_heapify(data, i, len);
-    }
+  if (len == 0) {
+    return;
+  }
+  // 建堆 shiftDown 方法，从最后一个节点的父节点开始调整
+  for (int i = len / 2 - 1; i >= 0; --i) {
+    max_heapify(data, i, len);
+  }
 
-    // 使用 shiftUp 方法建堆
-    for (int i = 1; i < len; ++i) {
-        shiftUp(data, i);
-    }
+  // 使用 shiftUp 方法建堆
+  for (int i = 1; i < len; ++i) {
+    shiftUp(data, i);
+  }
 
-    // 使用大顶堆，所以 data[0] 在建堆后存储了最大值
-    for (int j = len - 1; j >= 1; --j) {      // 类似选择排序的流程
-        swap(data[0], data[j]);        // 将最大值与有序集合的第一个元素交换
-        max_heapify(data, 0, j); // 重新建堆
-    }
+  // 使用大顶堆，所以 data[0] 在建堆后存储了最大值
+  for (int j = len - 1; j >= 1; --j) {  // 类似选择排序的流程
+    swap(data[0], data[j]);             // 将最大值与有序集合的第一个元素交换
+    max_heapify(data, 0, j);            // 重新建堆
+  }
 }
 
 // 时间复杂度 O(nlogn)
@@ -130,4 +128,4 @@ void HeapSort(vector<int> &data, int len) {
 // 由代码可知，当数组中的元素大部分相等时，max_heapify中的操作基本上没有执行
 // 因此其时间复杂度接近 O(n)
 
-#endif // APUE_HEAPSORT_H
+#endif  // APUE_HEAPSORT_H

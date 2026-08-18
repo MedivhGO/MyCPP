@@ -13,9 +13,9 @@ BST::Node::Node() : Node(0, nullptr, nullptr) {}
 BST::Node::Node(const Node &_node) = default;
 
 auto operator<<(std::ostream &output_, const BST::Node &_node) -> std::ostream & {
-  output_ << std::setw(18) << std::left << &_node << " => "
-          << "value:" << std::setw(8) << std::left << _node.value_ << "left:" << std::setw(18) << std::left
-          << _node.left_ << "right:" << std::setw(18) << std::left << _node.right_;
+  output_ << std::setw(18) << std::left << &_node << " => " << "value:" << std::setw(8) << std::left << _node.value_
+          << "left:" << std::setw(18) << std::left << _node.left_ << "right:" << std::setw(18) << std::left
+          << _node.right_;
   return output_;
 }
 
@@ -119,12 +119,15 @@ auto BST::FindNode(int _value) -> BST::Node ** {
 }
 
 auto BST::FindParrent(int _value) -> BST::Node ** {
+  if (root_ == nullptr) {
+    return nullptr;
+  }
   BST::Node **ret{&root_};
   if ((*ret)->value_ == _value) {
     return ret;
   }
 
-  while (((*ret)->right_ != nullptr) || ((*ret)->left_ != nullptr)) {
+  while ((*ret) != nullptr && (((*ret)->right_ != nullptr) || ((*ret)->left_ != nullptr))) {
     if (((*ret)->right_ != nullptr) && (*ret)->value_ < _value && (*ret)->right_->value_ == _value) {
       return ret;
     }
@@ -198,7 +201,13 @@ auto BST::DeleteNode(int _value) -> bool {
   // one_node 有两个孩子
   if (((*one_node)->left_ != nullptr) && ((*one_node)->right_ != nullptr)) {
     BST::Node **pre{FindPredecessor(_value)};
+    if (pre == nullptr) {
+      return false;
+    }
     BST::Node **pre_parent{FindParrent((*pre)->value_)};
+    if (pre_parent == nullptr) {
+      return false;
+    }
     (*one_node)->value_ = (*pre)->value_;
     if ((*pre_parent)->value_ > (*pre)->value_) {
       delete ((*pre_parent)->left_);
@@ -237,9 +246,9 @@ auto BST::DeleteNode(int _value) -> bool {
 }
 
 auto operator<<(std::ostream &_output, const BST &_bst) -> std::ostream & {
-  _output << std::string(80, '*') << std::endl;
-  _bst.Bfs([&_output](BST::Node *&node) { _output << *node << std::endl; });
-  _output << "binary search tree size: " << _bst.Length() << std::endl;
+  _output << std::string(80, '*') << '\n';
+  _bst.Bfs([&_output](BST::Node *&node) { _output << *node << '\n'; });
+  _output << "binary search tree size: " << _bst.Length() << '\n';
   _output << std::string(80, '*');
   return _output;
 }

@@ -48,6 +48,12 @@ Checks:     '
             -readability-qualified-auto,
             -readability-redundant-access-specifiers,
             -bugprone-exception-escape,
+            -clang-analyzer-security.insecureAPI.strcpy,
+            -google-global-names-in-headers,
+            -google-runtime-int,
+            -modernize-use-trailing-return-type,
+            -readability-identifier-naming,
+            -readability-implicit-bool-conversion,
             '
 CheckOptions:
   - { key: readability-identifier-naming.ClassCase,           value: CamelCase  }
@@ -101,3 +107,22 @@ HeaderFilterRegex: '/(include|src|test)/'
 #     and potentially worth investigating/fixing.
 # -bugprone-exception-escape
 #     Weird. No idea how to resolve.
+# -clang-analyzer-security.insecureAPI.strcpy
+#     Teaching code intentionally uses classic C string functions; same
+#     rationale as the insecureAPI.rand disable above.
+# -google-global-names-in-headers
+#     Headers intentionally define free helpers (teaching project); enforcing
+#     the rule would require a header split.
+# -google-runtime-int
+#     Teaching code uses plain int/long rather than fixed-width integer types;
+#     keeping the check would be pure noise.
+# -modernize-use-trailing-return-type
+#     Legacy template headers (hashmap.h etc.) mix return styles and the
+#     auto-fix cannot be applied consistently across translation units.
+#     clang-format keeps the existing style uniform instead.
+# -readability-identifier-naming
+#     The legacy codebase predates the naming rules; renaming hundreds of
+#     members is a breaking refactor, not a formatting concern.
+# -readability-implicit-bool-conversion
+#     Google style permits implicit bool conversions in conditions; this check
+#     adds noise to `if (ptr)` style code.

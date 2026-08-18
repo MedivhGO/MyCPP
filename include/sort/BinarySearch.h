@@ -7,41 +7,41 @@
 
 #include <vector>
 
-using namespace std;
+using std::vector;
 
 int BinarySearch(vector<int> &data, int elem) {
-    int len = data.size();
-    int i = 0;
-    int j = len - 1;
-    int mid;
-    while (i <= j) {
-        mid = i + (j - i) / 2;
-        if (data[mid] > elem) {
-            j = mid - 1;
-        } else if (data[mid] == elem) {
-            return mid;
-        } else {
-            i = mid + 1;
-        }
+  int len = data.size();
+  int i = 0;
+  int j = len - 1;
+  int mid;
+  while (i <= j) {
+    mid = i + (j - i) / 2;
+    if (data[mid] > elem) {
+      j = mid - 1;
+    } else if (data[mid] == elem) {
+      return mid;
+    } else {
+      i = mid + 1;
     }
-    return -1;
+  }
+  return -1;
 }
 
 int BinarySearchR(vector<int> &data, int elem, int left, int right) {
-    if (left > right) {
-        return -1;
-    }
-    int i = left;
-    int j = right;
-    int mid = i + (j - i) / 2;
-    if (data[mid] > elem) {
-        j = mid - 1;
-        return BinarySearchR(data, elem, i, j);
-    } else if (data[mid] == elem) {
-        return mid;
-    } else {
-        return BinarySearchR(data, elem, mid + 1, j);
-    }
+  if (left > right) {
+    return -1;
+  }
+  int i = left;
+  int j = right;
+  int mid = i + (j - i) / 2;
+  if (data[mid] > elem) {
+    j = mid - 1;
+    return BinarySearchR(data, elem, i, j);
+  }
+  if (data[mid] == elem) {
+    return mid;
+  }
+  return BinarySearchR(data, elem, mid + 1, j);
 }
 
-#endif // APUE_BINARYSEARCH_H
+#endif  // APUE_BINARYSEARCH_H

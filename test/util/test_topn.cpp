@@ -3,17 +3,17 @@
 //
 
 #include <gtest/gtest.h>
-#include <filesystem>
-#include <fstream>
-#include <random>
-#include <limits>
-#include <stdexcept>
-#include <string>
 #include <sys/resource.h>
-#include <thread>
-#include <vector>
 #include <chrono>
 #include <condition_variable>
+#include <filesystem>
+#include <fstream>
+#include <limits>
+#include <random>
+#include <stdexcept>
+#include <string>
+#include <thread>
+#include <vector>
 
 namespace fs = std::filesystem;
 
@@ -30,7 +30,8 @@ static int partition(std::vector<int> &data, int start, int end) {
   std::swap(data[pivotIndex], data[end]);
   int pivot = data[end];
 
-  int i = start - 1, j = start;
+  int i = start - 1;
+  int j = start;
   while (j < end) {
     if (data[j] > pivot) {
       i++;
@@ -53,11 +54,11 @@ static int helper(std::vector<int> &data, int k, int start, int end) {
 
   if (index == k) {
     return mid;
-  } else if (index > k) {
-    return helper(data, k, start, mid - 1);
-  } else {
-    return helper(data, k - index, mid + 1, end);
   }
+  if (index > k) {
+    return helper(data, k, start, mid - 1);
+  }
+  return helper(data, k - index, mid + 1, end);
 }
 
 std::vector<int> topKUsingPartition(std::vector<int> &data, int k, int end) {
@@ -69,7 +70,7 @@ std::vector<int> topKUsingPartition(std::vector<int> &data, int k, int end) {
   return std::vector<int>{data.cbegin(), data.cbegin() + index + 1};
 }
 
-std::vector<int> topKTwoArray(std::vector<int> array1, std::vector<int> array2, int k) {
+std::vector<int> topKTwoArray(const std::vector<int> &array1, const std::vector<int> &array2, int k) {
   std::vector<int> array{};
   array.reserve(array1.size() + array2.size());
 
@@ -99,7 +100,7 @@ fs::path CreateTempfile() {
   }
 
   std::vector<int> data(FILE_SIZE / sizeof(int));
-  for (int & i : data) {
+  for (int &i : data) {
     i = dis(gen);
   }
 
@@ -135,24 +136,24 @@ std::vector<int> topKUsingPartitionParallelWithRestrictedMemory(fs::path &p, int
 
   file.close();
 
-  int numTask = 0, length = nums.size();
+  int numTask = 0;
+  int length = nums.size();
   while (length != 1) {
     numTask += length / 2;
     length = length / 2 + length % 2;
   }
 
-  int allocatedTask = 0, finishedTask = 0;
+  int allocatedTask = 0;
+  int finishedTask = 0;
 
   std::mutex lock{};
   std::condition_variable cond{};
 
-  auto threadFunc = [numTask = numTask, k = k](int &allocatedTask,
-                                               int &finishedTask,
-                                               std::mutex &lock,
-                                               std::condition_variable &cond,
-                                               std::vector<std::vector<int>> &nums) {
+  auto threadFunc = [numTask = numTask, k = k](int &allocatedTask, int &finishedTask, std::mutex &lock,
+                                               std::condition_variable &cond, std::vector<std::vector<int>> &nums) {
     while (true) {
-      int index1 = -1, index2 = -1;
+      int index1 = -1;
+      int index2 = -1;
 
       {
         std::unique_lock<std::mutex> guard{lock};
@@ -177,7 +178,8 @@ std::vector<int> topKUsingPartitionParallelWithRestrictedMemory(fs::path &p, int
         if (finishedTask == numTask) {
           cond.notify_all();
           return;
-        } else if (allocatedTask + 2 <= nums.size()) {
+        }
+        if (allocatedTask + 2 <= nums.size()) {
           cond.notify_all();
         }
       }
@@ -188,8 +190,8 @@ std::vector<int> topKUsingPartitionParallelWithRestrictedMemory(fs::path &p, int
   std::vector<std::thread> threads{};
 
   for (int i = 0; i < numThreads; i++) {
-    threads.emplace_back(std::thread{
-        threadFunc, std::ref(allocatedTask), std::ref(finishedTask), std::ref(lock), std::ref(cond), std::ref(nums)});
+    threads.emplace_back(threadFunc, std::ref(allocatedTask), std::ref(finishedTask), std::ref(lock), std::ref(cond),
+                         std::ref(nums));
   }
 
   for (int i = 0; i < numThreads; i++) {
@@ -214,6 +216,6 @@ TEST(MyFile, DISABLED_Multi_Thread_File) {
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = end - start;
   double seconds = elapsed.count();
-  std::cout << "Elapsed: " << seconds << " s" << std::endl;
+  std::cout << "Elapsed: " << seconds << " s" << '\n';
   fs::remove(tempFile);
 }
