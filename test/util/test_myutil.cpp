@@ -132,6 +132,10 @@ TEST(MyUtil, test_singleton_copy_disabled) {
   static_assert(!std::is_copy_assignable_v<Singleton<MyString>>);
   static_assert(!std::is_default_constructible_v<Singleton<MyString>>);
 
+  static_assert(!std::is_copy_constructible_v<Singleton<int>>);
+  static_assert(!std::is_copy_assignable_v<Singleton<int>>);
+  static_assert(!std::is_default_constructible_v<Singleton<int>>);
+
   static_assert(!std::is_copy_constructible_v<OnceSingle<int>>);
   static_assert(!std::is_copy_assignable_v<OnceSingle<int>>);
   static_assert(!std::is_default_constructible_v<OnceSingle<int>>);
@@ -201,6 +205,11 @@ TEST(MyUtil, test_singleton_cleanup_at_exit) {
 }
 
 TEST(MyUtil, test_singleton_value) {
+  // implement2: 移除私有继承后, 简单类型也可用
+  EXPECT_EQ(Singleton<int>::getInstance(), 0);
+  Singleton<int>::getInstance() = 123;
+  EXPECT_EQ(Singleton<int>::getInstance(), 123);
+
   // implement1: 默认构造的值初始化
   EXPECT_EQ(*SingleDemo<int>::getInstance(), 0);
 

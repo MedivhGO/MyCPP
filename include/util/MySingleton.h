@@ -10,6 +10,9 @@
 #include <mutex>
 #include <utility>
 
+// 裸指针实现 (implement3/4/5) 返回的 T* 由单例内部持有并在退出时释放,
+// 调用方不得自行 delete。
+
 // 统一约定:
 // - public 内先放 deleted 拷贝成员(报错清晰), 再放唯一公开 API getInstance();
 // - private 内放默认构造、默认析构、内部辅助类/函数和静态成员;
@@ -50,7 +53,7 @@ std::shared_ptr<T> SingleDemo<T>::getInstance() {
 
 // implement2: Meyers 魔法静态 (C++11 起初始化线程安全)
 template <typename T>
-class Singleton : private T {
+class Singleton {
  public:
   Singleton(const Singleton &) = delete;
 
@@ -61,13 +64,13 @@ class Singleton : private T {
  private:
   Singleton() = default;
 
-  ~Singleton() override = default;
+  ~Singleton() = default;
 };
 
 template <typename T>
 T &Singleton<T>::getInstance() {
-  static T s_oT;
-  return s_oT;
+  static T instance;
+  return instance;
 }
 
 // implement3: std::call_once + 原始指针, 退出时由守卫对象释放
@@ -85,9 +88,9 @@ class OnceSingle {
 
   ~OnceSingle() = default;
 
-  class CGFunctionClass {
+  class CleanupGuard {
    public:
-    ~CGFunctionClass() {
+    ~CleanupGuard() {
       if (instance_ != nullptr) {
         delete instance_;
         instance_ = nullptr;
@@ -97,7 +100,7 @@ class OnceSingle {
 
   static void InitPtr() {
     instance_ = new T();
-    static CGFunctionClass cg;
+    static CleanupGuard guard;
   }
 
   static T *instance_;
@@ -125,19 +128,18 @@ class OnceSingleWithArgs final {
   OnceSingleWithArgs &operator=(const OnceSingleWithArgs &) = delete;
 
   template <typename... Args>
-  static T *getInstance(Args &&...args) {
-    std::call_once(s_flag_, &InitPtr<Args...>, std::forward<Args>(args)...);
-    return instance_;
-  }
+  static T *getInstance(Args &&...args);
+
+  // 注意: 首次调用传入的构造参数生效, 之后的调用参数会被忽略 (但会被转发消耗)。
 
  private:
   OnceSingleWithArgs() = default;
 
   ~OnceSingleWithArgs() = default;
 
-  class CGFunctionClass {
+  class CleanupGuard {
    public:
-    ~CGFunctionClass() {
+    ~CleanupGuard() {
       if (instance_ != nullptr) {
         delete instance_;
         instance_ = nullptr;
@@ -148,7 +150,7 @@ class OnceSingleWithArgs final {
   template <typename... InitArgs>
   static void InitPtr(InitArgs &&...args) {
     instance_ = new T(std::forward<InitArgs>(args)...);
-    static CGFunctionClass cg;
+    static CleanupGuard guard;
   }
 
   static T *instance_;
@@ -160,6 +162,13 @@ T *OnceSingleWithArgs<T>::instance_ = nullptr;
 
 template <typename T>
 std::once_flag OnceSingleWithArgs<T>::s_flag_;
+
+template <typename T>
+template <typename... Args>
+T *OnceSingleWithArgs<T>::getInstance(Args &&...args) {
+  std::call_once(s_flag_, &InitPtr<Args...>, std::forward<Args>(args)...);
+  return instance_;
+}
 
 // implement5: 原子指针 + 双重检查锁 (release store / acquire load 配对)
 template <typename T>
@@ -176,9 +185,9 @@ class SingletonAtom {
 
   ~SingletonAtom() = default;
 
-  class CGFunctionClass {
+  class CleanupGuard {
    public:
-    ~CGFunctionClass() {
+    ~CleanupGuard() {
       if (instance_ != nullptr) {
         delete instance_;
         instance_ = nullptr;
@@ -204,7 +213,7 @@ T *SingletonAtom<T>::getInstance() {
       // release store 与读路径的 acquire load 配对, 保证其他线程能看到
       // 对象的完整构造结果 (relaxed store + acquire load 没有 happens-before).
       instance_.store(new T(), std::memory_order_release);
-      static CGFunctionClass cg;  // 避免内存泄露
+      static CleanupGuard guard;  // 避免内存泄露
     }
   }
   return instance_.load(std::memory_order_acquire);
