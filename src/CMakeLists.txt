@@ -9,7 +9,12 @@ set(src_bst MyBST.cpp)
 set(head_threadpool ${header_path}/thread/FixedThreadPool.h)
 set(src_threadpool FixedThreadPool.cpp)
 
-add_library(${PROJECT_NAME} SHARED ${header} ${src} ${head_bst} ${src_bst} ${head_threadpool} ${src_threadpool})
+set(head_skiplist ${header_path}/container/MySkipList.h)
+set(src_skiplist MySkipList.cpp)
+
+add_library(
+  ${PROJECT_NAME} SHARED ${header} ${src} ${head_bst} ${src_bst} ${head_threadpool}
+  ${src_threadpool} ${head_skiplist} ${src_skiplist})
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}

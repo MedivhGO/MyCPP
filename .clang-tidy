@@ -61,8 +61,14 @@ CheckOptions:
   - { key: readability-identifier-naming.UnionCase,           value: CamelCase  }
   - { key: readability-identifier-naming.VariableCase,        value: lower_case }
 WarningsAsErrors: '*'
-HeaderFilterRegex: '/(src|test)/include'
-AnalyzeTemporaryDtors: true
+# Project headers live under include/, src/ and test/ (the original regex
+# came from Apache Arrow and never matched this layout, so clang-tidy was
+# silently skipping every project header).
+HeaderFilterRegex: '/(include|src|test)/'
+
+# AnalyzeTemporaryDtors was removed in newer clang-tidy versions; leaving it
+# here makes the whole config invalid and clang-tidy refuses to run.
+# AnalyzeTemporaryDtors: true
 
 #### Disabled checks and why: #####
 #
