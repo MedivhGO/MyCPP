@@ -48,6 +48,15 @@ cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 ```
 
+构建产物统一输出到构建目录的 `bin/`（可执行文件）和 `lib/`（库）下：
+
+```
+build/
+├── bin/MyCpp.info    # 演示程序
+├── bin/MyCpp.test    # 测试程序
+└── lib/libMyCpp.so   # 库
+```
+
 常用配置选项：
 
 | 选项 | 说明 | 默认值 |
