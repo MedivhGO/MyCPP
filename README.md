@@ -9,7 +9,7 @@
 - 树与跳表：`MyBST`（二叉搜索树）、`MyRBTree`（红黑树）、`MySkipList`
 - 排序与查找：冒泡/堆/插入/归并/快排/选择排序、二分查找
 - 工具类：`MyJsonParser`、`MyFileReader`、`MyFileWriter`、`MyMatrix`（Strassen 矩阵乘法）、`MyProfiler`、`MyError`、`MySingleton`、`MyLog`
-- 并发：`MutexLock`、`MyThreadPool`（线程池）
+- 并发：`MutexLock`、`FixedThreadPool`（线程池）、`MyThread`（并行测试辅助）
 
 ## 环境要求
 
@@ -79,9 +79,9 @@ ctest -R "SkipList"         # 只跑名字匹配的用例
 也可以直接运行测试程序：
 
 ```bash
-./build/test/MyCpp.test                                # 全部用例
-./build/test/MyCpp.test --gtest_filter=SkipListTest.*  # 只跑某个用例组
-./build/test/MyCpp.test --gtest_also_run_disabled_tests  # 强制运行禁用用例
+./build/bin/MyCpp.test                                 # 全部用例
+./build/bin/MyCpp.test --gtest_filter=SkipListTest.*   # 只跑某个用例组
+./build/bin/MyCpp.test --gtest_also_run_disabled_tests # 强制运行禁用用例
 ```
 
 ### 单独编译一个测试文件
@@ -89,7 +89,7 @@ ctest -R "SkipList"         # 只跑名字匹配的用例
 在 `test/CMakeLists.txt` 中按需添加单测目标：
 
 ```cmake
-add_executable(test_myskiplist.test AllTests.cpp container/test_myskiplist.cpp)
+add_executable(test_myskiplist.test test_all.cpp container/test_myskiplist.cpp)
 target_link_libraries(test_myskiplist.test PRIVATE ${PROJECT_NAME} GTest::gmock)
 ```
 
@@ -97,7 +97,7 @@ target_link_libraries(test_myskiplist.test PRIVATE ${PROJECT_NAME} GTest::gmock)
 
 ```bash
 cmake --build build --target test_myskiplist.test
-./build/test/test_myskiplist.test
+./build/bin/test_myskiplist.test
 ```
 
 ## 内存检测（AddressSanitizer）
@@ -107,7 +107,7 @@ cmake --build build --target test_myskiplist.test
 ```bash
 cmake -S . -B build-asan -G Ninja -DCMAKE_BUILD_TYPE=Debug -DMYCPP_ENABLE_ASAN=ON
 cmake --build build-asan
-cd build-asan && ./test/MyCpp.test
+cd build-asan && ./bin/MyCpp.test
 ```
 
 运行时会检测越界读写、use-after-free、双重释放、ODR 违规等问题，出错立即终止并打印调用栈。
@@ -115,7 +115,7 @@ cd build-asan && ./test/MyCpp.test
 ## 内存泄漏检查（valgrind）
 
 ```bash
-valgrind --leak-check=full --leak-resolution=med --track-origins=yes ./build/test/MyCpp.test
+valgrind --leak-check=full --leak-resolution=med --track-origins=yes ./build/bin/MyCpp.test
 ```
 
 ## 性能分析
